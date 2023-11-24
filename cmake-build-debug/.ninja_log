@@ -1,0 +1,6 @@
+# ninja log v5
+2	589	7225433660105689	CMakeFiles/Compiler.dir/main.cpp.obj	c40fe7e4e9861773
+589	738	7225433661575167	Compiler.exe	7093ab780f1d9cde
+7	391	7225436860173463	CMakeFiles/Compiler.dir/main.cpp.obj	c40fe7e4e9861773
+3	445	7225436860716070	CMakeFiles/Compiler.dir/util.cpp.obj	bb4cdd47554291a1
+445	555	7225436861792468	Compiler.exe	d81edafcf66d3160
