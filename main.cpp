@@ -27,5 +27,17 @@ int main() {
     regExp.standardizeRegex();
     std::cout << "Regex: " << regExp.getRegex() << "\n";
 
+    std::string str = "    A lot of Spaces at the End      ";
+    std::cout << str << "\n";
+    trimBlanksFromEnds(str);
+    std::cout << str << "\n";
+
+    str = "A lot    of    Consecutive         Spaces";
+    std::cout << str << "\n";
+    removeConsecutiveSpaces(str);
+    std::cout << str << "\n";
+
+
+
     return 0;
 }

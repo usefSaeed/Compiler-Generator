@@ -28,3 +28,28 @@ std::vector<std::string> splitWithStringDelimiter(const std::string& str, const 
 
     return tokens;
 }
+
+void trimBlanksFromEnds(std::string& str){
+    const std::string& blanks = " \t\n\r";
+    str.erase(str.find_last_not_of(blanks)+1);
+    str.erase(0, str.find_first_not_of(blanks));
+}
+
+void removeConsecutiveSpaces(std::string& str) {
+    std::string result;
+    bool seenSpace = false;
+
+    for (char ch : str) {
+        if (std::isspace(ch)) {
+            if (!seenSpace) {
+                result += ' ';
+                seenSpace = true;
+            }
+        } else {
+            result += ch;
+            seenSpace = false;
+        }
+    }
+    str = result;
+}
+
