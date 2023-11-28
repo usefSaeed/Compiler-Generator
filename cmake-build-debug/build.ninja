@@ -61,6 +61,18 @@ build CMakeFiles/Compiler.dir/util.cpp.obj: CXX_COMPILER__Compiler_unscanned_Deb
   OBJECT_DIR = CMakeFiles\Compiler.dir
   OBJECT_FILE_DIR = CMakeFiles\Compiler.dir
 
+build CMakeFiles/Compiler.dir/RulesParser/regularExpression.cpp.obj: CXX_COMPILER__Compiler_unscanned_Debug C$:/Users/Meniem/Downloads/Compiler/RulesParser/regularExpression.cpp || cmake_object_order_depends_target_Compiler
+  DEP_FILE = CMakeFiles\Compiler.dir\RulesParser\regularExpression.cpp.obj.d
+  FLAGS = -g -std=gnu++2a -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\Compiler.dir
+  OBJECT_FILE_DIR = CMakeFiles\Compiler.dir\RulesParser
+
+build CMakeFiles/Compiler.dir/RulesParser/regularDefinition.cpp.obj: CXX_COMPILER__Compiler_unscanned_Debug C$:/Users/Meniem/Downloads/Compiler/RulesParser/regularDefinition.cpp || cmake_object_order_depends_target_Compiler
+  DEP_FILE = CMakeFiles\Compiler.dir\RulesParser\regularDefinition.cpp.obj.d
+  FLAGS = -g -std=gnu++2a -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\Compiler.dir
+  OBJECT_FILE_DIR = CMakeFiles\Compiler.dir\RulesParser
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Compiler
@@ -69,7 +81,7 @@ build CMakeFiles/Compiler.dir/util.cpp.obj: CXX_COMPILER__Compiler_unscanned_Deb
 #############################################
 # Link the executable Compiler.exe
 
-build Compiler.exe: CXX_EXECUTABLE_LINKER__Compiler_Debug CMakeFiles/Compiler.dir/main.cpp.obj CMakeFiles/Compiler.dir/util.cpp.obj
+build Compiler.exe: CXX_EXECUTABLE_LINKER__Compiler_Debug CMakeFiles/Compiler.dir/main.cpp.obj CMakeFiles/Compiler.dir/util.cpp.obj CMakeFiles/Compiler.dir/RulesParser/regularExpression.cpp.obj CMakeFiles/Compiler.dir/RulesParser/regularDefinition.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\Compiler.dir

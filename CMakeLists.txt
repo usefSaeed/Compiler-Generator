@@ -5,4 +5,8 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_executable(Compiler main.cpp
         util.cpp
-        util.h)
+        util.h
+        RulesParser/regularExpression.cpp
+        RulesParser/regularExpression.h
+        RulesParser/regularDefinition.cpp
+        RulesParser/regularDefinition.h)

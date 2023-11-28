@@ -1,6 +1,18 @@
 # ninja log v5
-2	589	7225433660105689	CMakeFiles/Compiler.dir/main.cpp.obj	c40fe7e4e9861773
-589	738	7225433661575167	Compiler.exe	7093ab780f1d9cde
 7	391	7225436860173463	CMakeFiles/Compiler.dir/main.cpp.obj	c40fe7e4e9861773
-3	445	7225436860716070	CMakeFiles/Compiler.dir/util.cpp.obj	bb4cdd47554291a1
 445	555	7225436861792468	Compiler.exe	d81edafcf66d3160
+3	445	7225436860716070	CMakeFiles/Compiler.dir/util.cpp.obj	bb4cdd47554291a1
+3	386	7228989994098098	CMakeFiles/Compiler.dir/RulesParser/regularExpression.cpp.obj	81161507bc5c70a4
+10	387	7228989994098098	CMakeFiles/Compiler.dir/RulesParser/regularDefinition.cpp.obj	286dfe405d3a6a02
+6	472	7228989994970848	CMakeFiles/Compiler.dir/main.cpp.obj	c40fe7e4e9861773
+472	734	7228989997560423	Compiler.exe	80931fde26d00fa1
+2	394	7228991497168287	CMakeFiles/Compiler.dir/main.cpp.obj	c40fe7e4e9861773
+395	504	7228991498241963	Compiler.exe	80931fde26d00fa1
+2	361	7228991563062130	CMakeFiles/Compiler.dir/main.cpp.obj	c40fe7e4e9861773
+361	470	7228991564118821	Compiler.exe	80931fde26d00fa1
+2	249	7228996457926538	CMakeFiles/Compiler.dir/RulesParser/regularExpression.cpp.obj	81161507bc5c70a4
+9	362	7228996459068184	CMakeFiles/Compiler.dir/RulesParser/regularDefinition.cpp.obj	286dfe405d3a6a02
+6	414	7228996459578018	CMakeFiles/Compiler.dir/main.cpp.obj	c40fe7e4e9861773
+414	528	7228996460695350	Compiler.exe	80931fde26d00fa1
+3	385	7229000647583812	CMakeFiles/Compiler.dir/main.cpp.obj	c40fe7e4e9861773
+385	499	7229000648698258	Compiler.exe	80931fde26d00fa1
