@@ -63,9 +63,9 @@ build CMakeFiles/Compiler.dir/main.cpp.obj: CXX_COMPILER__Compiler_unscanned_Deb
 #############################################
 # Link the executable Compiler.exe
 
-build Compiler.exe: CXX_EXECUTABLE_LINKER__Compiler_Debug CMakeFiles/Compiler.dir/main.cpp.obj | Util/libUtil_lib.a RulesParser/libRulesParser_lib.a || RulesParser/libRulesParser_lib.a Util/libUtil_lib.a
+build Compiler.exe: CXX_EXECUTABLE_LINKER__Compiler_Debug CMakeFiles/Compiler.dir/main.cpp.obj | Util/libUtil_lib.a RulesParser/libRulesParser_lib.a Util/libUtil_lib.a || RulesParser/libRulesParser_lib.a Util/libUtil_lib.a
   FLAGS = -g
-  LINK_LIBRARIES = Util/libUtil_lib.a  RulesParser/libRulesParser_lib.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  LINK_LIBRARIES = Util/libUtil_lib.a  RulesParser/libRulesParser_lib.a  Util/libUtil_lib.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\Compiler.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
@@ -152,8 +152,8 @@ build install/strip: phony CMakeFiles/install/strip.util
 
 build cmake_object_order_depends_target_Util_lib: phony || Util/CMakeFiles/Util_lib.dir
 
-build Util/CMakeFiles/Util_lib.dir/util.cpp.obj: CXX_COMPILER__Util_lib_unscanned_Debug C$:/Users/Meniem/Downloads/Compiler/Util/util.cpp || cmake_object_order_depends_target_Util_lib
-  DEP_FILE = Util\CMakeFiles\Util_lib.dir\util.cpp.obj.d
+build Util/CMakeFiles/Util_lib.dir/Util.cpp.obj: CXX_COMPILER__Util_lib_unscanned_Debug C$:/Users/Meniem/Downloads/Compiler/Util/Util.cpp || cmake_object_order_depends_target_Util_lib
+  DEP_FILE = Util\CMakeFiles\Util_lib.dir\Util.cpp.obj.d
   FLAGS = -g -std=gnu++2a -fdiagnostics-color=always
   OBJECT_DIR = Util\CMakeFiles\Util_lib.dir
   OBJECT_FILE_DIR = Util\CMakeFiles\Util_lib.dir
@@ -166,7 +166,7 @@ build Util/CMakeFiles/Util_lib.dir/util.cpp.obj: CXX_COMPILER__Util_lib_unscanne
 #############################################
 # Link the static library Util\libUtil_lib.a
 
-build Util/libUtil_lib.a: CXX_STATIC_LIBRARY_LINKER__Util_lib_Debug Util/CMakeFiles/Util_lib.dir/util.cpp.obj
+build Util/libUtil_lib.a: CXX_STATIC_LIBRARY_LINKER__Util_lib_Debug Util/CMakeFiles/Util_lib.dir/Util.cpp.obj
   LANGUAGE_COMPILE_FLAGS = -g
   OBJECT_DIR = Util\CMakeFiles\Util_lib.dir
   POST_BUILD = cd .
@@ -251,16 +251,22 @@ build Util/install/strip: phony Util/CMakeFiles/install/strip.util
 #############################################
 # Order-only phony target for RulesParser_lib
 
-build cmake_object_order_depends_target_RulesParser_lib: phony || RulesParser/CMakeFiles/RulesParser_lib.dir
+build cmake_object_order_depends_target_RulesParser_lib: phony || cmake_object_order_depends_target_Util_lib
 
-build RulesParser/CMakeFiles/RulesParser_lib.dir/regularDefinition.cpp.obj: CXX_COMPILER__RulesParser_lib_unscanned_Debug C$:/Users/Meniem/Downloads/Compiler/RulesParser/regularDefinition.cpp || cmake_object_order_depends_target_RulesParser_lib
-  DEP_FILE = RulesParser\CMakeFiles\RulesParser_lib.dir\regularDefinition.cpp.obj.d
+build RulesParser/CMakeFiles/RulesParser_lib.dir/RegularDefinition.cpp.obj: CXX_COMPILER__RulesParser_lib_unscanned_Debug C$:/Users/Meniem/Downloads/Compiler/RulesParser/RegularDefinition.cpp || cmake_object_order_depends_target_RulesParser_lib
+  DEP_FILE = RulesParser\CMakeFiles\RulesParser_lib.dir\RegularDefinition.cpp.obj.d
   FLAGS = -g -std=gnu++2a -fdiagnostics-color=always
   OBJECT_DIR = RulesParser\CMakeFiles\RulesParser_lib.dir
   OBJECT_FILE_DIR = RulesParser\CMakeFiles\RulesParser_lib.dir
 
-build RulesParser/CMakeFiles/RulesParser_lib.dir/regularExpression.cpp.obj: CXX_COMPILER__RulesParser_lib_unscanned_Debug C$:/Users/Meniem/Downloads/Compiler/RulesParser/regularExpression.cpp || cmake_object_order_depends_target_RulesParser_lib
-  DEP_FILE = RulesParser\CMakeFiles\RulesParser_lib.dir\regularExpression.cpp.obj.d
+build RulesParser/CMakeFiles/RulesParser_lib.dir/RegularExpression.cpp.obj: CXX_COMPILER__RulesParser_lib_unscanned_Debug C$:/Users/Meniem/Downloads/Compiler/RulesParser/RegularExpression.cpp || cmake_object_order_depends_target_RulesParser_lib
+  DEP_FILE = RulesParser\CMakeFiles\RulesParser_lib.dir\RegularExpression.cpp.obj.d
+  FLAGS = -g -std=gnu++2a -fdiagnostics-color=always
+  OBJECT_DIR = RulesParser\CMakeFiles\RulesParser_lib.dir
+  OBJECT_FILE_DIR = RulesParser\CMakeFiles\RulesParser_lib.dir
+
+build RulesParser/CMakeFiles/RulesParser_lib.dir/RulesConverter.cpp.obj: CXX_COMPILER__RulesParser_lib_unscanned_Debug C$:/Users/Meniem/Downloads/Compiler/RulesParser/RulesConverter.cpp || cmake_object_order_depends_target_RulesParser_lib
+  DEP_FILE = RulesParser\CMakeFiles\RulesParser_lib.dir\RulesConverter.cpp.obj.d
   FLAGS = -g -std=gnu++2a -fdiagnostics-color=always
   OBJECT_DIR = RulesParser\CMakeFiles\RulesParser_lib.dir
   OBJECT_FILE_DIR = RulesParser\CMakeFiles\RulesParser_lib.dir
@@ -273,7 +279,7 @@ build RulesParser/CMakeFiles/RulesParser_lib.dir/regularExpression.cpp.obj: CXX_
 #############################################
 # Link the static library RulesParser\libRulesParser_lib.a
 
-build RulesParser/libRulesParser_lib.a: CXX_STATIC_LIBRARY_LINKER__RulesParser_lib_Debug RulesParser/CMakeFiles/RulesParser_lib.dir/regularDefinition.cpp.obj RulesParser/CMakeFiles/RulesParser_lib.dir/regularExpression.cpp.obj
+build RulesParser/libRulesParser_lib.a: CXX_STATIC_LIBRARY_LINKER__RulesParser_lib_Debug RulesParser/CMakeFiles/RulesParser_lib.dir/RegularDefinition.cpp.obj RulesParser/CMakeFiles/RulesParser_lib.dir/RegularExpression.cpp.obj RulesParser/CMakeFiles/RulesParser_lib.dir/RulesConverter.cpp.obj || Util/libUtil_lib.a
   LANGUAGE_COMPILE_FLAGS = -g
   OBJECT_DIR = RulesParser\CMakeFiles\RulesParser_lib.dir
   POST_BUILD = cd .
@@ -358,10 +364,10 @@ build RulesParser/install/strip: phony RulesParser/CMakeFiles/install/strip.util
 #############################################
 # Order-only phony target for Google_Tests_run
 
-build cmake_object_order_depends_target_Google_Tests_run: phony || cmake_object_order_depends_target_Util_lib cmake_object_order_depends_target_gtest cmake_object_order_depends_target_gtest_main
+build cmake_object_order_depends_target_Google_Tests_run: phony || cmake_object_order_depends_target_RulesParser_lib cmake_object_order_depends_target_Util_lib cmake_object_order_depends_target_gtest cmake_object_order_depends_target_gtest_main
 
-build Google_tests/CMakeFiles/Google_Tests_run.dir/utilsTest.cpp.obj: CXX_COMPILER__Google_Tests_run_unscanned_Debug C$:/Users/Meniem/Downloads/Compiler/Google_tests/utilsTest.cpp || cmake_object_order_depends_target_Google_Tests_run
-  DEP_FILE = Google_tests\CMakeFiles\Google_Tests_run.dir\utilsTest.cpp.obj.d
+build Google_tests/CMakeFiles/Google_Tests_run.dir/UtilsTest.cpp.obj: CXX_COMPILER__Google_Tests_run_unscanned_Debug C$:/Users/Meniem/Downloads/Compiler/Google_tests/UtilsTest.cpp || cmake_object_order_depends_target_Google_Tests_run
+  DEP_FILE = Google_tests\CMakeFiles\Google_Tests_run.dir\UtilsTest.cpp.obj.d
   FLAGS = -g -std=gnu++2a -fdiagnostics-color=always
   INCLUDES = -isystem C:/Users/Meniem/Downloads/Compiler/Google_tests/lib/googletest/include -isystem C:/Users/Meniem/Downloads/Compiler/Google_tests/lib/googletest
   OBJECT_DIR = Google_tests\CMakeFiles\Google_Tests_run.dir
@@ -375,9 +381,9 @@ build Google_tests/CMakeFiles/Google_Tests_run.dir/utilsTest.cpp.obj: CXX_COMPIL
 #############################################
 # Link the executable Google_tests\Google_Tests_run.exe
 
-build Google_tests/Google_Tests_run.exe: CXX_EXECUTABLE_LINKER__Google_Tests_run_Debug Google_tests/CMakeFiles/Google_Tests_run.dir/utilsTest.cpp.obj | lib/libgtest.a lib/libgtest_main.a Util/libUtil_lib.a lib/libgtest.a || Util/libUtil_lib.a lib/libgtest.a lib/libgtest_main.a
+build Google_tests/Google_Tests_run.exe: CXX_EXECUTABLE_LINKER__Google_Tests_run_Debug Google_tests/CMakeFiles/Google_Tests_run.dir/UtilsTest.cpp.obj | lib/libgtest.a lib/libgtest_main.a Util/libUtil_lib.a RulesParser/libRulesParser_lib.a lib/libgtest.a Util/libUtil_lib.a || RulesParser/libRulesParser_lib.a Util/libUtil_lib.a lib/libgtest.a lib/libgtest_main.a
   FLAGS = -g
-  LINK_LIBRARIES = lib/libgtest.a  lib/libgtest_main.a  Util/libUtil_lib.a  lib/libgtest.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  LINK_LIBRARIES = lib/libgtest.a  lib/libgtest_main.a  Util/libUtil_lib.a  RulesParser/libRulesParser_lib.a  lib/libgtest.a  Util/libUtil_lib.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = Google_tests\CMakeFiles\Google_Tests_run.dir
   POST_BUILD = cd .
   PRE_LINK = cd .

@@ -1,42 +1,22 @@
 #include <iostream>
-#include <vector>
-#include "Util/util.h"
-#include "RulesParser/regularDefinition.h"
-#include "RulesParser/regularExpression.h"
+#include "RulesParser/RegularDefinition.h"
+#include "RulesParser/RegularExpression.h"
 
 int main() {
-    std::vector<std::string> words = split("This is a test string.", ' ');
-    for (const std::string& word : words)
-        std::cout << word << "\n";
 
-    words = splitWithStringDelimiter("A => A + B  B => B + C  C => C + D", "=>");
-    for (const std::string& word : words)
-        std::cout << word << "\n";
-
-    regularDefinition regDef("digit", "0-9");
+    RegularDefinition regDef("digit", "0-9");
     std::cout << "Name: " << regDef.getName() << "\n";
     std::cout << "Regex: " << regDef.getRegex() << "\n";
     regDef.standardizeRegex();
     std::cout << "Regex: " << regDef.getRegex() << "\n";
 
 
-    regularExpression regExp("Id", "letter (letter | digit)*", 3);
+    RegularExpression regExp("Id", "letter (letter | digit)*", 3);
     std::cout << "Name: " << regExp.getName() << "\n";
     std::cout << "Regex: " << regExp.getRegex() << "\n";
     std::cout << "Priority: " << regExp.getPriority() << "\n";
     regExp.standardizeRegex();
     std::cout << "Regex: " << regExp.getRegex() << "\n";
-
-    std::string str = "    A lot of Spaces at the End      ";
-    std::cout << str << "\n";
-    trimBlanksFromEnds(str);
-    std::cout << str << "\n";
-
-    str = "A lot    of    Consecutive         Spaces";
-    std::cout << str << "\n";
-    removeConsecutiveSpaces(str);
-    std::cout << str << "\n";
-
 
 
     return 0;
