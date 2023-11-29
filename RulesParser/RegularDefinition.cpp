@@ -3,10 +3,6 @@
 //
 
 #include "RegularDefinition.h"
-#include "../Util/Util.h"
-#include <utility>
-#include <iostream>
-
 RegularDefinition::RegularDefinition() = default;
 
 const std::string &RegularDefinition::getName() const {

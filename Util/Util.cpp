@@ -16,7 +16,7 @@ std::vector<std::string> split(const std::string& str, char delimiter){
 
 std::vector<std::string> splitWithStringDelimiter(const std::string& str, const std::string& delimiter) {
     std::vector<std::string> tokens;
-    size_t start = 0, end = 0;
+    size_t start = 0, end;
 
     if (str.empty())
         return tokens;

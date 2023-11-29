@@ -373,6 +373,13 @@ build Google_tests/CMakeFiles/Google_Tests_run.dir/UtilsTest.cpp.obj: CXX_COMPIL
   OBJECT_DIR = Google_tests\CMakeFiles\Google_Tests_run.dir
   OBJECT_FILE_DIR = Google_tests\CMakeFiles\Google_Tests_run.dir
 
+build Google_tests/CMakeFiles/Google_Tests_run.dir/RulesParserTest.cpp.obj: CXX_COMPILER__Google_Tests_run_unscanned_Debug C$:/Users/Meniem/Downloads/Compiler/Google_tests/RulesParserTest.cpp || cmake_object_order_depends_target_Google_Tests_run
+  DEP_FILE = Google_tests\CMakeFiles\Google_Tests_run.dir\RulesParserTest.cpp.obj.d
+  FLAGS = -g -std=gnu++2a -fdiagnostics-color=always
+  INCLUDES = -isystem C:/Users/Meniem/Downloads/Compiler/Google_tests/lib/googletest/include -isystem C:/Users/Meniem/Downloads/Compiler/Google_tests/lib/googletest
+  OBJECT_DIR = Google_tests\CMakeFiles\Google_Tests_run.dir
+  OBJECT_FILE_DIR = Google_tests\CMakeFiles\Google_Tests_run.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Google_Tests_run
@@ -381,7 +388,7 @@ build Google_tests/CMakeFiles/Google_Tests_run.dir/UtilsTest.cpp.obj: CXX_COMPIL
 #############################################
 # Link the executable Google_tests\Google_Tests_run.exe
 
-build Google_tests/Google_Tests_run.exe: CXX_EXECUTABLE_LINKER__Google_Tests_run_Debug Google_tests/CMakeFiles/Google_Tests_run.dir/UtilsTest.cpp.obj | lib/libgtest.a lib/libgtest_main.a Util/libUtil_lib.a RulesParser/libRulesParser_lib.a lib/libgtest.a Util/libUtil_lib.a || RulesParser/libRulesParser_lib.a Util/libUtil_lib.a lib/libgtest.a lib/libgtest_main.a
+build Google_tests/Google_Tests_run.exe: CXX_EXECUTABLE_LINKER__Google_Tests_run_Debug Google_tests/CMakeFiles/Google_Tests_run.dir/UtilsTest.cpp.obj Google_tests/CMakeFiles/Google_Tests_run.dir/RulesParserTest.cpp.obj | lib/libgtest.a lib/libgtest_main.a Util/libUtil_lib.a RulesParser/libRulesParser_lib.a lib/libgtest.a Util/libUtil_lib.a || RulesParser/libRulesParser_lib.a Util/libUtil_lib.a lib/libgtest.a lib/libgtest_main.a
   FLAGS = -g
   LINK_LIBRARIES = lib/libgtest.a  lib/libgtest_main.a  Util/libUtil_lib.a  RulesParser/libRulesParser_lib.a  lib/libgtest.a  Util/libUtil_lib.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = Google_tests\CMakeFiles\Google_Tests_run.dir

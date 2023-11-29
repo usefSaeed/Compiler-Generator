@@ -2,10 +2,13 @@
 // Created by Meniem on 28-Nov-23.
 //
 
-#include <string>
 #ifndef COMPILER_REGULARDEFINITION_H
 #define COMPILER_REGULARDEFINITION_H
 
+#include <string>
+#include "../Util/Util.h"
+#include <utility>
+#include <iostream>
 
 class RegularDefinition {
     private:
@@ -22,6 +25,5 @@ class RegularDefinition {
 
 
 };
-
 
 #endif //COMPILER_REGULARDEFINITION_H
