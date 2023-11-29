@@ -13,3 +13,7 @@ RegularExpression::RegularExpression() = default;
 int RegularExpression::getPriority() const {
     return priority;
 }
+
+std::string RegularExpression::toString() const {
+    return "Name: " + this->getName() + "  Regex: " + this->getRegex() + "  Priority: " + std::to_string(priority);
+}

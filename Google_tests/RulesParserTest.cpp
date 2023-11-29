@@ -26,7 +26,7 @@ TEST(CheckType, RecognizesRegularDefiniton){
 
     int type = RulesConverter::CheckType(str);
 
-    ASSERT_EQ(type,RulesConverter::REGULAR_DEFINITIONS);
+    ASSERT_EQ(type,RulesConverter::REGULAR_DEFINITION);
 }
 
 TEST(CheckType, RecognizesRegularExpression){
@@ -34,7 +34,7 @@ TEST(CheckType, RecognizesRegularExpression){
 
     int type = RulesConverter::CheckType(str);
 
-    ASSERT_EQ(type,RulesConverter::REGULAR_EXPRESSIONS);
+    ASSERT_EQ(type,RulesConverter::REGULAR_EXPRESSION);
 }
 
 TEST(CheckType, RecognizesRegularExpressionHard){
@@ -42,7 +42,7 @@ TEST(CheckType, RecognizesRegularExpressionHard){
 
     int type = RulesConverter::CheckType(str);
 
-    ASSERT_EQ(type,RulesConverter::REGULAR_EXPRESSIONS);
+    ASSERT_EQ(type,RulesConverter::REGULAR_EXPRESSION);
 }
 
 TEST(CheckType, RecognizesUnstructuredLines){

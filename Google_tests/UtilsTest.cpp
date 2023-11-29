@@ -104,3 +104,93 @@ TEST(removeSpaces, HandlesEmptyString){
 
     ASSERT_EQ(str, result);
 }
+
+TEST(removeFirstAndLastChars, WorksAsExpected){
+    std::string str = "[woaah woaah]";
+
+    removeFirstAndLastChars(str);
+
+    std::string result = "woaah woaah";
+
+    ASSERT_EQ(str, result);
+}
+
+TEST(removeFirstAndLastChars, HandlesEmptyString){
+    std::string str;
+
+    removeFirstAndLastChars(str);
+
+    std::string result;
+
+    ASSERT_EQ(str, result);
+}
+
+TEST(JoinStrings, WorksAsExpected){
+    std::vector<std::string> words = {"if", "else", "while"};
+
+    std::string str = JoinStrings(words, '|');
+
+    std::string result = "if|else|while";
+
+    ASSERT_EQ(str, result);
+}
+
+TEST(JoinStrings, HandlesEmptyVector){
+    std::vector<std::string> words = {};
+
+    std::string str = JoinStrings(words, '|');
+
+    std::string result;
+
+    ASSERT_EQ(str, result);
+}
+
+TEST(JoinStrings, HandlesOneString){
+    std::vector<std::string> words = {"if"};
+
+    std::string str = JoinStrings(words, '|');
+
+    std::string result = "if";
+
+    ASSERT_EQ(str, result);
+}
+
+TEST(SplitIntoTwo, WorksAsExpected){
+    std::string str = "digit=0-9";
+
+    std::pair<std::string, std::string> words = SplitIntoTwo(str, '=');
+
+    std::pair<std::string, std::string> result = std::make_pair("digit", "0-9");
+
+    ASSERT_EQ(words, result);;
+}
+
+TEST(SplitIntoTwo, HandlesDoubleDelimiter){
+    std::string str = "digit=0-9\\=35";
+
+    std::pair<std::string, std::string> words = SplitIntoTwo(str, '=');
+
+    std::pair<std::string, std::string> result = std::make_pair("digit", "0-9\\=35");
+
+    ASSERT_EQ(words, result);;
+}
+
+TEST(SplitIntoTwo, HandlesNoDelimiter){
+    std::string str = "digit0-9";
+
+    std::pair<std::string, std::string> words = SplitIntoTwo(str, '=');
+
+    std::pair<std::string, std::string> result = std::make_pair("digit0-9", "");
+
+    ASSERT_EQ(words, result);;
+}
+
+TEST(SplitIntoTwo, HandlesEmptyString){
+    std::string str;
+
+    std::pair<std::string, std::string> words = SplitIntoTwo(str, '=');
+
+    std::pair<std::string, std::string> result = std::make_pair("", "");
+
+    ASSERT_EQ(words, result);;
+}

@@ -20,10 +20,51 @@ int RulesConverter::ParseFile() {
     while(getline(file, line)){
         trimBlanksFromEnds(line);
         int type = CheckType(line);
+        switch (type){
+            case KEYWORDS:
+                std::cout << "Keyword" << "\n";
+                KeywordsHandler(line);
+                break;
+            case PUNCTUATION:
+                std::cout << "Punctuation" << "\n";
+                PunctuationHandler(line);
+                break;
+            case REGULAR_DEFINITION:
+                std::cout << "Regular Definition" << "\n";
+                RegularDefinitionHandler(line);
+                break;
+            case REGULAR_EXPRESSION:
+                std::cout << "Regular Expression" << "\n";
+                break;
+            default:
+                break;
+        }
 
     }
 
     file.close();
+
+    // Accumulate all Keywords and add it to one regular expression with the highest priority
+    if (!allKeywords.empty()){
+        std::string regex = JoinStrings(allKeywords, '|');
+        RegularExpression regularExpression("keywords", regex, 0);
+        regularExpression.standardizeRegex();
+        regularExpressions.push_back(regularExpression);
+    }
+
+    // Accumulate all Punctuation and add it to one regular expression with the second-highest priority
+    if (!allPunctuation.empty()){
+        std::string regex = JoinStrings(allPunctuation, '|');
+        RegularExpression regularExpression("punctuation", regex, 1);
+        regularExpression.standardizeRegex();
+        regularExpressions.push_back(regularExpression);
+    }
+
+    for (const RegularExpression& regExp : regularExpressions) {
+        std::cout << regExp.toString() << "\n";
+    }
+
+
     return 0;
 }
 
@@ -59,11 +100,45 @@ int RulesConverter::CheckType(std::string str) {
     if (str.front() == '[' && str.back() == ']')
         return PUNCTUATION;
     if (IsRegularDefinition(str))
-        return REGULAR_DEFINITIONS;
-    size_t pos = str.find(':');
+        return REGULAR_DEFINITION;
     if (IsRegularExpression(str))
-        return REGULAR_EXPRESSIONS;
+        return REGULAR_EXPRESSION;
 
     std::cerr << "Unidentified Line" << "\n";
     return -1;
+}
+
+void RulesConverter::KeywordsHandler(std::string str) {
+    removeFirstAndLastChars(str);
+    trimBlanksFromEnds(str);
+    removeConsecutiveSpaces(str);
+    std::vector<std::string> keywords = split(str, ' ');
+    for (const std::string& keyword: keywords)
+        allKeywords.push_back(keyword);
+}
+
+void RulesConverter::PunctuationHandler(std::string str) {
+    removeFirstAndLastChars(str);
+    trimBlanksFromEnds(str);
+    removeConsecutiveSpaces(str);
+    std::vector<std::string> punctuations = split(str, ' ');
+    for (const std::string& punctuation: punctuations)
+        allPunctuation.push_back(punctuation);
+}
+
+void RulesConverter::RegularDefinitionHandler(std::string str) {
+    removeSpaces(str);
+    std::pair<std::string, std::string> splitString = SplitIntoTwo(str, '=');
+    RegularDefinition regularDefinition(splitString.first, splitString.second);
+    regularDefinition.standardizeRegex();
+    regularDefinitions.push_back(regularDefinition);
+}
+
+void RulesConverter::RegularExpressionHandler(std::string str) {
+    removeSpaces(str);
+    std::pair<std::string, std::string> splitString = SplitIntoTwo(str, ':');
+    // Create Regular Expressions where it's priority starts from 2 as 0 and 1 are reserved for keywords and punctuation.
+    RegularExpression regularExpression(splitString.first, splitString.second, (int) regularExpressions.size() + 2);
+    regularExpression.standardizeRegex();
+    regularExpressions.push_back(regularExpression);
 }

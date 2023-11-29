@@ -68,3 +68,31 @@ void removeSpaces(std::string& str) {
     str = result;
 }
 
+void removeFirstAndLastChars(std::string& str){
+    if (str.size()>2) {
+        str.erase(0, 1);
+        str.erase(str.length()-1);
+    }
+}
+
+std::string JoinStrings(const std::vector<std::string>& strings, char separator) {
+    std::ostringstream oss;
+    if (!strings.empty()) {
+        oss << strings.front();
+        for (auto it = std::next(strings.begin()); it != strings.end(); ++it) {
+            oss << separator << *it;
+        }
+    }
+    return oss.str();
+}
+
+std::pair<std::string, std::string> SplitIntoTwo(const std::string& str, char delimiter){
+    size_t pos = str.find(delimiter);
+    if (pos != std::string::npos){
+        std::string before = str.substr(0, pos);
+        std::string after = str.substr(pos + 1);
+        return make_pair(before, after);
+    }
+    return make_pair(str, std::string {});
+}
+

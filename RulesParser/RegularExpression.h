@@ -18,6 +18,8 @@ class RegularExpression : public RegularDefinition {
     public:
     RegularExpression();
 
+    [[nodiscard]] std::string toString() const;
+
     [[nodiscard]] int getPriority() const;
 
     RegularExpression(std::string name, std::string regex, int priority);
