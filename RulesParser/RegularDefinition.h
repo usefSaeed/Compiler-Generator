@@ -14,7 +14,8 @@ class RegularDefinition {
     private:
         std::string name;
         std::string regex;
-
+        static void EnumerateRanges(std::string& str);
+        static void ReplaceDefinitions(std::string& str);
     public:
         RegularDefinition();
         RegularDefinition(std::string name, std::string regex);
@@ -22,6 +23,7 @@ class RegularDefinition {
         [[nodiscard]] const std::string &getName() const;
         [[nodiscard]] const std::string &getRegex() const;
         void standardizeRegex();
+
 
 
 };

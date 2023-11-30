@@ -15,5 +15,5 @@ void removeSpaces(std::string& str);
 void removeFirstAndLastChars(std::string& str);
 [[nodiscard]] std::string JoinStrings(const std::vector<std::string>& strings, char separator);
 [[nodiscard]] std::pair<std::string, std::string> SplitIntoTwo(const std::string& str, char delimiter);
-
+[[nodiscard]] std::string EnumerateRanges(const std::string& str);
 #endif //COMPILER_UTIL_H

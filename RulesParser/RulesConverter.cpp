@@ -35,6 +35,7 @@ int RulesConverter::ParseFile() {
                 break;
             case REGULAR_EXPRESSION:
                 std::cout << "Regular Expression" << "\n";
+                RegularExpressionHandler(line);
                 break;
             default:
                 break;
@@ -44,11 +45,9 @@ int RulesConverter::ParseFile() {
 
     file.close();
 
-    // Accumulate all Keywords and add it to one regular expression with the highest priority
-    if (!allKeywords.empty()){
-        std::string regex = JoinStrings(allKeywords, '|');
-        RegularExpression regularExpression("keywords", regex, 0);
-        regularExpression.standardizeRegex();
+    // Convert all keywords to regular expressions with the highest priority
+    for (const std::string& keyword: allKeywords){
+        RegularExpression regularExpression(keyword, keyword, 0);
         regularExpressions.push_back(regularExpression);
     }
 
@@ -127,16 +126,20 @@ void RulesConverter::PunctuationHandler(std::string str) {
 }
 
 void RulesConverter::RegularDefinitionHandler(std::string str) {
-    removeSpaces(str);
+    removeConsecutiveSpaces(str);
     std::pair<std::string, std::string> splitString = SplitIntoTwo(str, '=');
+    trimBlanksFromEnds(splitString.first);
+    trimBlanksFromEnds(splitString.second);
     RegularDefinition regularDefinition(splitString.first, splitString.second);
     regularDefinition.standardizeRegex();
     regularDefinitions.push_back(regularDefinition);
 }
 
 void RulesConverter::RegularExpressionHandler(std::string str) {
-    removeSpaces(str);
+    removeConsecutiveSpaces(str);
     std::pair<std::string, std::string> splitString = SplitIntoTwo(str, ':');
+    trimBlanksFromEnds(splitString.first);
+    trimBlanksFromEnds(splitString.second);
     // Create Regular Expressions where it's priority starts from 2 as 0 and 1 are reserved for keywords and punctuation.
     RegularExpression regularExpression(splitString.first, splitString.second, (int) regularExpressions.size() + 2);
     regularExpression.standardizeRegex();
