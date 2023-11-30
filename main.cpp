@@ -1,14 +1,20 @@
 #include <iostream>
-#include <vector>
-#include "util.h"
+#include "RulesParser/RulesConverter.h"
 
-int main() {
-    std::vector<std::string> words = split("This is a test string.", ' ');
-    for (const std::string& word : words)
-        std::cout << word << "\n";
+int main(int argc, char *argv[]) {
 
-    words = splitWithStringDelimiter("A => A + B  B => B + C  C => C + D", "=>");
-    for (const std::string& word : words)
-        std::cout << word << "\n";
+    RulesConverter rulesConverter("../Rules.txt");
+    int statusCode = rulesConverter.parseFile();
+    if (statusCode == -1){
+        std::cerr << "Badly Formatted Rules File" << "\n";
+        return -1;
+    }
+
+    std::vector<RegularExpression> regularExpressions = rulesConverter.getRegularExpressions();
+
+    for (const RegularExpression& regExp : regularExpressions) {
+        std::cout << regExp.toString() << "\n";
+    }
+
     return 0;
 }
