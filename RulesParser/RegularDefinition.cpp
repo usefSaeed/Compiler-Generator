@@ -17,13 +17,16 @@ const std::string &RegularDefinition::getRegex() const {
 
 RegularDefinition::RegularDefinition(std::string name, std::string regex) : name(std::move(name)), regex(std::move(regex)) {}
 
-void RegularDefinition::standardizeRegex(std::vector<RegularDefinition> regularDefinitions) {
+int RegularDefinition::standardizeRegex(std::vector<RegularDefinition> regularDefinitions) {
     removeConsecutiveSpaces(regex);
-    enumerateRanges(regex);
+    int statusCode = enumerateRanges(regex);
+    if (statusCode == -1)
+        return -1;
     replaceDefinitions(regex, std::move(regularDefinitions));
+    return 0;
 }
 
-void RegularDefinition::enumerateRanges(std::string &str) {
+int RegularDefinition::enumerateRanges(std::string &str) {
     std::string result;
     for(int i = 0; i < str.length(); i++){
         char c = str[i];
@@ -50,10 +53,14 @@ void RegularDefinition::enumerateRanges(std::string &str) {
                     // Skip the character after '-' as it's already included in the range while handling space.
                     (str[i+1] != ' ') ? i++ : i+=2;
                 }
+                else{
+                    return -1;
+                }
             }
         }
     }
     str = result;
+    return 0;
 }
 
 void RegularDefinition::replaceDefinitions(std::string &str, std::vector<RegularDefinition> regularDefinitions) {
@@ -62,6 +69,7 @@ void RegularDefinition::replaceDefinitions(std::string &str, std::vector<Regular
 
     for (int i = 0; i < str.length(); ++i) {
         char c = str[i];
+        char reservedChars[] = {'=', '+', '*', '|', '(', ')'};
 
         if (c == ' ') {
             auto it = std::find_if(regularDefinitions.begin(), regularDefinitions.end(),
@@ -70,14 +78,12 @@ void RegularDefinition::replaceDefinitions(std::string &str, std::vector<Regular
                                    });
             if (it != regularDefinitions.end()) {
                 result += it->regex;
-                result += c;
-                accumulator.clear();
             } else {
                 result += accumulator;
-                result += c;
-                accumulator.clear();
             }
-        } else if (c == '=' || c == '+' || c == '|' || c == '*' || c == '(' || c == ')') {
+            result += c;
+            accumulator.clear();
+        } else if (auto it = std::find(std::begin(reservedChars), std::end(reservedChars), c) != std::end(reservedChars)) {
             if (i > 0 && str[i - 1] == '\\') {
                 accumulator += c;
             } else {
@@ -87,13 +93,11 @@ void RegularDefinition::replaceDefinitions(std::string &str, std::vector<Regular
                                        });
                 if (it != regularDefinitions.end()) {
                     result += it->regex;
-                    result += c;
-                    accumulator.clear();
                 } else {
                     result += accumulator;
-                    result += c;
-                    accumulator.clear();
                 }
+                result += c;
+                accumulator.clear();
             }
         } else {
             accumulator += c;

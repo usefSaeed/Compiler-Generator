@@ -4,6 +4,8 @@
 
 #include "RulesConverter.h"
 
+int RulesConverter::linesCounter;
+
 RulesConverter::RulesConverter(std::string filePath) : filePath(std::move(filePath)) {}
 
 const std::vector<RegularExpression> &RulesConverter::getRegularExpressions() const {
@@ -18,27 +20,35 @@ int RulesConverter::parseFile() {
     }
     std::string line;
     while(getline(file, line)){
+        linesCounter++;
         trimBlanksFromEnds(line);
         int type = checkType(line);
         switch (type){
             case KEYWORDS:
-                std::cout << "Keyword" << "\n";
                 keywordsHandler(line);
                 break;
             case PUNCTUATION:
-                std::cout << "Punctuation" << "\n";
                 punctuationHandler(line);
                 break;
-            case REGULAR_DEFINITION:
-                std::cout << "Regular Definition" << "\n";
-                regularDefinitionHandler(line);
+            case REGULAR_DEFINITION: {
+                int statusCode = regularDefinitionHandler(line);
+                if (statusCode == -1){
+                    std::cerr << linesCounter << ": '-' range keyword is not used properly." << "\n";
+                    return -1;
+                }
+
                 break;
-            case REGULAR_EXPRESSION:
-                std::cout << "Regular Expression" << "\n";
-                regularExpressionHandler(line);
+            }
+            case REGULAR_EXPRESSION: {
+                int statusCode = regularExpressionHandler(line);
+                if (statusCode == -1){
+                    std::cerr << linesCounter << ": '-' range keyword is not used properly." << "\n";
+                    return -1;
+                }
                 break;
+            }
             default:
-                break;
+                return -1;
         }
 
     }
@@ -102,7 +112,7 @@ int RulesConverter::checkType(std::string str) {
     if (isRegularExpression(str))
         return REGULAR_EXPRESSION;
 
-    std::cerr << "Unidentified Line" << "\n";
+    std::cerr << linesCounter << ": Unidentified Line" << "\n";
     return -1;
 }
 
@@ -124,25 +134,31 @@ void RulesConverter::punctuationHandler(std::string str) {
         allPunctuation.push_back(punctuation);
 }
 
-void RulesConverter::regularDefinitionHandler(std::string str) {
+int RulesConverter::regularDefinitionHandler(std::string str) {
     removeConsecutiveSpaces(str);
     std::pair<std::string, std::string> splitString = splitIntoTwo(str, '=');
     trimBlanksFromEnds(splitString.first);
     trimBlanksFromEnds(splitString.second);
     RegularDefinition regularDefinition(splitString.first, splitString.second);
-    regularDefinition.standardizeRegex(regularDefinitions);
+    int statusCode = regularDefinition.standardizeRegex(regularDefinitions);
+    if (statusCode == -1)
+        return -1;
     regularDefinitions.push_back(regularDefinition);
+    return 0;
 }
 
-void RulesConverter::regularExpressionHandler(std::string str) {
+int RulesConverter::regularExpressionHandler(std::string str) {
     removeConsecutiveSpaces(str);
     std::pair<std::string, std::string> splitString = splitIntoTwo(str, ':');
     trimBlanksFromEnds(splitString.first);
     trimBlanksFromEnds(splitString.second);
     // Create Regular Expressions where it's priority starts from 2 as 0 and 1 are reserved for keywords and punctuation.
     RegularExpression regularExpression(splitString.first, splitString.second, (int) regularExpressions.size() + 2);
-    regularExpression.standardizeRegex(regularDefinitions);
+    int statusCode = regularExpression.standardizeRegex(regularDefinitions);
+    if (statusCode == -1)
+        return -1;
     regularExpressions.push_back(regularExpression);
+    return 0;
 }
 
 

@@ -15,7 +15,7 @@ class RegularDefinition {
     private:
         std::string name;
         std::string regex;
-        static void enumerateRanges(std::string& str);
+        [[nodiscard]] static int enumerateRanges(std::string& str);
         static void replaceDefinitions(std::string& str, std::vector<RegularDefinition> regularDefinitions);
 
     public:
@@ -24,7 +24,7 @@ class RegularDefinition {
 
         [[nodiscard]] const std::string &getName() const;
         [[nodiscard]] const std::string &getRegex() const;
-        void standardizeRegex(std::vector<RegularDefinition> regularDefinitions);
+        [[nodiscard]] int standardizeRegex(std::vector<RegularDefinition> regularDefinitions);
 };
 
 #endif //COMPILER_REGULARDEFINITION_H

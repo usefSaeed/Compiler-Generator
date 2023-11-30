@@ -16,6 +16,7 @@
 class RulesConverter {
     private:
         std::string filePath;
+        static int linesCounter;
         std::vector<RegularExpression> regularExpressions;
         std::vector<RegularDefinition> regularDefinitions;
         static bool isRegularDefinition(std::string str);
@@ -24,8 +25,8 @@ class RulesConverter {
         std::vector<std::string> allPunctuation;
         void keywordsHandler(std::string str);
         void punctuationHandler(std::string str);
-        void regularDefinitionHandler(std::string str);
-        void regularExpressionHandler(std::string str);
+        [[nodiscard]] int regularDefinitionHandler(std::string str);
+        [[nodiscard]] int regularExpressionHandler(std::string str);
 
     public:
         static constexpr int KEYWORDS = 0;
@@ -35,7 +36,7 @@ class RulesConverter {
         [[nodiscard]] const std::vector<RegularExpression> &getRegularExpressions() const;
         explicit RulesConverter(std::string filePath);
         [[nodiscard]] static int checkType(std::string str);
-        int parseFile();
+        [[nodiscard]] int parseFile();
 
 };
 
