@@ -3,6 +3,8 @@
 //
 
 #include "RegularDefinition.h"
+#include <utility>
+
 RegularDefinition::RegularDefinition() = default;
 
 const std::string &RegularDefinition::getName() const {
@@ -15,12 +17,13 @@ const std::string &RegularDefinition::getRegex() const {
 
 RegularDefinition::RegularDefinition(std::string name, std::string regex) : name(std::move(name)), regex(std::move(regex)) {}
 
-void RegularDefinition::standardizeRegex() {
+void RegularDefinition::standardizeRegex(std::vector<RegularDefinition> regularDefinitions) {
     removeConsecutiveSpaces(regex);
-    EnumerateRanges(regex);
+    enumerateRanges(regex);
+    replaceDefinitions(regex, std::move(regularDefinitions));
 }
 
-void RegularDefinition::EnumerateRanges(std::string &str) {
+void RegularDefinition::enumerateRanges(std::string &str) {
     std::string result;
     for(int i = 0; i < str.length(); i++){
         char c = str[i];
@@ -53,10 +56,49 @@ void RegularDefinition::EnumerateRanges(std::string &str) {
     str = result;
 }
 
-void RegularDefinition::ReplaceDefinitions(std::string &str) {
-    //todo
+void RegularDefinition::replaceDefinitions(std::string &str, std::vector<RegularDefinition> regularDefinitions) {
+    std::string result;
+    std::string accumulator;
 
+    for (int i = 0; i < str.length(); ++i) {
+        char c = str[i];
+
+        if (c == ' ') {
+            auto it = std::find_if(regularDefinitions.begin(), regularDefinitions.end(),
+                                   [&accumulator](const RegularDefinition& def) {
+                                       return def.name == accumulator;
+                                   });
+            if (it != regularDefinitions.end()) {
+                result += it->regex;
+                result += c;
+                accumulator.clear();
+            } else {
+                result += accumulator;
+                result += c;
+                accumulator.clear();
+            }
+        } else if (c == '=' || c == '+' || c == '|' || c == '*' || c == '(' || c == ')') {
+            if (i > 0 && str[i - 1] == '\\') {
+                accumulator += c;
+            } else {
+                auto it = std::find_if(regularDefinitions.begin(), regularDefinitions.end(),
+                                       [&accumulator](const RegularDefinition& def) {
+                                           return def.name == accumulator;
+                                       });
+                if (it != regularDefinitions.end()) {
+                    result += it->regex;
+                    result += c;
+                    accumulator.clear();
+                } else {
+                    result += accumulator;
+                    result += c;
+                    accumulator.clear();
+                }
+            }
+        } else {
+            accumulator += c;
+        }
+    }
+    result += accumulator;
+    str = result;
 }
-
-
-

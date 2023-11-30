@@ -17,15 +17,15 @@ class RulesConverter {
     private:
         std::string filePath;
         std::vector<RegularExpression> regularExpressions;
-        static bool IsRegularDefinition(std::string str);
-        static bool IsRegularExpression(std::string str);
+        std::vector<RegularDefinition> regularDefinitions;
+        static bool isRegularDefinition(std::string str);
+        static bool isRegularExpression(std::string str);
         std::vector<std::string> allKeywords;
         std::vector<std::string> allPunctuation;
-        std::vector<RegularDefinition> regularDefinitions;
-        void KeywordsHandler(std::string str);
-        void PunctuationHandler(std::string str);
-        void RegularDefinitionHandler(std::string str);
-        void RegularExpressionHandler(std::string str);
+        void keywordsHandler(std::string str);
+        void punctuationHandler(std::string str);
+        void regularDefinitionHandler(std::string str);
+        void regularExpressionHandler(std::string str);
 
     public:
         static constexpr int KEYWORDS = 0;
@@ -34,10 +34,9 @@ class RulesConverter {
         static constexpr int REGULAR_EXPRESSION = 3;
         [[nodiscard]] const std::vector<RegularExpression> &getRegularExpressions() const;
         explicit RulesConverter(std::string filePath);
-        [[nodiscard]] static int CheckType(std::string str);
-        int ParseFile();
+        [[nodiscard]] static int checkType(std::string str);
+        int parseFile();
 
 };
-
 
 #endif //COMPILER_RULESCONVERTER_H

@@ -125,70 +125,70 @@ TEST(removeFirstAndLastChars, HandlesEmptyString){
     ASSERT_EQ(str, result);
 }
 
-TEST(JoinStrings, WorksAsExpected){
+TEST(joinStrings, WorksAsExpected){
     std::vector<std::string> words = {"if", "else", "while"};
 
-    std::string str = JoinStrings(words, '|');
+    std::string str = joinStrings(words, '|');
 
     std::string result = "if|else|while";
 
     ASSERT_EQ(str, result);
 }
 
-TEST(JoinStrings, HandlesEmptyVector){
+TEST(joinStrings, HandlesEmptyVector){
     std::vector<std::string> words = {};
 
-    std::string str = JoinStrings(words, '|');
+    std::string str = joinStrings(words, '|');
 
     std::string result;
 
     ASSERT_EQ(str, result);
 }
 
-TEST(JoinStrings, HandlesOneString){
+TEST(joinStrings, HandlesOneString){
     std::vector<std::string> words = {"if"};
 
-    std::string str = JoinStrings(words, '|');
+    std::string str = joinStrings(words, '|');
 
     std::string result = "if";
 
     ASSERT_EQ(str, result);
 }
 
-TEST(SplitIntoTwo, WorksAsExpected){
+TEST(splitIntoTwo, WorksAsExpected){
     std::string str = "digit=0-9";
 
-    std::pair<std::string, std::string> words = SplitIntoTwo(str, '=');
+    std::pair<std::string, std::string> words = splitIntoTwo(str, '=');
 
     std::pair<std::string, std::string> result = std::make_pair("digit", "0-9");
 
     ASSERT_EQ(words, result);;
 }
 
-TEST(SplitIntoTwo, HandlesDoubleDelimiter){
+TEST(splitIntoTwo, HandlesDoubleDelimiter){
     std::string str = "digit=0-9\\=35";
 
-    std::pair<std::string, std::string> words = SplitIntoTwo(str, '=');
+    std::pair<std::string, std::string> words = splitIntoTwo(str, '=');
 
     std::pair<std::string, std::string> result = std::make_pair("digit", "0-9\\=35");
 
     ASSERT_EQ(words, result);;
 }
 
-TEST(SplitIntoTwo, HandlesNoDelimiter){
+TEST(splitIntoTwo, HandlesNoDelimiter){
     std::string str = "digit0-9";
 
-    std::pair<std::string, std::string> words = SplitIntoTwo(str, '=');
+    std::pair<std::string, std::string> words = splitIntoTwo(str, '=');
 
     std::pair<std::string, std::string> result = std::make_pair("digit0-9", "");
 
     ASSERT_EQ(words, result);;
 }
 
-TEST(SplitIntoTwo, HandlesEmptyString){
+TEST(splitIntoTwo, HandlesEmptyString){
     std::string str;
 
-    std::pair<std::string, std::string> words = SplitIntoTwo(str, '=');
+    std::pair<std::string, std::string> words = splitIntoTwo(str, '=');
 
     std::pair<std::string, std::string> result = std::make_pair("", "");
 

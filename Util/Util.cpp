@@ -75,7 +75,7 @@ void removeFirstAndLastChars(std::string& str){
     }
 }
 
-std::string JoinStrings(const std::vector<std::string>& strings, char separator) {
+std::string joinStrings(const std::vector<std::string>& strings, char separator) {
     std::ostringstream oss;
     if (!strings.empty()) {
         oss << strings.front();
@@ -86,7 +86,7 @@ std::string JoinStrings(const std::vector<std::string>& strings, char separator)
     return oss.str();
 }
 
-std::pair<std::string, std::string> SplitIntoTwo(const std::string& str, char delimiter){
+std::pair<std::string, std::string> splitIntoTwo(const std::string& str, char delimiter){
     size_t pos = str.find(delimiter);
     if (pos != std::string::npos){
         std::string before = str.substr(0, pos);

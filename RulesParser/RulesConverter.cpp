@@ -10,7 +10,7 @@ const std::vector<RegularExpression> &RulesConverter::getRegularExpressions() co
     return regularExpressions;
 }
 
-int RulesConverter::ParseFile() {
+int RulesConverter::parseFile() {
     std::ifstream file(filePath);
     if (!file.is_open()){
         std::cerr << "Unable to open file" << "\n";
@@ -19,23 +19,23 @@ int RulesConverter::ParseFile() {
     std::string line;
     while(getline(file, line)){
         trimBlanksFromEnds(line);
-        int type = CheckType(line);
+        int type = checkType(line);
         switch (type){
             case KEYWORDS:
                 std::cout << "Keyword" << "\n";
-                KeywordsHandler(line);
+                keywordsHandler(line);
                 break;
             case PUNCTUATION:
                 std::cout << "Punctuation" << "\n";
-                PunctuationHandler(line);
+                punctuationHandler(line);
                 break;
             case REGULAR_DEFINITION:
                 std::cout << "Regular Definition" << "\n";
-                RegularDefinitionHandler(line);
+                regularDefinitionHandler(line);
                 break;
             case REGULAR_EXPRESSION:
                 std::cout << "Regular Expression" << "\n";
-                RegularExpressionHandler(line);
+                regularExpressionHandler(line);
                 break;
             default:
                 break;
@@ -51,23 +51,22 @@ int RulesConverter::ParseFile() {
         regularExpressions.push_back(regularExpression);
     }
 
-    // Accumulate all Punctuation and add it to one regular expression with the second-highest priority
-    if (!allPunctuation.empty()){
-        std::string regex = JoinStrings(allPunctuation, '|');
-        RegularExpression regularExpression("punctuation", regex, 1);
-        regularExpression.standardizeRegex();
+    // Convert all punctuation symbols to regular expressions with the second-highest priority
+    for (const std::string& punctuation: allPunctuation){
+        RegularExpression regularExpression(punctuation, punctuation, 1);
         regularExpressions.push_back(regularExpression);
     }
 
-    for (const RegularExpression& regExp : regularExpressions) {
-        std::cout << regExp.toString() << "\n";
-    }
-
+    // Sort Regular Expressions by priority
+    std::sort(regularExpressions.begin(), regularExpressions.end(),
+              [](const RegularExpression &a, const RegularExpression &b) {
+                  return a.getPriority() < b.getPriority();
+              });
 
     return 0;
 }
 
-bool RulesConverter::IsRegularDefinition(std::string str) {
+bool RulesConverter::isRegularDefinition(std::string str) {
     // Finds first occurrence of '='
     size_t pos = str.find('=');
 
@@ -80,7 +79,7 @@ bool RulesConverter::IsRegularDefinition(std::string str) {
     return false;
 }
 
-bool RulesConverter::IsRegularExpression(std::string str) {
+bool RulesConverter::isRegularExpression(std::string str) {
     // Finds first occurrence of ':'
     size_t pos = str.find(':');
 
@@ -93,21 +92,21 @@ bool RulesConverter::IsRegularExpression(std::string str) {
     return false;
 }
 
-int RulesConverter::CheckType(std::string str) {
+int RulesConverter::checkType(std::string str) {
     if (str.front() == '{' && str.back() == '}')
         return KEYWORDS;
     if (str.front() == '[' && str.back() == ']')
         return PUNCTUATION;
-    if (IsRegularDefinition(str))
+    if (isRegularDefinition(str))
         return REGULAR_DEFINITION;
-    if (IsRegularExpression(str))
+    if (isRegularExpression(str))
         return REGULAR_EXPRESSION;
 
     std::cerr << "Unidentified Line" << "\n";
     return -1;
 }
 
-void RulesConverter::KeywordsHandler(std::string str) {
+void RulesConverter::keywordsHandler(std::string str) {
     removeFirstAndLastChars(str);
     trimBlanksFromEnds(str);
     removeConsecutiveSpaces(str);
@@ -116,7 +115,7 @@ void RulesConverter::KeywordsHandler(std::string str) {
         allKeywords.push_back(keyword);
 }
 
-void RulesConverter::PunctuationHandler(std::string str) {
+void RulesConverter::punctuationHandler(std::string str) {
     removeFirstAndLastChars(str);
     trimBlanksFromEnds(str);
     removeConsecutiveSpaces(str);
@@ -125,23 +124,27 @@ void RulesConverter::PunctuationHandler(std::string str) {
         allPunctuation.push_back(punctuation);
 }
 
-void RulesConverter::RegularDefinitionHandler(std::string str) {
+void RulesConverter::regularDefinitionHandler(std::string str) {
     removeConsecutiveSpaces(str);
-    std::pair<std::string, std::string> splitString = SplitIntoTwo(str, '=');
+    std::pair<std::string, std::string> splitString = splitIntoTwo(str, '=');
     trimBlanksFromEnds(splitString.first);
     trimBlanksFromEnds(splitString.second);
     RegularDefinition regularDefinition(splitString.first, splitString.second);
-    regularDefinition.standardizeRegex();
+    regularDefinition.standardizeRegex(regularDefinitions);
     regularDefinitions.push_back(regularDefinition);
 }
 
-void RulesConverter::RegularExpressionHandler(std::string str) {
+void RulesConverter::regularExpressionHandler(std::string str) {
     removeConsecutiveSpaces(str);
-    std::pair<std::string, std::string> splitString = SplitIntoTwo(str, ':');
+    std::pair<std::string, std::string> splitString = splitIntoTwo(str, ':');
     trimBlanksFromEnds(splitString.first);
     trimBlanksFromEnds(splitString.second);
     // Create Regular Expressions where it's priority starts from 2 as 0 and 1 are reserved for keywords and punctuation.
     RegularExpression regularExpression(splitString.first, splitString.second, (int) regularExpressions.size() + 2);
-    regularExpression.standardizeRegex();
+    regularExpression.standardizeRegex(regularDefinitions);
     regularExpressions.push_back(regularExpression);
 }
+
+
+
+

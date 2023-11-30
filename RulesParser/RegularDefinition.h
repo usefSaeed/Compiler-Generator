@@ -9,23 +9,22 @@
 #include "../Util/Util.h"
 #include <utility>
 #include <iostream>
+#include "algorithm"
 
 class RegularDefinition {
     private:
         std::string name;
         std::string regex;
-        static void EnumerateRanges(std::string& str);
-        static void ReplaceDefinitions(std::string& str);
+        static void enumerateRanges(std::string& str);
+        static void replaceDefinitions(std::string& str, std::vector<RegularDefinition> regularDefinitions);
+
     public:
         RegularDefinition();
         RegularDefinition(std::string name, std::string regex);
 
         [[nodiscard]] const std::string &getName() const;
         [[nodiscard]] const std::string &getRegex() const;
-        void standardizeRegex();
-
-
-
+        void standardizeRegex(std::vector<RegularDefinition> regularDefinitions);
 };
 
 #endif //COMPILER_REGULARDEFINITION_H
