@@ -48,6 +48,7 @@ int RulesConverter::parseFile() {
                 break;
             }
             default:
+                std::cerr << linesCounter << ": Unidentified Line" << "\n";
                 return -1;
         }
 
@@ -112,7 +113,6 @@ int RulesConverter::checkType(std::string str) {
     if (isRegularExpression(str))
         return REGULAR_EXPRESSION;
 
-    std::cerr << linesCounter << ": Unidentified Line" << "\n";
     return -1;
 }
 

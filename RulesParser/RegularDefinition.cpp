@@ -83,7 +83,7 @@ void RegularDefinition::replaceDefinitions(std::string &str, std::vector<Regular
             }
             result += c;
             accumulator.clear();
-        } else if (auto it = std::find(std::begin(reservedChars), std::end(reservedChars), c) != std::end(reservedChars)) {
+        } else if (std::find(std::begin(reservedChars), std::end(reservedChars), c) != std::end(reservedChars)) {
             if (i > 0 && str[i - 1] == '\\') {
                 accumulator += c;
             } else {

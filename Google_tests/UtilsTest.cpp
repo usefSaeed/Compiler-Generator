@@ -162,7 +162,7 @@ TEST(splitIntoTwo, WorksAsExpected){
 
     std::pair<std::string, std::string> result = std::make_pair("digit", "0-9");
 
-    ASSERT_EQ(words, result);;
+    ASSERT_EQ(words, result);
 }
 
 TEST(splitIntoTwo, HandlesDoubleDelimiter){
@@ -172,7 +172,7 @@ TEST(splitIntoTwo, HandlesDoubleDelimiter){
 
     std::pair<std::string, std::string> result = std::make_pair("digit", "0-9\\=35");
 
-    ASSERT_EQ(words, result);;
+    ASSERT_EQ(words, result);
 }
 
 TEST(splitIntoTwo, HandlesNoDelimiter){
@@ -182,7 +182,7 @@ TEST(splitIntoTwo, HandlesNoDelimiter){
 
     std::pair<std::string, std::string> result = std::make_pair("digit0-9", "");
 
-    ASSERT_EQ(words, result);;
+    ASSERT_EQ(words, result);
 }
 
 TEST(splitIntoTwo, HandlesEmptyString){
@@ -192,5 +192,5 @@ TEST(splitIntoTwo, HandlesEmptyString){
 
     std::pair<std::string, std::string> result = std::make_pair("", "");
 
-    ASSERT_EQ(words, result);;
+    ASSERT_EQ(words, result);
 }
