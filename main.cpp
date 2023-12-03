@@ -21,5 +21,6 @@ int main(int argc, char *argv[]) {
         std::cout << regExp.toString() << "\n";
     }
 
+
     return 0;
 }
