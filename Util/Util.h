@@ -15,5 +15,5 @@ void removeSpaces(std::string& str);
 void removeFirstAndLastChars(std::string& str);
 [[nodiscard]] std::string joinStrings(const std::vector<std::string>& strings, char separator);
 [[nodiscard]] std::pair<std::string, std::string> splitIntoTwo(const std::string& str, char delimiter);
-
+std::string replaceAll(std::string& str, const std::string& target, const std::string& replacer);
 #endif //COMPILER_UTIL_H

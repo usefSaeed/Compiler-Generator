@@ -95,5 +95,12 @@ std::pair<std::string, std::string> splitIntoTwo(const std::string& str, char de
     }
     return make_pair(str, std::string {});
 }
-
+std::string replaceAll(std::string& str, const std::string& target, const std::string& replacer) {
+    std::size_t found = str.find(target);
+    while (found != std::string::npos) {
+        str.replace(found, 2, replacer);
+        found = str.find(target, found + 1);
+    }
+    return str;
+}
 
