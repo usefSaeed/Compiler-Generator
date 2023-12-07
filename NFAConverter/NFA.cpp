@@ -66,7 +66,7 @@ void NFA::kleeneClosure(){
     addEpsilonTransition(initial, start);
     addEpsilonTransition(end, final);
     addEpsilonTransition(initial, final);
-    addEpsilonTransition(final, initial);
+    addEpsilonTransition(end, start);
     nfaStack.top().push(initial);
     nfaStack.top().push(final);
 }
@@ -81,7 +81,7 @@ void NFA::positiveClosure(){
     State* final = new State(); // New final state
     addEpsilonTransition(initial, start);
     addEpsilonTransition(end, final);
-    addEpsilonTransition(final, initial);
+    addEpsilonTransition(end, start);
     nfaStack.top().push(initial);
     nfaStack.top().push(final);
 }

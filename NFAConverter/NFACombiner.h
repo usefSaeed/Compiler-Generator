@@ -31,7 +31,7 @@ class NFACombiner {
 
     public:
         NFACombiner(std::vector<RegularExpression>&);
-        std::unordered_map<std::pair<State*, char>, State*, PairHash, PairEqual> extractTableRepresentation();
+        std::unordered_map<std::pair<State*, char>, std::vector<State*>, PairHash, PairEqual> extractTableRepresentation();
         State* getCompleteNfa();
 
 };
