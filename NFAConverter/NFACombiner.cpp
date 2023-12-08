@@ -22,7 +22,7 @@ std::unordered_map<std::pair<State*, char>, std::vector<State*>, PairHash, PairE
     while (not frontier.empty()) {
         State* currentState = frontier.top();
         frontier.pop();
-        if(visited.contains(currentState)){
+        if(visited.find(currentState) != visited.end()){
             continue;
         }
         visited[currentState] = 1;

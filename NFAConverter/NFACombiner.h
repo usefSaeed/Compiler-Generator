@@ -8,6 +8,7 @@
 #include "../RulesParser/RegularExpression.h"
 #include "State.h"
 #include "NFA.h"
+#include <unordered_map>
 
 struct PairHash {
     template <typename T1, typename T2>

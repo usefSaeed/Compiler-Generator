@@ -22,7 +22,7 @@ TEST(IntegrationTest, FromParsingRegExpToNFA){
     while(not frontier.empty()){
         State* currentState = frontier.top();
         frontier.pop();
-        if(visited.contains(currentState)){
+        if(visited.find(currentState) != visited.end()){
             continue;
         }
         visited[currentState] = 1;
