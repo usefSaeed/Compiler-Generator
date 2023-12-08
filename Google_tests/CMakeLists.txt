@@ -7,6 +7,7 @@ add_executable(Google_Tests_run UtilsTest.cpp
         RegularDefinitionTest.cpp
         NFATest.cpp
         IntegrationTest.cpp
+        DFATest.cpp
         STGeneratorTest.cpp
 )
 

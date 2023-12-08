@@ -1,6 +1,7 @@
 //
 // Created by deffo on 03/12/23.
 //
+#include <unordered_map>
 #include "gtest/gtest.h"
 #include "../NFAConverter/NFA.h"
 

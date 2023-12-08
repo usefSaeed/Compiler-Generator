@@ -6,11 +6,12 @@
 #include <string>
 #include "iostream"
 
-SyntaxError::SyntaxError(int st) {
+SyntaxError::SyntaxError(int st, char c) {
     this->idx = st;
+    this->c = c;
 }
 
 std::ostream& operator<<(std::ostream& os, const SyntaxError& se){
-    os << "Syntax Error on index:" << se.idx << "\n";
+    os << "Syntax Error on index:" << se.idx << " --> " << se.c << "\n";
     return os;
 }

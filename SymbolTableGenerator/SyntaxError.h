@@ -10,10 +10,11 @@
 
 class SyntaxError {
 private:
+    char c;
     int idx;
 
 public:
-    explicit SyntaxError(int st);
+    explicit SyntaxError(int st,char c);
     friend std::ostream& operator<<(std::ostream& os, const SyntaxError& se);
 
 };

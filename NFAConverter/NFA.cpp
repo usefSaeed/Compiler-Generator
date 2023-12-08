@@ -108,7 +108,9 @@ std::pair<State*, State*> NFA::convertToNfa(std::string regex, std::string token
     initializeStacks();
     for (int i = 0; i < regex.size(); i++) {
         char symbol = regex[i];
-        if (symbol == '|') {
+        if(symbol == ' '){
+            continue;
+        }else if (symbol == '|') {
             disjunctionStack.top().push(std::string("|"));
         } else if (symbol == '(') {
             std::stack<State*> bracketsNfaStack;

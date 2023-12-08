@@ -24,3 +24,19 @@ State::State(const std::string& tokenName) {
     this->tokenName = tokenName;
 }
 
+State::State(std::unordered_set<State*> states) {
+    this->isFinal = false;
+    State* highestPriorityState = *(states.begin());;
+    int highestPriority = 100000;
+
+    for (State* state: states) {
+        if(state->isFinal){
+            if (state->priority < highestPriority){
+                highestPriority = state->priority;
+                highestPriorityState = state;
+            }
+        }
+        this->isFinal |= state->isFinal;
+    }
+    this->tokenName = highestPriorityState->tokenName;
+}
