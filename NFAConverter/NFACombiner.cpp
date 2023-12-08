@@ -2,6 +2,7 @@
 // Created by deffo on 02/12/23.
 //
 
+#include <unordered_map>
 #include "NFACombiner.h"
 
 NFACombiner::NFACombiner(std::vector<RegularExpression>& regExps) {

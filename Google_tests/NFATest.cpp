@@ -90,6 +90,7 @@ TEST(RegexToNfaConversion, SimplePositiveClosure){
         }
         numOfStates++;
     }
+
     ASSERT_EQ(degree, 2);
     ASSERT_EQ(numOfStates, 16);
     ASSERT_EQ(nfaPair.second->tokenName, "repeated boolean");
