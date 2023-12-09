@@ -79,9 +79,9 @@ void RegularDefinition::replaceDefinitions(std::string &str, std::vector<Regular
                                        return def.name == accumulator;
                                    });
             if (it != regularDefinitions.end()) {
-                result += it->regex; //If it's found then add the regex of the regular definition to the result ie. (Expand Definition)
+                result += "(" + it->regex + ")"; //If it's found then add the regex of the regular definition to the result ie. (Expand Definition)
             } else {
-                result += accumulator; // If not then just add it ot the result.
+                result += accumulator; // If not then just add it to the result.
             }
             result += c;
             accumulator.clear();
@@ -95,7 +95,7 @@ void RegularDefinition::replaceDefinitions(std::string &str, std::vector<Regular
                                            return def.name == accumulator;
                                        });
                 if (it != regularDefinitions.end()) {
-                    result += it->regex;
+                    result += "(" + it->regex + ")";
                 } else {
                     result += accumulator;
                 }

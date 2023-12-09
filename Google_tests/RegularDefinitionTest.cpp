@@ -77,7 +77,7 @@ TEST(StandardizeRegex, HandlesRecursiveRegularDefinitions){
     RegularDefinition regularDefinition2("test", "digit+ anything");
     int status2= regularDefinition2.standardizeRegex(regularDefinitions);
 
-    std::string result = "(((0)|(1)|(2)|(3)|(4)|(5)|(6)|(7)|(8)|(9)))+ anything";
+    std::string result = "((((0)|(1)|(2)|(3)|(4)|(5)|(6)|(7)|(8)|(9))))+ anything";
 
     ASSERT_EQ(regularDefinition2.getRegex(), result);
     ASSERT_EQ(status, 0);
@@ -97,7 +97,7 @@ TEST(StandardizeRegex, HandlesRecursiveRegularDefinitions2){
     RegularDefinition regularDefinition3("num", "digit+ | digit+ . digits ( \\L | E digits)");
     int status3 = regularDefinition3.standardizeRegex(regularDefinitions);
 
-    std::string result = "((((0)|(1)|(2)|(3)|(4)|(5)|(6)|(7)|(8)|(9)))+) | ((((0)|(1)|(2)|(3)|(4)|(5)|(6)|(7)|(8)|(9)))+ . (((0)|(1)|(2)|(3)|(4)|(5)|(6)|(7)|(8)|(9)))+ (( \\L) | (E (((0)|(1)|(2)|(3)|(4)|(5)|(6)|(7)|(8)|(9)))+)))";
+    std::string result = "(((((0)|(1)|(2)|(3)|(4)|(5)|(6)|(7)|(8)|(9))))+) | (((((0)|(1)|(2)|(3)|(4)|(5)|(6)|(7)|(8)|(9))))+ . (((((0)|(1)|(2)|(3)|(4)|(5)|(6)|(7)|(8)|(9))))+) (( \\L) | (E (((((0)|(1)|(2)|(3)|(4)|(5)|(6)|(7)|(8)|(9))))+))))";
 
     ASSERT_EQ(regularDefinition3.getRegex(), result);
     ASSERT_EQ(status, 0);
@@ -118,7 +118,7 @@ TEST(StandardizeRegex, HandlesRecursiveRegularDefinitions3){
     RegularExpression regularExpression("id", "letter (letter|digit)*", 2);
     int status3 = regularExpression.standardizeRegex(regularDefinitions);
 
-    std::string result = "(((a)|(b)|(c)|(d)|(e)|(f)|(g)|(h)|(i)|(j)|(k)|(l)|(m)|(n)|(o)|(p)|(q)|(r)|(s)|(t)|(u)|(v)|(w)|(x)|(y)|(z))) | (((A)|(B)|(C)|(D)|(E)|(F)|(G)|(H)|(I)|(J)|(K)|(L)|(M)|(N)|(O)|(P)|(Q)|(R)|(S)|(T)|(U)|(V)|(W)|(X)|(Y)|(Z))) (((((a)|(b)|(c)|(d)|(e)|(f)|(g)|(h)|(i)|(j)|(k)|(l)|(m)|(n)|(o)|(p)|(q)|(r)|(s)|(t)|(u)|(v)|(w)|(x)|(y)|(z))) | (((A)|(B)|(C)|(D)|(E)|(F)|(G)|(H)|(I)|(J)|(K)|(L)|(M)|(N)|(O)|(P)|(Q)|(R)|(S)|(T)|(U)|(V)|(W)|(X)|(Y)|(Z))))|(((0)|(1)|(2)|(3)|(4)|(5)|(6)|(7)|(8)|(9))))*";
+    std::string result = "((((a)|(b)|(c)|(d)|(e)|(f)|(g)|(h)|(i)|(j)|(k)|(l)|(m)|(n)|(o)|(p)|(q)|(r)|(s)|(t)|(u)|(v)|(w)|(x)|(y)|(z))) | (((A)|(B)|(C)|(D)|(E)|(F)|(G)|(H)|(I)|(J)|(K)|(L)|(M)|(N)|(O)|(P)|(Q)|(R)|(S)|(T)|(U)|(V)|(W)|(X)|(Y)|(Z)))) ((((((a)|(b)|(c)|(d)|(e)|(f)|(g)|(h)|(i)|(j)|(k)|(l)|(m)|(n)|(o)|(p)|(q)|(r)|(s)|(t)|(u)|(v)|(w)|(x)|(y)|(z))) | (((A)|(B)|(C)|(D)|(E)|(F)|(G)|(H)|(I)|(J)|(K)|(L)|(M)|(N)|(O)|(P)|(Q)|(R)|(S)|(T)|(U)|(V)|(W)|(X)|(Y)|(Z)))))|((((0)|(1)|(2)|(3)|(4)|(5)|(6)|(7)|(8)|(9)))))*";
 
     ASSERT_EQ(regularExpression.getRegex(), result);
     ASSERT_EQ(status, 0);
