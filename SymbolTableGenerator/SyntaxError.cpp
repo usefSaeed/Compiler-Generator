@@ -3,7 +3,6 @@
 //
 
 #include "SyntaxError.h"
-#include <string>
 #include "iostream"
 
 SyntaxError::SyntaxError(int st, char c) {

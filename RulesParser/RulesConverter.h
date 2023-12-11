@@ -7,11 +7,8 @@
 
 #include <string>
 #include <vector>
-#include <utility>
-#include <fstream>
-#include <iostream>
 #include "RegularExpression.h"
-#include "../Util/Util.h"
+
 
 class RulesConverter {
     private:

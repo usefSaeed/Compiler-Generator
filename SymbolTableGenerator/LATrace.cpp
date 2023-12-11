@@ -21,7 +21,7 @@ std::ostream &operator<<(std::ostream &os, const LATrace &lat) {
     if (!lat.tokenName.empty())
         os << lat.tokenName;
     if (lat.isEndOfToken)
-        os << "❎";
+        os << "#SKIP#";
     os << "\n";
     return os;
 }

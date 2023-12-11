@@ -16,10 +16,10 @@ public:
     std::vector<Transition> transitions;
     bool isFinal;
     std::string tokenName;
-    int priority;
+    int priority{};
     State();
-    State(const std::string& tokenName);
-    State(std::unordered_set<State*> states);
+    explicit State(const std::string& tokenName);
+    explicit State(std::unordered_set<State*> states);
     void addTransition(Transition transition);
     State* moveTo(char input);
 };

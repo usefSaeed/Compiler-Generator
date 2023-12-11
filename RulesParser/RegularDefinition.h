@@ -6,10 +6,8 @@
 #define COMPILER_REGULARDEFINITION_H
 
 #include <string>
-#include "../Util/Util.h"
-#include <utility>
-#include <iostream>
-#include "algorithm"
+#include <vector>
+
 
 class RegularDefinition {
     private:

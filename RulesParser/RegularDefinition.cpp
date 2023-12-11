@@ -2,8 +2,10 @@
 // Created by Meniem on 28-Nov-23.
 //
 
+#include <algorithm>
 #include "RegularDefinition.h"
-#include <utility>
+#include "../Util/Util.h"
+
 
 RegularDefinition::RegularDefinition() = default;
 

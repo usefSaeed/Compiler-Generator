@@ -58,7 +58,7 @@ struct StatePtrSetEquality {
             return false;
 
         for (auto &e: a) {
-            if (!b.contains(e)) {
+            if (b.find(e) == b.end()) {
                 return false;
             }
         }

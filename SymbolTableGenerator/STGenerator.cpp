@@ -31,16 +31,16 @@ LAOutput STGenerator::execute(const std::string& scriptFilePath){
             }else{
                 currentCharIdx = lastMatchIdx;
                 tokenUnlocked(symbolTable);
-                trace.emplace_back(LATrace(c,"",true));
+                trace.emplace_back(c,"",true);
             }
         }else{
             currentState = currentState->moveTo(c);
             if (foundMatch()){
-                trace.emplace_back(LATrace(c,currentState->tokenName));
+                trace.emplace_back(c,currentState->tokenName);
                 lastMatchIdx = currentCharIdx;
                 lastMatchedTokenType = currentState->tokenName;
             }else{
-                trace.emplace_back(LATrace(c));
+                trace.emplace_back(c);
             }
         }
         currentCharIdx ++;

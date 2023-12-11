@@ -48,7 +48,7 @@ State* DFA::convertToDFA(State* nfaStartState, const std::unordered_set<char>& a
 
             if (U.empty()) continue;
 
-            if (!mapping.contains(U)) {
+            if (mapping.find(U) == mapping.end()) {
                 unmarked.push(U);
                 mapping[U] = new State(U);
             }
@@ -76,7 +76,7 @@ std::unordered_set<char> getAlphabet(State* startState) {
         for (Transition transition: state->transitions) {
             symbols.insert(transition.getInput());
 
-            if (!visited.contains(transition.getNextState())) {
+            if (visited.find(transition.getNextState()) == visited.end()) {
                 frontier.push(transition.getNextState());
             }
         }
@@ -104,7 +104,7 @@ std::unordered_set<State*> epsilonClosure(const std::unordered_set<State*>& stat
     while (!frontier.empty()) {
         State* state = frontier.top(); frontier.pop();
         
-        if (output.contains(state))
+        if (output.find(state) != output.end())
             continue;
 
         for (Transition transition: state->transitions) {
