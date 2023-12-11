@@ -7,7 +7,6 @@
 
 #include "../RulesParser/RegularExpression.h"
 #include "State.h"
-#include "NFA.h"
 #include <unordered_map>
 
 struct PairHash {
@@ -31,7 +30,7 @@ class NFACombiner {
         State* completeNfa;
 
     public:
-        NFACombiner(std::vector<RegularExpression>&);
+        explicit NFACombiner(std::vector<RegularExpression>&);
         std::unordered_map<std::pair<State*, char>, std::vector<State*>, PairHash, PairEqual> extractTableRepresentation();
         State* getCompleteNfa();
 

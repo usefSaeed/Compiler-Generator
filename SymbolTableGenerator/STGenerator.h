@@ -31,7 +31,7 @@ private:
     [[nodiscard]] bool reachedDeadEnd(char c);
     [[nodiscard]] bool foundMatch();
     [[nodiscard]] bool notTerminalSymbol();
-    [[nodiscard]] bool isNotSkippable(char c);
+    [[nodiscard]] static bool isNotSkippable(char c);
 
 
 public:

@@ -4,6 +4,8 @@
 
 #include "NFA.h"
 
+#include <utility>
+
 NFA::NFA() = default;
 
 void NFA::addEpsilonTransition(State* from, State* to) {
@@ -45,10 +47,10 @@ void NFA::disjunction() {
     State* start1 = nfaStack.top().top();
     nfaStack.top().pop();
 
-    State* initial = new State();  // New initial state
+    auto* initial = new State();  // New initial state
     addEpsilonTransition(initial, start1);
     addEpsilonTransition(initial, start2);
-    State* final = new State(); // New final state
+    auto* final = new State(); // New final state
     addEpsilonTransition(end1, final);
     addEpsilonTransition(end2, final);
     nfaStack.top().push(initial);
@@ -61,8 +63,8 @@ void NFA::kleeneClosure(){
     State* start = nfaStack.top().top();
     nfaStack.top().pop();
 
-    State* initial = new State(); // New initial state
-    State* final = new State(); // New final state
+    auto* initial = new State(); // New initial state
+    auto* final = new State(); // New final state
     addEpsilonTransition(initial, start);
     addEpsilonTransition(end, final);
     addEpsilonTransition(initial, final);
@@ -77,8 +79,8 @@ void NFA::positiveClosure(){
     State* start = nfaStack.top().top();
     nfaStack.top().pop();
 
-    State* initial = new State(); // New initial state
-    State* final = new State(); // New final state
+    auto* initial = new State(); // New initial state
+    auto* final = new State(); // New final state
     addEpsilonTransition(initial, start);
     addEpsilonTransition(end, final);
     addEpsilonTransition(end, start);
@@ -111,7 +113,7 @@ std::pair<State*, State*> NFA::convertToNfa(std::string regex, std::string token
         if(symbol == ' '){
             continue;
         }else if (symbol == '|') {
-            disjunctionStack.top().push(std::string("|"));
+            disjunctionStack.top().emplace("|");
         } else if (symbol == '(') {
             std::stack<State*> bracketsNfaStack;
             nfaStack.push(bracketsNfaStack);
@@ -143,8 +145,8 @@ std::pair<State*, State*> NFA::convertToNfa(std::string regex, std::string token
                 i++;
             }
 
-            State* start = new State();
-            State* end = new State();
+            auto* start = new State();
+            auto* end = new State();
             addSymbolTransition(start, symbol, end);
             nfaStack.top().push(start);
             nfaStack.top().push(end);
@@ -154,7 +156,7 @@ std::pair<State*, State*> NFA::convertToNfa(std::string regex, std::string token
 
     State* nfaEnd = nfaStack.top().top();
     nfaEnd->isFinal = true;
-    nfaEnd->tokenName = tokenName;
+    nfaEnd->tokenName = std::move(tokenName);
     nfaEnd->priority = priority;
     nfaStack.top().pop();
     State* nfaStart = nfaStack.top().top();

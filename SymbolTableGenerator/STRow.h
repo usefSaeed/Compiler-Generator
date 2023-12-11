@@ -17,9 +17,9 @@ public:
     STRow(std::string token,std::string tokenType);
     friend std::ostream& operator<<(std::ostream& os, const STRow& strow);
 
-    const std::string &getToken() const;
+    [[nodiscard]] const std::string &getToken() const;
 
-    const std::string &getTokenType() const;
+    [[nodiscard]] const std::string &getTokenType() const;
 };
 
 #endif //COMPILER_STROW_H

@@ -6,10 +6,8 @@
 #define COMPILER_NFA_H
 
 
-#include "../RulesParser/RegularExpression.h"
 #include "State.h"
 #include <stack>
-#include "../Util/Util.h"
 
 class NFA {
     private:

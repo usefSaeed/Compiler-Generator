@@ -19,8 +19,8 @@ class Transition {
     public:
         Transition(char input, State* nextState);
 
-        char getInput() const;
-        State* getNextState() const;
+        [[nodiscard]] char getInput() const;
+        [[nodiscard]] State* getNextState() const;
 
 
 };

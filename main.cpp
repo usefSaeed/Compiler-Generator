@@ -1,10 +1,10 @@
 #include <iostream>
 #include <unordered_map>
+#include <filesystem>
 #include "RulesParser/RulesConverter.h"
 #include "NFAConverter/NFACombiner.h"
 #include "DFAConverter/DFA.h"
 #include "SymbolTableGenerator/STGenerator.h"
-#include <filesystem>
 
 
 int main(int argc, char *argv[]) {

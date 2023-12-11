@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include "gtest/gtest.h"
 #include "../NFAConverter/NFA.h"
+#include "../RulesParser/RegularDefinition.h"
 
 TEST(IntegrationTest, FromParsingRegExpToNFA){
     RegularDefinition regularDefinition("test", "dig | let|bet");

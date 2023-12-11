@@ -4,9 +4,10 @@
 
 #include <unordered_map>
 #include "NFACombiner.h"
+#include "NFA.h"
 
 NFACombiner::NFACombiner(std::vector<RegularExpression>& regExps) {
-    State* initial = new State();
+    auto* initial = new State();
     for (const RegularExpression& regExp: regExps){
         NFA nfa = NFA();
         std::pair<State*, State*> localNfa = nfa.convertToNfa(regExp.getRegex(), regExp.getName(), regExp.getPriority());

@@ -24,11 +24,11 @@ public:
              std::vector<LATrace> trace);
     friend std::ostream& operator<<(std::ostream& os, const LAOutput& lao);
 
-    const std::vector<STRow> &getSymbolTable() const;
+    [[nodiscard]] const std::vector<STRow> &getSymbolTable() const;
 
-    const std::vector<SyntaxError> &getErrors() const;
+    [[nodiscard]] const std::vector<SyntaxError> &getErrors() const;
 
-    const std::vector<LATrace> &getTrace() const;
+    [[nodiscard]] const std::vector<LATrace> &getTrace() const;
 
 };
 

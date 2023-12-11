@@ -1,8 +1,11 @@
 //
 // Created by Meniem on 29-Nov-23.
 //
-
+#include <fstream>
+#include <iostream>
+#include <algorithm>
 #include "RulesConverter.h"
+#include "../Util/Util.h"
 
 int RulesConverter::linesCounter;
 
