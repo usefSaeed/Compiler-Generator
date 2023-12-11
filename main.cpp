@@ -4,6 +4,8 @@
 #include "NFAConverter/NFACombiner.h"
 #include "DFAConverter/DFA.h"
 #include "SymbolTableGenerator/STGenerator.h"
+#include <filesystem>
+
 
 int main(int argc, char *argv[]) {
 
@@ -76,13 +78,33 @@ int main(int argc, char *argv[]) {
 //    std::cout << "num of minimized DFA states: " << minimizedStates << '\n';
 
     STGenerator stg(dfa);
-    while (true){
-        std::cout << "Enter the file path: ";
-        std::string scriptFilePath;
-        std::getline(std::cin, scriptFilePath);
-        if (scriptFilePath=="$")
-            break;
-        stg.execute(scriptFilePath);
+    std::cout << "Run all files in dir --> a\nRun specific file --> s\n> ";
+    std::string input;
+    std::getline(std::cin, input);
+    std::string dirPath;
+    if (input == "a") {
+        std::cout << "Enter the directory path: ";
+        std::getline(std::cin, dirPath);
+        for (const auto &entry: std::filesystem::directory_iterator(dirPath)) {
+            if (entry.is_regular_file()) {
+                std::string scriptFilePath = entry.path().string();
+                std::cout << "Running: " << scriptFilePath << std::endl;
+                stg.execute(scriptFilePath);
+                std::cout << "\n#############W####" << std::endl;
+            }
+        }
+    } else if (input == "s") {
+        while (true) {
+            std::cout << "Enter the file path: ";
+            std::string scriptFilePath;
+            std::getline(std::cin, scriptFilePath);
+            if (scriptFilePath == "$")
+                break;
+            stg.execute(scriptFilePath);
+            std::cout << "\n#############W####" << std::endl;
+        }
+    }else{
+        std::cout << "Invalid input. Program Terminated." << std::endl;
     }
     return 0;
 }
