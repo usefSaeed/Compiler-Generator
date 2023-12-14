@@ -1,0 +1,26 @@
+
+name: GTest CI
+
+on: [push, pull_request]
+
+env:
+  TESTS_DIR: Google_tests
+  TESTS_EXEC: Google_Tests_run
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: CMake Generate
+      run: cmake -B ${{github.workspace}}/build -S .
+
+    - name: CMake Build
+      run: cmake --build ${{github.workspace}}/build
+
+    - name: Run tests
+      working-directory: ${{github.workspace}}/build/${{env.TESTS_DIR}}
+      run: ./${{env.TESTS_EXEC}}
+
