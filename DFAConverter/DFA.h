@@ -22,8 +22,7 @@ private:
     std::unordered_set<char> alphabet;
     State* startState{};
     State* convertToDFA(State* nfaStartState, const std::unordered_set<char>& alphabet);
-    State* minimize(const std::unordered_set<State*> &finalStates,
-                    const std::unordered_set<State*> &nonFinalStates,
+    State* minimize(std::vector<std::unordered_set<State*>> groups,
                     const std::unordered_set<char> &alphabet);
 public:
     TransitionTable transitionTable;
