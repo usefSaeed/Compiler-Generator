@@ -152,7 +152,7 @@ TEST(MinimizeDFA, MTestCase1) {
 }
 
 TEST(MinimizeDFA, MTestCase2) {
-    State* q1 = new State("Start and final");
+    State* q1 = new State("Final");
     State* q2 = new State();
     State* q3 = new State();
     State* q4 = new State();
@@ -201,8 +201,8 @@ TEST(MinimizeDFA, MTestCase3) {
     State* q0 = new State();
     State* q1 = new State();
     State* q2 = new State();
-    State* q3 = new State("final 3");
-    State* q4 = new State("final 4");
+    State* q3 = new State("final");
+    State* q4 = new State("final");
 
     q0->addTransition(Transition('0', q1));
     q0->addTransition(Transition('1', q2));
