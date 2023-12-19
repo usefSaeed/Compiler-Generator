@@ -24,7 +24,14 @@ State* DFA::minimize() {
         else
             nonFinalStates.insert(state);
     }
-    this->startState = minimize(finalStates, nonFinalStates, alphabet);
+    
+    std::vector<std::unordered_set<State*>> groups;
+    groups.push_back(nonFinalStates);
+    
+    auto finalStatesGroups = groupByTokenName(finalStates);
+    groups.insert(groups.end(), finalStatesGroups.begin(), finalStatesGroups.end());
+    
+    this->startState = minimize(groups);
     this->transitionTable = createTransitionTable(allStates(this->startState));
     return this->startState;
 }
@@ -134,19 +141,14 @@ std::unordered_set<State*> move(const std::unordered_set<State*>& states, char s
     return nextStates;
 }
 
-State* DFA::minimize(const std::unordered_set<State*> &finalStates,
-                     const std::unordered_set<State*> &nonFinalStates,
-                     const std::unordered_set<char> &alphabet) {
-
-    std::vector<std::unordered_set<State*>> groups;
-    groups.push_back(finalStates);
-    groups.push_back(nonFinalStates);
-
+State* DFA::minimize(std::vector<std::unordered_set<State*>> groups) {
     std::unordered_map<State*, int> stateGroup;
-    for (auto &state: finalStates)
-        stateGroup[state] = 0;
-    for (auto &state: nonFinalStates)
-        stateGroup[state] = 1;
+    for (int i=0; i < groups.size(); i++) {
+        const auto& group = groups[i];
+        for (auto &state: group) {
+            stateGroup[state] = i;
+        }
+    }
 
     bool changed = true;
     while (changed) {
@@ -269,4 +271,16 @@ TransitionTable createTransitionTable(const std::vector<State*> &states) {
         }
     }
     return transitionTable;
+}
+
+std::vector<std::unordered_set<State*>> groupByTokenName(std::unordered_set<State*> finalStates) {
+    std::unordered_map<std::string,std::unordered_set<State*>> tokenGroup;
+    for (auto& state: finalStates) 
+        tokenGroup[state->tokenName].insert(state);
+    
+    std::vector<std::unordered_set<State*>> groups;
+    for (auto& tokenGroupPair: tokenGroup) 
+        groups.push_back(tokenGroupPair.second);
+        
+    return groups;
 }
