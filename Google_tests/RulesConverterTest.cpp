@@ -3,7 +3,7 @@
 //
 
 #include "gtest/gtest.h"
-#include "../RulesParser/RulesConverter.h"
+#include "../LexicalPhase/RulesParser/RulesConverter.h"
 
 TEST(CheckType, RecognizesKeyWords){
     std::string str = "{boolean int float}";

@@ -3,8 +3,8 @@
 //
 
 #include "gtest/gtest.h"
-#include "../RulesParser/RegularDefinition.h"
-#include "../RulesParser/RegularExpression.h"
+#include "../LexicalPhase/RulesParser/RegularDefinition.h"
+#include "../LexicalPhase/RulesParser/RegularExpression.h"
 
 TEST(StandardizeRegex, ParenthesizesClosures){
     RegularDefinition regularDefinition("test", "dig+ ray*say+(bay+nay*)");

@@ -10,12 +10,11 @@ target_link_libraries(Compiler RulesParser_lib)
 target_link_libraries(Compiler NFAConverter_lib)
 target_link_libraries(Compiler DFAConverter_lib)
 target_link_libraries(Compiler SymbolTableGenerator_lib)
+target_link_libraries(Compiler GrammarParser_lib)
 
 
 add_subdirectory(Util)
-add_subdirectory(RulesParser)
+add_subdirectory(LexicalPhase)
+add_subdirectory(SyntaxPhase)
 add_subdirectory(Google_tests)
-add_subdirectory(NFAConverter)
-add_subdirectory(DFAConverter)
-add_subdirectory(SymbolTableGenerator)
 

@@ -5,7 +5,7 @@
 #include <iostream>
 #include <algorithm>
 #include "RulesConverter.h"
-#include "../Util/Util.h"
+#include "../../Util/Util.h"
 
 int RulesConverter::linesCounter;
 
