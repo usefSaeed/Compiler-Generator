@@ -3,7 +3,7 @@
 //
 
 #include "gtest/gtest.h"
-#include "../SymbolTableGenerator//STGenerator.h"
+#include "../LexicalPhase/SymbolTableGenerator//STGenerator.h"
 #include <string>
 
 

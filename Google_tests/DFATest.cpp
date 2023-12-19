@@ -3,7 +3,7 @@
 //
 
 #include "gtest/gtest.h"
-#include "../DFAConverter/DFA.h"
+#include "../LexicalPhase/DFAConverter//DFA.h"
 
 TEST(NFAToDFAConversion, TestCase1) {
     State* q0 = new State("N1");

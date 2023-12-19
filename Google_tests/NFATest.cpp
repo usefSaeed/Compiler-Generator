@@ -3,7 +3,7 @@
 //
 #include <unordered_map>
 #include "gtest/gtest.h"
-#include "../NFAConverter/NFA.h"
+#include "../LexicalPhase/NFAConverter/NFA.h"
 
 TEST(RegexToNfaConversion, SimpleConcatenation){
     NFA nfa = NFA();

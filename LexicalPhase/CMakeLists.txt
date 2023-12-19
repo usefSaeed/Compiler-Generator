@@ -1,0 +1,6 @@
+project(LexicalPhase)
+
+add_subdirectory(NFAConverter)
+add_subdirectory(DFAConverter)
+add_subdirectory(SymbolTableGenerator)
+add_subdirectory(RulesParser)

@@ -4,7 +4,7 @@
 
 #include <algorithm>
 #include "RegularDefinition.h"
-#include "../Util/Util.h"
+#include "../../Util/Util.h"
 
 
 RegularDefinition::RegularDefinition() = default;

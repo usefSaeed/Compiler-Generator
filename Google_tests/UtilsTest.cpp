@@ -65,12 +65,32 @@ TEST(SplitWithStringDelimiter, HandlesStringWithoutDelimiter){
     ASSERT_EQ(words,result);
 }
 
+TEST(SplitWithStringDelimiter, HandlesStringWithOneSideOnly){
+    std::string str = "RAY=>";
+
+    std::vector<std::string> words = splitWithStringDelimiter(str, "=>");
+
+    std::vector<std::string> result = {"RAY", ""};
+
+    ASSERT_EQ(words,result);
+}
+
 TEST(trimBlanksFromEnds, WorksAsExpected){
-    std::string str = " \t  wow this really works    \n";
+    std::string str = " \t  wow this really works    \n\n";
 
     trimBlanksFromEnds(str);
 
     std::string result = "wow this really works";
+
+    ASSERT_EQ(str, result);
+}
+
+TEST(trimBlanksFromEnds, HandlesBlanksOnly){
+    std::string str = " \t  \t \n    \n\n";
+
+    trimBlanksFromEnds(str);
+
+    std::string result = "";
 
     ASSERT_EQ(str, result);
 }
