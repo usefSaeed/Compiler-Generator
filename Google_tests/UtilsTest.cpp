@@ -75,7 +75,7 @@ TEST(SplitWithStringDelimiter, HandlesStringWithOneSideOnly){
     ASSERT_EQ(words,result);
 }
 
-TEST(trimBlanksFromEnds, WorksAsExpected){
+TEST(TrimBlanksFromEnds, WorksAsExpected){
     std::string str = " \t  wow this really works    \n\n";
 
     trimBlanksFromEnds(str);
@@ -85,7 +85,7 @@ TEST(trimBlanksFromEnds, WorksAsExpected){
     ASSERT_EQ(str, result);
 }
 
-TEST(trimBlanksFromEnds, HandlesBlanksOnly){
+TEST(TrimBlanksFromEnds, HandlesBlanksOnly){
     std::string str = " \t  \t \n    \n\n";
 
     trimBlanksFromEnds(str);
@@ -95,7 +95,7 @@ TEST(trimBlanksFromEnds, HandlesBlanksOnly){
     ASSERT_EQ(str, result);
 }
 
-TEST(removeConsecutiveSpaces, WorksAsExpected){
+TEST(RemoveConsecutiveSpaces, WorksAsExpected){
     std::string str = "wow    so    many   consecutive         spaces";
 
     removeConsecutiveSpaces(str);
@@ -105,7 +105,7 @@ TEST(removeConsecutiveSpaces, WorksAsExpected){
     ASSERT_EQ(str, result);
 }
 
-TEST(removeSpaces, WorksAsExpected){
+TEST(RemoveSpaces, WorksAsExpected){
     std::string str = "Spaces should be removed   ";
 
     removeSpaces(str);
@@ -115,7 +115,7 @@ TEST(removeSpaces, WorksAsExpected){
     ASSERT_EQ(str, result);
 }
 
-TEST(removeSpaces, HandlesEmptyString){
+TEST(RemoveSpaces, HandlesEmptyString){
     std::string str;
 
     removeSpaces(str);
@@ -125,7 +125,7 @@ TEST(removeSpaces, HandlesEmptyString){
     ASSERT_EQ(str, result);
 }
 
-TEST(removeFirstAndLastChars, WorksAsExpected){
+TEST(RemoveFirstAndLastChars, WorksAsExpected){
     std::string str = "[woaah woaah]";
 
     removeFirstAndLastChars(str);
@@ -135,7 +135,7 @@ TEST(removeFirstAndLastChars, WorksAsExpected){
     ASSERT_EQ(str, result);
 }
 
-TEST(removeFirstAndLastChars, HandlesEmptyString){
+TEST(RemoveFirstAndLastChars, HandlesEmptyString){
     std::string str;
 
     removeFirstAndLastChars(str);
@@ -145,7 +145,7 @@ TEST(removeFirstAndLastChars, HandlesEmptyString){
     ASSERT_EQ(str, result);
 }
 
-TEST(joinStrings, WorksAsExpected){
+TEST(JoinStrings, WorksAsExpected){
     std::vector<std::string> words = {"if", "else", "while"};
 
     std::string str = joinStrings(words, '|');
@@ -155,7 +155,7 @@ TEST(joinStrings, WorksAsExpected){
     ASSERT_EQ(str, result);
 }
 
-TEST(joinStrings, HandlesEmptyVector){
+TEST(JoinStrings, HandlesEmptyVector){
     std::vector<std::string> words = {};
 
     std::string str = joinStrings(words, '|');
@@ -165,7 +165,7 @@ TEST(joinStrings, HandlesEmptyVector){
     ASSERT_EQ(str, result);
 }
 
-TEST(joinStrings, HandlesOneString){
+TEST(JoinStrings, HandlesOneString){
     std::vector<std::string> words = {"if"};
 
     std::string str = joinStrings(words, '|');
@@ -175,7 +175,7 @@ TEST(joinStrings, HandlesOneString){
     ASSERT_EQ(str, result);
 }
 
-TEST(splitIntoTwo, WorksAsExpected){
+TEST(SplitIntoTwo, WorksAsExpected){
     std::string str = "digit=0-9";
 
     std::pair<std::string, std::string> words = splitIntoTwo(str, '=');
@@ -185,7 +185,7 @@ TEST(splitIntoTwo, WorksAsExpected){
     ASSERT_EQ(words, result);
 }
 
-TEST(splitIntoTwo, HandlesDoubleDelimiter){
+TEST(SplitIntoTwo, HandlesDoubleDelimiter){
     std::string str = "digit=0-9\\=35";
 
     std::pair<std::string, std::string> words = splitIntoTwo(str, '=');
@@ -195,7 +195,7 @@ TEST(splitIntoTwo, HandlesDoubleDelimiter){
     ASSERT_EQ(words, result);
 }
 
-TEST(splitIntoTwo, HandlesNoDelimiter){
+TEST(SplitIntoTwo, HandlesNoDelimiter){
     std::string str = "digit0-9";
 
     std::pair<std::string, std::string> words = splitIntoTwo(str, '=');
@@ -205,7 +205,7 @@ TEST(splitIntoTwo, HandlesNoDelimiter){
     ASSERT_EQ(words, result);
 }
 
-TEST(splitIntoTwo, HandlesEmptyString){
+TEST(SplitIntoTwo, HandlesEmptyString){
     std::string str;
 
     std::pair<std::string, std::string> words = splitIntoTwo(str, '=');
@@ -213,4 +213,14 @@ TEST(splitIntoTwo, HandlesEmptyString){
     std::pair<std::string, std::string> result = std::make_pair("", "");
 
     ASSERT_EQ(words, result);
+}
+
+TEST(ReplaceAll, WorksAsExpected){
+    std::string str = "'id' | 'num' | \\| EXPR \\|";
+
+    replaceAll(str, "\\|", "\\$");
+
+    std::string result = "'id' | 'num' | \\$ EXPR \\$";
+
+    ASSERT_EQ(str, result);
 }
