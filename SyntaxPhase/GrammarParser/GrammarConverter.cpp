@@ -5,6 +5,7 @@
 #include "GrammarConverter.h"
 #include <iostream>
 #include <fstream>
+#include <map>
 #include "../../Util/Util.h"
 
 int GrammarConverter::definitionCounter;
@@ -22,7 +23,7 @@ int GrammarConverter::parseFile(const std::string& filePath) {
 
     std::string nonTerminalDefinition;
     while(getline(file, nonTerminalDefinition, '#')) {
-
+        trimBlanksFromEnds(nonTerminalDefinition);
         if (nonTerminalDefinition.empty())
             continue;  // Ignores empty Lines
         definitionCounter++;
@@ -42,7 +43,7 @@ int GrammarConverter::parseFile(const std::string& filePath) {
     }
 
     while(getline(file, nonTerminalDefinition, '#')) {
-
+        trimBlanksFromEnds(nonTerminalDefinition);
         if (nonTerminalDefinition.empty())
             continue;  // Ignores empty Lines
         definitionCounter++;
@@ -186,6 +187,88 @@ int GrammarConverter::parseProductions(const std::string& nonTerminalName, std::
     // Create our new Non-Terminal and place it in our Non-Terminals Vector.
     nonTerminals.emplace_back(nonTerminalName, result);
     return 0;
+}
+
+bool GrammarConverter::leftFactor() {
+    bool appliedLeftFactoring = false; // Flag to check if their is a left factoring to eliminate in our grammar or not.
+    std::vector<NonTerminal> temporaryNonTerminals;
+    int originalNonTerminalIndex = 0;
+    temporaryNonTerminals.push_back(nonTerminals[0]);
+    for (int i = 0; i < temporaryNonTerminals.size(); i++){
+        auto productions = temporaryNonTerminals[i].getProductions();
+        std::map<std::string, std::vector<int>> factoringMap; // create a factoring map where each beginning symbol of the productions gets an entry with the places it occurred as values.
+        // Loop over all productions and get the starting symbol of each production and check if it was repeated.
+        for (int index = 0; index < productions.size(); index++){
+            // If it's the first time we encounter this symbol then add it to the factoring map with just one index
+            if (!factoringMap.contains(productions[index][0])){
+                std::vector<int> factorIndices = {index};
+                factoringMap.insert({productions[index][0], factorIndices});
+            }
+            // If it was found in the factoring map then add the other index where it was found, and now we know left factoring is present in our grammar.
+            else {
+                auto it = factoringMap.find(productions[index][0]);
+                (it->second).push_back(index);
+                appliedLeftFactoring = true;
+            }
+        }
+
+        bool nonTerminalsFactored = false; // flag to check if we factor this Non-Terminal
+        int factorCounter = 1; // number to distinguish names of factored expressions
+        std::vector<std::vector<std::string>> factoredProductions;
+        std::vector<std::vector<std::string>> editedFactoredProductions;
+        std::string  newNonTerminalName;
+        // Loop over the factoringMap to check the ones who are repeated.
+        for(auto factor : factoringMap){
+            // If 2 productions have a common starting symbol (factor).
+            if (factor.second.size() > 1){
+                nonTerminalsFactored = true;
+                // Edit the current production : A  -> aA`
+                newNonTerminalName = temporaryNonTerminals[i].getName()+ std::to_string(factorCounter);
+                editedFactoredProductions.push_back(std::vector<std::string>{factor.first, newNonTerminalName});
+                // Loop over all the indices where the factor was common to create the new Non-Terminal.
+                for (int j : factor.second){
+                    std::vector<std::string> temporaryProduction;
+                    // Loop over each symbol after the first symbol and add it to our temporary production.
+                    for (int k = 1; k < productions[j].size(); k++){
+                        temporaryProduction.push_back(productions[j][k]);
+                    }
+                    // Handle cases where factor has nothing after it, we add an epsilon in the new Non-Terminal.
+                    if (temporaryProduction.empty())
+                        temporaryProduction.emplace_back("\\L");
+
+                    factoredProductions.push_back(temporaryProduction);
+                }
+                // Add the new NonTerminal to the productions.
+                auto newNonTerminal = NonTerminal(newNonTerminalName, factoredProductions);
+                temporaryNonTerminals.push_back(newNonTerminal);
+                nonTerminalNames.insert(newNonTerminalName);
+                factoredProductions.clear();
+
+                factorCounter++;
+            }
+            // If no two productions have the same factor just add the same original productions.
+            else{
+                std::vector<std::string> temporaryProduction;
+                int originalIndex = factor.second[0];
+                for (const auto& element : productions[originalIndex])
+                    temporaryProduction.push_back(element);
+                editedFactoredProductions.push_back(temporaryProduction);
+            }
+        }
+        // If the Non-Terminal was factored then we edit the original production the new one.
+        if (nonTerminalsFactored)
+            temporaryNonTerminals[i].setProductions(editedFactoredProductions);
+
+        // Check if it was not factored and we have not processed each element in our original Non-Terminal Vector and add a new one to our temporary vector.
+        if (!nonTerminalsFactored && originalNonTerminalIndex < nonTerminals.size() - 1){
+            originalNonTerminalIndex++;
+            temporaryNonTerminals.push_back(nonTerminals[originalNonTerminalIndex]);
+        }
+    }
+
+    nonTerminals = temporaryNonTerminals;
+
+    return appliedLeftFactoring;
 }
 
 

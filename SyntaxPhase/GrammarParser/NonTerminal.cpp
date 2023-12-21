@@ -32,4 +32,8 @@ std::string NonTerminal::toString() const {
     return result;
 }
 
+void NonTerminal::setProductions(const std::vector<std::vector<std::string>> &productionsVector) {
+    NonTerminal::productions = productionsVector;
+}
+
 

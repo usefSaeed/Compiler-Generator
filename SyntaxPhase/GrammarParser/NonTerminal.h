@@ -18,7 +18,7 @@ class NonTerminal {
         [[nodiscard]] const std::string &getName() const;
         [[nodiscard]] const std::vector<std::vector<std::string>> &getProductions() const;
 
-
+    void setProductions(const std::vector<std::vector<std::string>> &productionsVector);
 };
 
 

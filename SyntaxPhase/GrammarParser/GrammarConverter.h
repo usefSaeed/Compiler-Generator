@@ -25,6 +25,7 @@ class GrammarConverter {
         [[nodiscard]] int validateGrammar(const std::string& definition);
         [[nodiscard]] int findTerminals(std::string& productions);
         [[nodiscard]] int parseProductions(const std::string& nonTerminalName, std::string& productions);
+        [[nodiscard]] bool leftFactor();
 };
 
 

@@ -90,7 +90,7 @@ TEST(FindTerminals, HandlesNonClosedQuotes){
 
 }
 
-TEST(parseProductions, HandlesEscapedConjunction){
+TEST(ParseProductions, HandlesEscapedConjunction){
     std::string productions = "'id' | 'num' | '(' '\\|' 'float' ')'";
     GrammarConverter grammarConverter = GrammarConverter();
 
@@ -107,7 +107,7 @@ TEST(parseProductions, HandlesEscapedConjunction){
 
 }
 
-TEST(parseProductions, HandlesEpsilon){
+TEST(ParseProductions, HandlesEpsilon){
     std::string productions = "'id' | \\L";
     GrammarConverter grammarConverter = GrammarConverter();
 
@@ -124,7 +124,7 @@ TEST(parseProductions, HandlesEpsilon){
 
 }
 
-TEST(parseProductions, HandlesUsingNonTerminalWithoutDeclaration){
+TEST(ParseProductions, HandlesUsingNonTerminalWithoutDeclaration){
     std::string productions = "STATEMENT_LIST";
     GrammarConverter grammarConverter = GrammarConverter();
 
@@ -136,24 +136,89 @@ TEST(parseProductions, HandlesUsingNonTerminalWithoutDeclaration){
 
 }
 
-TEST(parseProductions, WorksAsExpected){
+TEST(ParseProductions, WorksAsExpected){
     std::string productions = "DECLARATION 'int'\n"
                               "| IF\n"
                               "| WHILE\n";
     GrammarConverter grammarConverter = GrammarConverter();
-    grammarConverter.validateGrammar("DECLARATION ::= 'declaration'");
-    grammarConverter.validateGrammar("IF ::= 'if'");
-    grammarConverter.validateGrammar("WHILE ::= 'while'");
+    int status = grammarConverter.validateGrammar("DECLARATION ::= 'declaration'");
+    int status1 = grammarConverter.validateGrammar("IF ::= 'if'");
+    int status2 = grammarConverter.validateGrammar("WHILE ::= 'while'");
 
-    int status = grammarConverter.findTerminals(productions);
-    int status2 = grammarConverter.parseProductions("STATEMENT", productions);
+    int status3 = grammarConverter.findTerminals(productions);
+    int status4 = grammarConverter.parseProductions("STATEMENT", productions);
 
     std::vector<std::vector<std::string>> result = {{"DECLARATION", "int"}, {"IF"}, {"WHILE"}};
 
     ASSERT_EQ(status,0);
+    ASSERT_EQ(status1,0);
     ASSERT_EQ(status2,0);
-
+    ASSERT_EQ(status3,0);
+    ASSERT_EQ(status4,0);
     ASSERT_EQ(grammarConverter.getNonTerminals()[0].getProductions(), result);
+}
+
+TEST(LeftFactor, DetectsNoLeftFactoring){
+    std::string productions = "'id' | 'float' | 'boolean'";
+    GrammarConverter grammarConverter = GrammarConverter();
+
+    int status = grammarConverter.findTerminals(productions);
+    int status2 = grammarConverter.parseProductions("TYPES", productions);
+    bool leftFactor = grammarConverter.leftFactor();
+
+    std::vector<std::vector<std::string>> result = {{"id"}, {"\\L"}};
+
+    ASSERT_EQ(status,0);
+    ASSERT_EQ(status2,0);
+    ASSERT_FALSE(leftFactor);
+
+}
+
+TEST(LeftFactor, WorksAsExpected){
+    std::string productions = "'a' 'd' | 'a' | 'a' 'b' | 'a' 'b' 'c' | 'b'";
+    GrammarConverter grammarConverter = GrammarConverter();
+
+    int status = grammarConverter.findTerminals(productions);
+    int status2 = grammarConverter.parseProductions("A", productions);
+    bool leftFactor = grammarConverter.leftFactor();
+
+    std::vector<std::vector<std::string>> res0 = {{"a", "A1"}, {"b"}};
+    std::vector<std::vector<std::string>> res1 = {{"\\L"}, {"b", "A11"}, {"d"}};
+    std::vector<std::vector<std::string>> res2 = {{"\\L"}, {"c"}};
+
+    ASSERT_EQ(status,0);
+    ASSERT_EQ(status2,0);
+    ASSERT_TRUE(leftFactor);
+    ASSERT_EQ(grammarConverter.getNonTerminals().size(), 3);
+    ASSERT_EQ(grammarConverter.getNonTerminals()[0].getProductions(), res0);
+    ASSERT_EQ(grammarConverter.getNonTerminals()[1].getProductions(), res1);
+    ASSERT_EQ(grammarConverter.getNonTerminals()[2].getProductions(), res2);
+
+}
+
+TEST(LeftFactor, WorksAsExpected2){
+    std::string productions = "'a' 'b' B | 'a' B | 'c' 'd' 'g' | 'c' 'd' 'e' B | 'c' 'd' 'f' B ";
+    GrammarConverter grammarConverter = GrammarConverter();
+    int status = grammarConverter.validateGrammar("B ::= 'irrelevant'");
+
+    int status1 = grammarConverter.findTerminals(productions);
+    int status2 = grammarConverter.parseProductions("A", productions);
+    bool leftFactor = grammarConverter.leftFactor();
+
+    std::vector<std::vector<std::string>> A = {{"a", "A1"}, {"c", "A2"}};
+    std::vector<std::vector<std::string>> A1 = {{"b", "B"}, {"B"}};
+    std::vector<std::vector<std::string>> A2 = {{"d", "A21"}};
+    std::vector<std::vector<std::string>> A21 = {{"g"}, {"e", "B"}, {"f", "B"}};
+
+    ASSERT_EQ(status,0);
+    ASSERT_EQ(status1,0);
+    ASSERT_EQ(status2,0);
+    ASSERT_TRUE(leftFactor);
+    ASSERT_EQ(grammarConverter.getNonTerminals().size(), 4);
+    ASSERT_EQ(grammarConverter.getNonTerminals()[0].getProductions(), A);
+    ASSERT_EQ(grammarConverter.getNonTerminals()[1].getProductions(), A1);
+    ASSERT_EQ(grammarConverter.getNonTerminals()[2].getProductions(), A2);
+    ASSERT_EQ(grammarConverter.getNonTerminals()[3].getProductions(), A21);
 
 }
 

@@ -20,6 +20,11 @@ int main(int argc, char *argv[]) {
     if (statusCode == -1)
         return -1;
 
+    bool leftFactored = grammarConverter.leftFactor();
+    if (leftFactored){
+        std::cerr<< "Grammar was not left factored but left factoring was eliminated successfully." << "\n";
+    }
+
     for (const NonTerminal& nonTerminal : grammarConverter.getNonTerminals()) {
         std::cout << nonTerminal.toString() << "\n";
     }
