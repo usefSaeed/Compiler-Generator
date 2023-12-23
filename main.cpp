@@ -25,6 +25,11 @@ int main(int argc, char *argv[]) {
         std::cerr<< "Grammar was not left factored but left factoring was eliminated successfully." << "\n";
     }
 
+    bool leftRecursion = grammarConverter.eliminateLeftRecursion();
+    if (leftRecursion){
+        std::cerr<< "Grammar had left recursion but was eliminated successfully." << "\n";
+    }
+
     for (const NonTerminal& nonTerminal : grammarConverter.getNonTerminals()) {
         std::cout << nonTerminal.toString() << "\n";
     }

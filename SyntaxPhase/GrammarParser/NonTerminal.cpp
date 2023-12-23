@@ -5,15 +5,15 @@
 #include "NonTerminal.h"
 #include <utility>
 
-NonTerminal::NonTerminal(std::string name, const std::vector<std::vector<std::string>> &productions) : name(std::move(
-        name)), productions(productions) {}
+NonTerminal::NonTerminal(std::string name, productionsVector productions) : name(std::move(
+        name)), productions(std::move(productions)) {}
 
 const std::string &NonTerminal::getName() const {
     return name;
 }
 
 
-const std::vector<std::vector<std::string>> &NonTerminal::getProductions() const {
+const productionsVector &NonTerminal::getProductions() const {
     return productions;
 }
 
@@ -32,7 +32,7 @@ std::string NonTerminal::toString() const {
     return result;
 }
 
-void NonTerminal::setProductions(const std::vector<std::vector<std::string>> &productionsVector) {
+void NonTerminal::setProductions(const productionsVector &productionsVector) {
     NonTerminal::productions = productionsVector;
 }
 

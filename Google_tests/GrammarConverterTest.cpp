@@ -166,12 +166,13 @@ TEST(LeftFactor, DetectsNoLeftFactoring){
     int status2 = grammarConverter.parseProductions("TYPES", productions);
     bool leftFactor = grammarConverter.leftFactor();
 
-    std::vector<std::vector<std::string>> result = {{"id"}, {"\\L"}};
+    std::vector<std::vector<std::string>> result = {{"id"}, {"float"}, {"boolean"}};
 
     ASSERT_EQ(status,0);
     ASSERT_EQ(status2,0);
     ASSERT_FALSE(leftFactor);
-
+    ASSERT_EQ(grammarConverter.getNonTerminals().size(), 1);
+    ASSERT_EQ(grammarConverter.getNonTerminals()[0].getProductions(), result);
 }
 
 TEST(LeftFactor, WorksAsExpected){
@@ -221,5 +222,58 @@ TEST(LeftFactor, WorksAsExpected2){
     ASSERT_EQ(grammarConverter.getNonTerminals()[3].getProductions(), A21);
 
 }
+
+TEST(EliminateLeftRecursion, DetectsNoLeftRecursion){
+    std::string productions = "'id' | 'float' | BODY 'boolean'";
+    GrammarConverter grammarConverter = GrammarConverter();
+    int status = grammarConverter.validateGrammar("BODY ::= 'irrelevant'");
+
+    int status1 = grammarConverter.findTerminals(productions);
+    int status2 = grammarConverter.parseProductions("TYPES", productions);
+    bool leftRecursion = grammarConverter.eliminateLeftRecursion();
+
+    std::vector<std::vector<std::string>> result = {{"id"}, {"float"}, {"BODY", "boolean"}};
+
+    ASSERT_EQ(status,0);
+    ASSERT_EQ(status1,0);
+    ASSERT_EQ(status2,0);
+    ASSERT_FALSE(leftRecursion);
+    ASSERT_EQ(grammarConverter.getNonTerminals().size(), 1);
+    ASSERT_EQ(grammarConverter.getNonTerminals()[0].getProductions(), result);
+}
+
+TEST(EliminateLeftRecursion, WorksAsExpected){
+    std::string productions1 = "A 'a' | 'b'";
+    std::string productions2 = "A 'c' | S 'd' | 'e'";
+    GrammarConverter grammarConverter = GrammarConverter();
+    int status = grammarConverter.validateGrammar("S ::= 'irrelevant'");
+    int status1 = grammarConverter.validateGrammar("A ::= 'irrelevant'");
+
+    int status2 = grammarConverter.findTerminals(productions1);
+    int status3 = grammarConverter.parseProductions("S", productions1);
+    int status4 = grammarConverter.findTerminals(productions2);
+    int status5 = grammarConverter.parseProductions("A", productions2);
+
+    bool leftRecursion = grammarConverter.eliminateLeftRecursion();
+
+    std::vector<std::vector<std::string>> S = {{"A", "a"}, {"b"}};
+    std::vector<std::vector<std::string>> A = {{"b", "d", "A`"}, {"e", "A`"}};
+    std::vector<std::vector<std::string>> A1 = {{"c", "A`"}, {"a", "d", "A`"}, {"\\L"}};
+
+    ASSERT_EQ(status,0);
+    ASSERT_EQ(status1,0);
+    ASSERT_EQ(status2,0);
+    ASSERT_EQ(status3,0);
+    ASSERT_EQ(status4,0);
+    ASSERT_EQ(status5,0);
+    ASSERT_TRUE(leftRecursion);
+    ASSERT_EQ(grammarConverter.getNonTerminals().size(), 3);
+    ASSERT_EQ(grammarConverter.getNonTerminals()[0].getProductions(), S);
+    ASSERT_EQ(grammarConverter.getNonTerminals()[1].getProductions(), A);
+    ASSERT_EQ(grammarConverter.getNonTerminals()[2].getProductions(), A1);
+}
+
+
+
 
 

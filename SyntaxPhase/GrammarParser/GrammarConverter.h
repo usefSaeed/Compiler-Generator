@@ -15,6 +15,9 @@ class GrammarConverter {
     std::vector<NonTerminal> nonTerminals;
     std::unordered_set<std::string> nonTerminalNames;
     std::unordered_set<std::string> terminals;
+    [[nodiscard]] static bool hasImmediateLeftRecursion(const NonTerminal& nonTerminal);
+    [[nodiscard]] static NonTerminal substitute(const NonTerminal& currentNonTerminal, const NonTerminal& potentiallySubstitutedNonTerminal);
+    [[nodiscard]] static std::vector<NonTerminal> eliminateImmediateLeftRecursion(const NonTerminal& nonTerminal);
 
     public:
         GrammarConverter();
@@ -26,6 +29,7 @@ class GrammarConverter {
         [[nodiscard]] int findTerminals(std::string& productions);
         [[nodiscard]] int parseProductions(const std::string& nonTerminalName, std::string& productions);
         [[nodiscard]] bool leftFactor();
+        [[nodiscard]] bool eliminateLeftRecursion();
 };
 
 

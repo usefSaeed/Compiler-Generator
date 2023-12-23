@@ -137,7 +137,7 @@ int GrammarConverter::findTerminals(std::string& productions) {
                     std::cerr << "Definition Number: " << definitionCounter << " Quote is not closed." << "\n";
                     return -1;
                 }
-                // Skip the escape character so it can be put into the terminals set with it's appropriate name
+                // Skip the escape character, so it can be put into the terminals set with its appropriate name
                 if (productions[i] == '\\'){
                     i++;
                     continue;
@@ -157,8 +157,8 @@ int GrammarConverter::findTerminals(std::string& productions) {
 }
 
 int GrammarConverter::parseProductions(const std::string& nonTerminalName, std::string &productions) {
-    std::vector<std::vector<std::string>> result;
-    // Replace any escaped conjunction so we can split using conjunction without errors.
+    productionsVector result;
+    // Replace any escaped conjunction, so we can split using conjunction without errors.
     replaceAll(productions, "\\|", "\\$");
     std::vector<std::string> delimitedProductions = split(productions, '|');
     for (std::string& production : delimitedProductions){
@@ -190,7 +190,7 @@ int GrammarConverter::parseProductions(const std::string& nonTerminalName, std::
 }
 
 bool GrammarConverter::leftFactor() {
-    bool appliedLeftFactoring = false; // Flag to check if their is a left factoring to eliminate in our grammar or not.
+    bool appliedLeftFactoring = false; // Flag to check if there is a left factoring to eliminate in our grammar or not.
     std::vector<NonTerminal> temporaryNonTerminals;
     int originalNonTerminalIndex = 0;
     temporaryNonTerminals.push_back(nonTerminals[0]);
@@ -214,8 +214,8 @@ bool GrammarConverter::leftFactor() {
 
         bool nonTerminalsFactored = false; // flag to check if we factor this Non-Terminal
         int factorCounter = 1; // number to distinguish names of factored expressions
-        std::vector<std::vector<std::string>> factoredProductions;
-        std::vector<std::vector<std::string>> editedFactoredProductions;
+        productionsVector factoredProductions;
+        productionsVector editedFactoredProductions;
         std::string  newNonTerminalName;
         // Loop over the factoringMap to check the ones who are repeated.
         for(auto factor : factoringMap){
@@ -259,16 +259,116 @@ bool GrammarConverter::leftFactor() {
         if (nonTerminalsFactored)
             temporaryNonTerminals[i].setProductions(editedFactoredProductions);
 
-        // Check if it was not factored and we have not processed each element in our original Non-Terminal Vector and add a new one to our temporary vector.
+        // Check if it was not factored, and we have not processed each element in our original Non-Terminal Vector and add a new one to our temporary vector.
         if (!nonTerminalsFactored && originalNonTerminalIndex < nonTerminals.size() - 1){
             originalNonTerminalIndex++;
             temporaryNonTerminals.push_back(nonTerminals[originalNonTerminalIndex]);
         }
     }
-
+    // Update our Non-Terminals vector with the new one.
     nonTerminals = temporaryNonTerminals;
 
     return appliedLeftFactoring;
+}
+
+bool GrammarConverter::eliminateLeftRecursion() {
+    bool hasLeftRecursion = false;
+    std::vector<NonTerminal> newNonTerminals;
+    // loop over each Non-Terminal
+    for (int i = 0; i < nonTerminals.size(); i++){
+        // We need this because we will constantly edit its productions.
+        NonTerminal currentNonTerminal = nonTerminals[i];
+        // loop over all Non-Terminals above it.
+        for (int j = 0; j < i; j++)
+            // Recursively substitute each Non-Terminal combination (if it exists) with our current Non-Terminal.
+            currentNonTerminal = substitute(currentNonTerminal, nonTerminals[j]);
+        // If after substituting immediate left recursion is found.
+        if (hasImmediateLeftRecursion(currentNonTerminal)){
+            hasLeftRecursion = true;
+            std::vector<NonTerminal> modifiedNonTerminals = eliminateImmediateLeftRecursion(currentNonTerminal);
+            // Push the modified Non-Terminals to our new Non-Terminals vector.
+            for (const auto& nonTerminal : modifiedNonTerminals){
+                newNonTerminals.push_back(nonTerminal);
+                nonTerminalNames.insert(nonTerminal.getName());
+            }
+
+        }
+        // If no Immediate left recursion is found then just add the original Non-Terminal.
+        else {
+            newNonTerminals.push_back(nonTerminals[i]);
+        }
+
+    }
+    // Update our Non-Terminals vector with the new one.
+    nonTerminals = newNonTerminals;
+    return hasLeftRecursion;
+}
+
+bool GrammarConverter::hasImmediateLeftRecursion(const NonTerminal& nonTerminal) {
+    // loop over each production in the Non-Terminal
+    auto productions = nonTerminal.getProductions();
+    for (auto production : productions){
+        // Check if the first symbol of a production is the same name of the Non-Terminal
+        if (production[0] == nonTerminal.getName())
+            return true;
+    }
+    return false;
+}
+
+NonTerminal GrammarConverter::substitute(const NonTerminal& currentNonTerminal, const NonTerminal& potentiallySubstitutedNonTerminal) {
+    productionsVector result;
+    productionsVector currentProductions = currentNonTerminal.getProductions();
+    productionsVector potentiallySubstitutedProductions = potentiallySubstitutedNonTerminal.getProductions();
+
+    for (auto currentProduction : currentProductions){
+        // if current production's first symbol doesn't match our potential symbol then just do nothing (add the same production to the result vector)
+        if (currentProduction[0] != potentiallySubstitutedNonTerminal.getName())
+            result.push_back(currentProduction);
+        else {
+            // else if it matches then substitute for every production and push into the result vector.
+            for (const auto& potentiallySubstitutedProduction : potentiallySubstitutedProductions){
+                std::vector<std::string> tempProduction(potentiallySubstitutedProduction);
+                for (int i = 1; i < currentProduction.size(); i++)
+                    tempProduction.push_back(currentProduction[i]);
+
+                result.push_back(tempProduction);
+            }
+        }
+    }
+    NonTerminal newNonTerminal(currentNonTerminal.getName(), result);
+    return newNonTerminal;
+}
+
+std::vector<NonTerminal> GrammarConverter::eliminateImmediateLeftRecursion(const NonTerminal& nonTerminal) {
+    productionsVector alphas;
+    productionsVector betas;
+    productionsVector productions = nonTerminal.getProductions();
+    std::string modifiedName = nonTerminal.getName() + "`";
+    // loop over all productions to get each local alpha or beta
+    for (auto production : productions){
+        std::vector<std::string> localAlpha;
+        std::vector<std::string> localBeta;
+        // check if first symbol of production equals the Non-Terminal name.
+        if (production[0] == nonTerminal.getName()){
+            // If yes then it's alpha then we add all symbols after the first one then the modified name.
+            for (int i = 1; i < production.size(); i++)
+                localAlpha.push_back(production[i]);
+            localAlpha.push_back(modifiedName);
+            alphas.push_back(localAlpha);
+        }
+        else {
+            // If no then it's beta then we add all the symbols and after them the modified name.
+            for (const auto & symbol : production)
+                localBeta.push_back(symbol);
+            localBeta.push_back(modifiedName);
+            betas.push_back(localBeta);
+        }
+    }
+    // Add epsilon transition to alphas (modified Non-Terminal)
+    alphas.push_back(std::vector<std::string>{"\\L"});
+    // Construct our pair of resulting Non-Terminals
+    std::vector<NonTerminal> result = {NonTerminal(nonTerminal.getName(), betas), NonTerminal(modifiedName, alphas)};
+    return result;
 }
 
 

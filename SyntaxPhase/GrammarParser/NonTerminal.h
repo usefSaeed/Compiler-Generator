@@ -8,17 +8,19 @@
 #include <string>
 #include <vector>
 
+typedef std::vector<std::vector<std::string>> productionsVector;
+
 class NonTerminal {
     private:
         std::string name;
-        std::vector<std::vector<std::string>> productions;
+        productionsVector productions;
     public:
-        NonTerminal(std::string name, const std::vector<std::vector<std::string>> &productions);
+        NonTerminal(std::string name, productionsVector productions);
         [[nodiscard]] std::string toString() const;
         [[nodiscard]] const std::string &getName() const;
-        [[nodiscard]] const std::vector<std::vector<std::string>> &getProductions() const;
+        [[nodiscard]] const productionsVector &getProductions() const;
 
-    void setProductions(const std::vector<std::vector<std::string>> &productionsVector);
+    void setProductions(const productionsVector &productionsVector);
 };
 
 
