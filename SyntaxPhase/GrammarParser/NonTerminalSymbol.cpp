@@ -2,22 +2,22 @@
 // Created by Meniem on 19-Dec-23.
 //
 
-#include "NonTerminal.h"
+#include "NonTerminalSymbol.h"
 #include <utility>
 
-NonTerminal::NonTerminal(std::string name, productionsVector productions) : name(std::move(
+NonTerminalSymbol::NonTerminalSymbol(std::string name, productionsVector productions) : name(std::move(
         name)), productions(std::move(productions)) {}
 
-const std::string &NonTerminal::getName() const {
+const std::string &NonTerminalSymbol::getName() const {
     return name;
 }
 
 
-const productionsVector &NonTerminal::getProductions() const {
+const productionsVector &NonTerminalSymbol::getProductions() const {
     return productions;
 }
 
-std::string NonTerminal::toString() const {
+std::string NonTerminalSymbol::toString() const {
     std::string result = "Name: " + name + " Productions: ";
 
     for (const auto& production : productions) {
@@ -32,8 +32,8 @@ std::string NonTerminal::toString() const {
     return result;
 }
 
-void NonTerminal::setProductions(const productionsVector &productionsVector) {
-    NonTerminal::productions = productionsVector;
+void NonTerminalSymbol::setProductions(const productionsVector &productionsVector) {
+    NonTerminalSymbol::productions = productionsVector;
 }
 
 
