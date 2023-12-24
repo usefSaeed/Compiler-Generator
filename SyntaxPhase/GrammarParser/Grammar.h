@@ -13,10 +13,10 @@
 class Grammar {
 private :
     GrammarConverter modifiedGrammar;
-    std::vector<NonTerminal> standardizedModifiedGrammar;
+    std::vector<NonTerminal> standardizedNonTerminals;
 
 public:
-    const std::vector<NonTerminal> &getStandardizedModifiedGrammar() const;
+    const std::vector<NonTerminal> &getStandardizedNonTerminals() const;
     void standardizeNonTerminals();
 
 public:

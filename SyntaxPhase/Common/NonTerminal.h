@@ -8,18 +8,19 @@
 
 #include "Symbol.h"
 #include <vector>
+#include <memory>
 
 class NonTerminal : public Symbol {
 public:
     explicit NonTerminal(const std::string &name);
 
 public:
-    [[nodiscard]] const std::vector<std::vector<Symbol>> &getProductions() const;
-
-    void setProductions(const std::vector<std::vector<Symbol>> &productionsVector);
+    [[nodiscard]] const std::vector<std::vector<std::shared_ptr<Symbol>>> &getProductions() const;
+    [[nodiscard]] std::string toString() const;
+    void setProductions(const std::vector<std::vector<std::shared_ptr<Symbol>>> &productionsVector);
 
 private:
-    std::vector<std::vector<Symbol>> productions;
+    std::vector<std::vector<std::shared_ptr<Symbol>>> productions;
 };
 
 

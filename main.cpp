@@ -21,15 +21,15 @@ int main(int argc, char *argv[]) {
     if (statusCode == -1)
         return -1;
 
-//    bool leftFactored = grammarConverter.leftFactor();
-//    if (leftFactored){
-//        std::cerr<< "Grammar was not left factored but left factoring was eliminated successfully." << "\n";
-//    }
-//
-//    bool leftRecursion = grammarConverter.eliminateLeftRecursion();
-//    if (leftRecursion){
-//        std::cerr<< "Grammar had left recursion but was eliminated successfully." << "\n";
-//    }
+    bool leftFactored = grammarConverter.leftFactor();
+    if (leftFactored){
+        std::cerr<< "Grammar was not left factored but left factoring was eliminated successfully." << "\n";
+    }
+
+    bool leftRecursion = grammarConverter.eliminateLeftRecursion();
+    if (leftRecursion){
+        std::cerr<< "Grammar had left recursion but was eliminated successfully." << "\n";
+    }
 
     for (const NonTerminalSymbol& nonTerminal : grammarConverter.getNonTerminals()) {
         std::cout << nonTerminal.toString() << "\n";
@@ -38,20 +38,20 @@ int main(int argc, char *argv[]) {
     Grammar grammar(grammarConverter);
     grammar.standardizeNonTerminals();
 
-    auto standardizedGrammar = grammar.getStandardizedModifiedGrammar();
-    auto methodBody = standardizedGrammar[0];
-    auto& statementList = methodBody.getProductions()[0][0];
-    auto statementListCast = dynamic_cast<const NonTerminal*>(&statementList);
-    if (statementListCast){
-        auto productions = statementListCast->getProductions();
-    }
-    else{
-        std::cout << "Terminal";
-    }
+    std::cout << "\n\n\n";
 
-//
-//    for (const NonTerminal& nonTerminal : grammar.getStandardizedModifiedGrammar()) {
-//        std::cout << nonTerminal.getName() << "\n";
+    for (const auto& nonTerminal : grammar.getStandardizedNonTerminals()){
+        std::cout << nonTerminal.toString() << "\n";
+    }
+//    std::vector<NonTerminal> standardizedGrammar = grammar.getStandardizedNonTerminals();
+//    NonTerminal declaration = standardizedGrammar[3];
+//    std::shared_ptr<Symbol> statementList = declaration.getProductions()[0][0];
+//    auto statementListCast = dynamic_pointer_cast<NonTerminal>(statementList);
+//    if (statementListCast){
+//        auto productions = statementListCast->getProductions();
+//    }
+//    else{
+//        std::cout << "Terminal";
 //    }
 
 

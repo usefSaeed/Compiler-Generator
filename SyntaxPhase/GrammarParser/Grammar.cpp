@@ -12,64 +12,63 @@ void Grammar::standardizeNonTerminals() {
     auto terminalsSet = modifiedGrammar.getTerminals();
     auto oldNonTerminals = modifiedGrammar.getNonTerminals();
     std::unordered_map<std::string, std::shared_ptr<NonTerminal>>  nonTerminalMap;
-    std::unordered_map<std::string, std::shared_ptr<Terminal>>  TerminalMap;
+    std::unordered_map<std::string, std::shared_ptr<Terminal>>  terminalMap;
 
     for (const auto& nonTerminal : oldNonTerminals){
         auto productions = nonTerminal.getProductions();
-        std::vector<std::vector<Symbol>> newProductions;
+        std::vector<std::vector<std::shared_ptr<Symbol>>> newProductions;
         for (const auto& production : productions){
-            std::vector<Symbol> newProduction;
-            for (auto symbolName : production){
+            std::vector<std::shared_ptr<Symbol>> newProduction;
+            for (const auto& symbolName : production){
+                std::shared_ptr<Symbol> symbolPtr;
                 // Terminal
                 if (terminalsSet.contains(symbolName)){
                     // not defined before
-                    if (!TerminalMap.contains(symbolName)){
-                        std::shared_ptr<Terminal> terminal = std::make_shared<Terminal>(symbolName);
-                        TerminalMap.insert({symbolName, terminal});
-                        newProduction.push_back(*terminal);
+                    if (!terminalMap.contains(symbolName)){
+                        symbolPtr = std::make_shared<Terminal>(symbolName);
+                        terminalMap.insert({symbolName, std::static_pointer_cast<Terminal>(symbolPtr)});
                     }
                     // defined before
                     else {
-                        std::shared_ptr<Terminal> terminal = TerminalMap.find(symbolName)->second;
-                        newProduction.push_back(*terminal);
+                        symbolPtr = terminalMap.find(symbolName)->second;
                     }
                 }
                 // Non-Terminal
                 else {
                     // not defined before
                     if (!nonTerminalMap.contains(symbolName)){
-                        std::shared_ptr<NonTerminal> innerNonTerminal = std::make_shared<NonTerminal>(symbolName);
-                        nonTerminalMap.insert({symbolName, innerNonTerminal});
-                        newProduction.push_back(*innerNonTerminal);
+                        symbolPtr = std::make_shared<NonTerminal>(symbolName);
+                        nonTerminalMap.insert({symbolName, std::static_pointer_cast<NonTerminal>(symbolPtr)});
                     }
                         // defined before
                     else {
-                        std::shared_ptr<NonTerminal> innerNonTerminal = nonTerminalMap.find(symbolName)->second;
-                        newProduction.push_back(*innerNonTerminal);
+                        symbolPtr = nonTerminalMap.find(symbolName)->second;
                     }
                 }
+                newProduction.push_back(symbolPtr);
             }
             newProductions.push_back(newProduction);
         }
+
+        std::shared_ptr<NonTerminal> outerNonTerminal;
         // not defined before
         if (!nonTerminalMap.contains(nonTerminal.getName())){
-            std::shared_ptr<NonTerminal> outerNonTerminal = std::make_shared<NonTerminal>(nonTerminal.getName());
+            outerNonTerminal = std::make_shared<NonTerminal>(nonTerminal.getName());
             outerNonTerminal->setProductions(newProductions);
             nonTerminalMap.insert({nonTerminal.getName(), outerNonTerminal});
-            standardizedModifiedGrammar.push_back(*outerNonTerminal);
         }
         // defined before
         else {
-            std::shared_ptr<NonTerminal> outerNonTerminal = nonTerminalMap.find(nonTerminal.getName())->second;
+            outerNonTerminal = nonTerminalMap.find(nonTerminal.getName())->second;
             outerNonTerminal->setProductions(newProductions);
-            standardizedModifiedGrammar.push_back(*outerNonTerminal);
         }
+        standardizedNonTerminals.push_back(*outerNonTerminal);
     }
 
 }
 
 Grammar::Grammar(GrammarConverter modifiedGrammar) : modifiedGrammar(std::move(modifiedGrammar)) {}
 
-const std::vector<NonTerminal> &Grammar::getStandardizedModifiedGrammar() const {
-    return standardizedModifiedGrammar;
+const std::vector<NonTerminal> &Grammar::getStandardizedNonTerminals() const {
+    return standardizedNonTerminals;
 }
