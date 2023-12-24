@@ -1,10 +1,12 @@
 project(GrammarParser)
 
 set(HEADER_FILES
-        GrammarConverter.h)
+        GrammarConverter.h
+        NonTerminal.h)
 
 set(SOURCE_FILES
-        GrammarConverter.cpp)
+        GrammarConverter.cpp
+        NonTerminal.cpp)
 
 
 add_library(GrammarParser_lib STATIC ${SOURCE_FILES} ${HEADER_FILES})
