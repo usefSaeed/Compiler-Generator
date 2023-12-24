@@ -56,26 +56,26 @@ int main(int argc, char *argv[]) {
     }
     std::cout << "num of DFA states: " << states << '\n';
 
-//    State* minimzedDFAStartState = dfa.minimize();
-//
-//    int minimizedStates = 0;
-//    std::stack<State*> minimizedFrontier;
-//    std::unordered_map<State*, int> minimizedVisited;
-//    minimizedFrontier.push(minimzedDFAStartState);
-//    while(not minimizedFrontier.empty()){
-//        State* miniCurrentState = minimizedFrontier.top();
-//        minimizedFrontier.pop();
-//        if(minimizedVisited.find(miniCurrentState) != minimizedVisited.end()){
-//            continue;
-//        }
-//        minimizedStates += 1;
-//        minimizedVisited[miniCurrentState] = 1;
-//        for(Transition transition: miniCurrentState->transitions){
-//            minimizedFrontier.push(transition.getNextState());
-//            std::cout << miniCurrentState << " with input: " << transition.getInput() << " ,to state: " << transition.getNextState() << '\n';
-//        }
-//    }
-//    std::cout << "num of minimized DFA states: " << minimizedStates << '\n';
+    State* minimzedDFAStartState = dfa.minimize();
+
+    int minimizedStates = 0;
+    std::stack<State*> minimizedFrontier;
+    std::unordered_map<State*, int> minimizedVisited;
+    minimizedFrontier.push(minimzedDFAStartState);
+    while(not minimizedFrontier.empty()){
+        State* miniCurrentState = minimizedFrontier.top();
+        minimizedFrontier.pop();
+        if(minimizedVisited.find(miniCurrentState) != minimizedVisited.end()){
+            continue;
+        }
+        minimizedStates += 1;
+        minimizedVisited[miniCurrentState] = 1;
+        for(Transition transition: miniCurrentState->transitions){
+            minimizedFrontier.push(transition.getNextState());
+            std::cout << miniCurrentState << " with input: " << transition.getInput() << " ,to state: " << transition.getNextState() << '\n';
+        }
+    }
+    std::cout << "num of minimized DFA states: " << minimizedStates << '\n';
 
     STGenerator stg(dfa);
     std::cout << "Run all files in dir --> a\nRun specific file --> s\n> ";

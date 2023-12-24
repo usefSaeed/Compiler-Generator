@@ -5,4 +5,15 @@
 #ifndef COMPILER_TOKEN_H
 #define COMPILER_TOKEN_H
 
+
+#include "Common.h"
+#include "Symbol.h"
+
+class Token
+{
+public:
+    Terminal terminal;
+    std::string lexeme;
+};
+
 #endif //COMPILER_TOKEN_H

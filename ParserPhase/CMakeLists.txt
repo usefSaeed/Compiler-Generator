@@ -1,3 +1,3 @@
-project(SyntaxPhase)
+project(ParserPhase)
 
 add_subdirectory(GrammarParser)

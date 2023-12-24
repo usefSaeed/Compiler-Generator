@@ -4,7 +4,8 @@ set(HEADER_FILES
         GrammarConverter.h)
 
 set(SOURCE_FILES
-        GrammarConverter.cpp)
+        GrammarConverter.cpp
+)
 
 
 add_library(GrammarParser_lib STATIC ${SOURCE_FILES} ${HEADER_FILES})
