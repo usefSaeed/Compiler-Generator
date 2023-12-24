@@ -204,7 +204,7 @@ bool GrammarConverter::leftFactor() {
                 std::vector<int> factorIndices = {index};
                 factoringMap.insert({productions[index][0], factorIndices});
             }
-            // If it was found in the factoring map then add the other index where it was found, and now we know left factoring is present in our grammar.
+                // If it was found in the factoring map then add the other index where it was found, and now we know left factoring is present in our grammar.
             else {
                 auto it = factoringMap.find(productions[index][0]);
                 (it->second).push_back(index);
@@ -238,7 +238,7 @@ bool GrammarConverter::leftFactor() {
 
                     factoredProductions.push_back(temporaryProduction);
                 }
-                // Add the new NonTerminalSymbol to the productions.
+                // Add the new NonTerminal to the productions.
                 auto newNonTerminal = NonTerminalSymbol(newNonTerminalName, factoredProductions);
                 temporaryNonTerminals.push_back(newNonTerminal);
                 nonTerminalNames.insert(newNonTerminalName);
@@ -246,7 +246,7 @@ bool GrammarConverter::leftFactor() {
 
                 factorCounter++;
             }
-            // If no two productions have the same factor just add the same original productions.
+                // If no two productions have the same factor just add the same original productions.
             else{
                 std::vector<std::string> temporaryProduction;
                 int originalIndex = factor.second[0];
@@ -293,7 +293,7 @@ bool GrammarConverter::eliminateLeftRecursion() {
             }
 
         }
-        // If no Immediate left recursion is found then just add the original Non-Terminal.
+            // If no Immediate left recursion is found then just add the original Non-Terminal.
         else {
             newNonTerminals.push_back(nonTerminals[i]);
         }
@@ -303,6 +303,7 @@ bool GrammarConverter::eliminateLeftRecursion() {
     nonTerminals = newNonTerminals;
     return hasLeftRecursion;
 }
+
 
 bool GrammarConverter::hasImmediateLeftRecursion(const NonTerminalSymbol& nonTerminal) {
     // loop over each production in the Non-Terminal
