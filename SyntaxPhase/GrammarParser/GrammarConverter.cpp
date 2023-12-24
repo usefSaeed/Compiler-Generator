@@ -211,6 +211,33 @@ bool GrammarConverter::leftFactor() {
                 appliedLeftFactoring = true;
             }
         }
+    }
+    // Update our Non-Terminals vector with the new one.
+    nonTerminals = temporaryNonTerminals;
+
+    return appliedLeftFactoring;
+}
+
+bool GrammarConverter::eliminateLeftRecursion() {
+    bool hasLeftRecursion = false;
+    std::vector<NonTerminal> newNonTerminals;
+    // loop over each Non-Terminal
+    for (int i = 0; i < nonTerminals.size(); i++){
+        // We need this because we will constantly edit its productions.
+        NonTerminal currentNonTerminal = nonTerminals[i];
+        // loop over all Non-Terminals above it.
+        for (int j = 0; j < i; j++)
+            // Recursively substitute each Non-Terminal combination (if it exists) with our current Non-Terminal.
+            currentNonTerminal = substitute(currentNonTerminal, nonTerminals[j]);
+        // If after substituting immediate left recursion is found.
+        if (hasImmediateLeftRecursion(currentNonTerminal)){
+            hasLeftRecursion = true;
+            std::vector<NonTerminal> modifiedNonTerminals = eliminateImmediateLeftRecursion(currentNonTerminal);
+            // Push the modified Non-Terminals to our new Non-Terminals vector.
+            for (const auto& nonTerminal : modifiedNonTerminals){
+                newNonTerminals.push_back(nonTerminal);
+                nonTerminalNames.insert(nonTerminal.getName());
+            }
 
         bool nonTerminalsFactored = false; // flag to check if we factor this Non-Terminal
         int factorCounter = 1; // number to distinguish names of factored expressions
@@ -298,6 +325,9 @@ bool GrammarConverter::eliminateLeftRecursion() {
             newNonTerminals.push_back(nonTerminals[i]);
         }
 
+                result.push_back(tempProduction);
+            }
+        }
     }
     // Update our Non-Terminals vector with the new one.
     nonTerminals = newNonTerminals;

@@ -9,6 +9,7 @@
 #include <unordered_set>
 #include "NonTerminalSymbol.h"
 
+
 class GrammarConverter {
     private:
     static int definitionCounter;
