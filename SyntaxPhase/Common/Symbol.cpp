@@ -3,7 +3,6 @@
 //
 
 #include "Symbol.h"
-
 #include <utility>
 
 Symbol::Symbol(std::string name, bool terminal) : name(std::move(name)), terminal(terminal) {}
@@ -14,4 +13,9 @@ const std::string &Symbol::getName() const {
 
 bool Symbol::isTerminal() const {
     return terminal;
+}
+
+std::ostream &operator<<(std::ostream &os, const Symbol &s) {
+    os << s.getName();
+    return os;
 }

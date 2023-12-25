@@ -2,7 +2,9 @@
 // Created by Meniem on 24-Dec-23.
 //
 
+#include <unordered_set>
 #include "NonTerminal.h"
+
 NonTerminal::NonTerminal(const std::string &name) : Symbol(name, false) {}
 
 const std::vector<std::vector<std::shared_ptr<Symbol>>> &NonTerminal::getProductions() const {
@@ -26,4 +28,26 @@ std::string NonTerminal::toString() const {
     result.erase(result.length()-2);
 
     return result;
+}
+
+std::ostream &operator<<(std::ostream &os, const NonTerminal &nt) {
+    os << nt.getName() << " --> ";
+    for (int i=0;i<nt.getProductions().size();i++){
+        for (const auto& symbol : nt.getProductions()[i]){
+            os << symbol->getName() << " ";
+        }
+        if (i<nt.getProductions().size()-1){
+            os << "| ";
+        }
+    }
+    os << std::endl;
+    return os;
+}
+
+const std::unordered_set<Terminal*> &NonTerminal::getFollowSet() const {
+    return this->followSet;
+}
+
+const std::unordered_set<Terminal *> &NonTerminal::getFirstSet() const {
+    return this->firstSet;
 }

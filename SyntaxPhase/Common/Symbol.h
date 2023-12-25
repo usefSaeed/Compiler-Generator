@@ -15,6 +15,8 @@ private:
     bool terminal;
 public:
     virtual ~Symbol() = default;
+    friend std::ostream& operator<<(std::ostream& os, const Symbol& s);
+
     [[nodiscard]] const std::string &getName() const;
 
     [[nodiscard]] bool isTerminal() const;
