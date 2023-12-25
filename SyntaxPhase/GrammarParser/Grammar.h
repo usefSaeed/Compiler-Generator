@@ -14,8 +14,10 @@ class Grammar {
 private :
     GrammarConverter modifiedGrammar;
     std::vector<NonTerminal> standardizedNonTerminals;
+    NonTerminal* startSymbol = nullptr;
 
 public:
+    NonTerminal *getStartSymbol() const;
     const std::vector<NonTerminal> &getStandardizedNonTerminals() const;
     void standardizeNonTerminals();
 

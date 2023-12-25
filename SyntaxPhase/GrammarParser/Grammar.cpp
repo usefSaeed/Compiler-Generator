@@ -64,7 +64,7 @@ void Grammar::standardizeNonTerminals() {
         }
         standardizedNonTerminals.push_back(*outerNonTerminal);
     }
-
+    startSymbol =  &standardizedNonTerminals[0];
 }
 
 Grammar::Grammar(GrammarConverter modifiedGrammar) : modifiedGrammar(std::move(modifiedGrammar)) {}
@@ -72,3 +72,8 @@ Grammar::Grammar(GrammarConverter modifiedGrammar) : modifiedGrammar(std::move(m
 const std::vector<NonTerminal> &Grammar::getStandardizedNonTerminals() const {
     return standardizedNonTerminals;
 }
+
+NonTerminal *Grammar::getStartSymbol() const {
+    return startSymbol;
+}
+
