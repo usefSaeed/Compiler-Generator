@@ -9,10 +9,13 @@
 #include "../Common/Terminal.h"
 #include "ParserSet.h"
 
-class FirstSet : ParserSet {
+class FirstSet : public ParserSet {
     private:
-        [[nodiscard]] bool hasEpsilon();
+        [[nodiscard]] bool hasNoEpsilon();
+
+    public:
         void addEpsilon();
+        bool handleSymbol(Symbol* s);
 };
 
 #endif //COMPILER_FIRSTSET_H

@@ -8,6 +8,8 @@
 #include <unordered_map>
 #include <memory>
 
+Terminal* Grammar::epsilon = nullptr;
+
 void Grammar::standardizeNonTerminals() {
     auto terminalsSet = modifiedGrammar.getTerminals();
     auto oldNonTerminals = modifiedGrammar.getNonTerminals();
@@ -89,5 +91,10 @@ std::ostream &operator<<(std::ostream &os, const Grammar &g) {
 
 Terminal *Grammar::getEpsilon() const {
     return epsilon;
+}
+
+void Grammar::computeFirst() {
+    for (int i=standardizedNonTerminals.size()-1; i>=0; i++)
+        standardizedNonTerminals[i].getFirstSet();
 }
 

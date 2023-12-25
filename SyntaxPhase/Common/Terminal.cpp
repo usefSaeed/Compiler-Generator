@@ -3,6 +3,7 @@
 //
 
 #include "Terminal.h"
+#include "../GrammarParser/Grammar.h"
 
 Terminal::Terminal(const std::string &name) : Symbol(name, true) {}
 
@@ -12,7 +13,7 @@ std::ostream &operator<<(std::ostream &os, const Terminal &t) {
 }
 
 bool Terminal::isEpsilon() {
-    return this==epsilon;
+    return this==Grammar::epsilon;
 }
 
 bool Terminal::operator==(const Terminal &other) const {

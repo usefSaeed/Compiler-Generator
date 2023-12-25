@@ -29,11 +29,25 @@ std::ostream &operator<<(std::ostream &os, const NonTerminal &nt) {
     return os;
 }
 
-std::unordered_set<Terminal> &NonTerminal::getFirstSet() {
-
+FirstSet NonTerminal::getFirstSet() {
+    if (this->firstSet.isComputed())
+        return firstSet;
+    computeFirst();
+    return firstSet;
 }
 
 void NonTerminal::computeFirst() {
-
+    for (const auto& p : productions){
+        int symbolIdx=0;
+        while(symbolIdx < p.size()){
+            bool isComplete = firstSet.handleSymbol(p[symbolIdx].get());
+            if (isComplete)
+                break;
+            symbolIdx++;
+        }
+        bool allProductionsHaveEpsilon = symbolIdx == p.size();
+        if (allProductionsHaveEpsilon)
+            firstSet.addEpsilon();
+    }
 }
 
