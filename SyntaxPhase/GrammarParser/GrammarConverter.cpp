@@ -123,6 +123,7 @@ const std::vector<NonTerminalSymbol> &GrammarConverter::getNonTerminals() const 
 int GrammarConverter::findTerminals(std::string& productions) {
     // accumulates terminal symbols if they exist
     std::string accumulator;
+    trimBlanksFromEnds(productions);
     for(int i = 0; i < productions.size(); i++){
         char c = productions[i];
         // check if single quote is found with no escape character before it.
@@ -139,8 +140,10 @@ int GrammarConverter::findTerminals(std::string& productions) {
                 }
                 // Skip the escape character, so it can be put into the terminals set with its appropriate name
                 if (productions[i] == '\\'){
-                    i++;
-                    continue;
+                    if (productions[i+1] != 'L'){
+                        i++;
+                        continue;
+                    }
                 }
                 accumulator += productions[i];
                 i++;
@@ -285,6 +288,7 @@ bool GrammarConverter::eliminateLeftRecursion() {
         // If after substituting immediate left recursion is found.
         if (hasImmediateLeftRecursion(currentNonTerminal)){
             hasLeftRecursion = true;
+            terminals.insert("\\L");
             std::vector<NonTerminalSymbol> modifiedNonTerminals = eliminateImmediateLeftRecursion(currentNonTerminal);
             // Push the modified Non-Terminals to our new Non-Terminals vector.
             for (const auto& nonTerminal : modifiedNonTerminals){
