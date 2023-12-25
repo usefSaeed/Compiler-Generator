@@ -51,14 +51,14 @@ int GrammarConverter::parseFile(const std::string& filePath) {
         std::vector<std::string> definitionSides = splitWithStringDelimiter(nonTerminalDefinition, "::=");
         std::string nonTerminalName = definitionSides[0];
         std::string nonTerminalProductions = definitionSides[1];
+
         trimBlanksFromEnds(nonTerminalName);
+        trimBlanksFromEnds(nonTerminalProductions);
         removeConsecutiveSpaces(nonTerminalName);
+        removeConsecutiveSpaces(nonTerminalProductions);
 
         int status = findTerminals(nonTerminalProductions);
         if (status == -1) return -1;
-
-        removeConsecutiveSpaces(nonTerminalProductions);
-        trimBlanksFromEnds(nonTerminalProductions);
 
         status = parseProductions(nonTerminalName, nonTerminalProductions);
         if (status == -1) return -1;
@@ -123,7 +123,6 @@ const std::vector<NonTerminalSymbol> &GrammarConverter::getNonTerminals() const 
 int GrammarConverter::findTerminals(std::string& productions) {
     // accumulates terminal symbols if they exist
     std::string accumulator;
-    trimBlanksFromEnds(productions);
     for(int i = 0; i < productions.size(); i++){
         char c = productions[i];
         // check if single quote is found with no escape character before it.
