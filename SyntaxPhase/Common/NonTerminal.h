@@ -10,6 +10,7 @@
 #include "Terminal.h"
 #include <vector>
 #include <memory>
+#include <unordered_set>
 
 class NonTerminal : public Symbol {
 public:
