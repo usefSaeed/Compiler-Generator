@@ -27,3 +27,17 @@ std::string NonTerminal::toString() const {
 
     return result;
 }
+
+std::ostream &operator<<(std::ostream &os, const NonTerminal &nt) {
+    os << nt.getName() << " --> ";
+    for (int i=0;i<nt.getProductions().size();i++){
+        for (const auto& symbol : nt.getProductions()[i]){
+            os << symbol->getName() << " ";
+        }
+        if (i<nt.getProductions().size()-1){
+            os << "| ";
+        }
+    }
+    os << std::endl;
+    return os;
+}

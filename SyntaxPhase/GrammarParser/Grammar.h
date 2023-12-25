@@ -18,6 +18,7 @@ private :
 
 public:
     NonTerminal *getStartSymbol() const;
+    friend std::ostream& operator<<(std::ostream& os, const Grammar& g);
     const std::vector<NonTerminal> &getStandardizedNonTerminals() const;
     void standardizeNonTerminals();
 

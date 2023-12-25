@@ -77,3 +77,10 @@ NonTerminal *Grammar::getStartSymbol() const {
     return startSymbol;
 }
 
+std::ostream &operator<<(std::ostream &os, const Grammar &g) {
+    for (const auto& r : g.standardizedNonTerminals)
+        os << r;
+    os << "\n\n\n";
+    return os;
+}
+

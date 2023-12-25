@@ -15,6 +15,7 @@ public:
     explicit NonTerminal(const std::string &name);
 
 public:
+    friend std::ostream& operator<<(std::ostream& os, const NonTerminal& nt);
     [[nodiscard]] const std::vector<std::vector<std::shared_ptr<Symbol>>> &getProductions() const;
     [[nodiscard]] std::string toString() const;
     void setProductions(const std::vector<std::vector<std::shared_ptr<Symbol>>> &productionsVector);
