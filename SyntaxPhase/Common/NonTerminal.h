@@ -7,6 +7,7 @@
 
 
 #include "Symbol.h"
+#include "Terminal.h"
 #include <vector>
 #include <memory>
 
@@ -17,11 +18,15 @@ public:
 public:
     friend std::ostream& operator<<(std::ostream& os, const NonTerminal& nt);
     [[nodiscard]] const std::vector<std::vector<std::shared_ptr<Symbol>>> &getProductions() const;
+    [[nodiscard]] const std::unordered_set<Terminal*> &getFollowSet() const;
+    [[nodiscard]] const std::unordered_set<Terminal*> &getFirstSet() const;
     [[nodiscard]] std::string toString() const;
     void setProductions(const std::vector<std::vector<std::shared_ptr<Symbol>>> &productionsVector);
 
 private:
     std::vector<std::vector<std::shared_ptr<Symbol>>> productions;
+    std::unordered_set<Terminal*> followSet;
+    std::unordered_set<Terminal*> firstSet;
 };
 
 
