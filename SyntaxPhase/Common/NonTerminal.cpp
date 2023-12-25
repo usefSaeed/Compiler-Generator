@@ -15,21 +15,6 @@ void NonTerminal::setProductions(const std::vector<std::vector<std::shared_ptr<S
     NonTerminal::productions = productionsVector;
 }
 
-std::string NonTerminal::toString() const {
-    std::string result = "Name: " + this->getName() + " Productions: ";
-
-    for (const auto& production : productions) {
-        for (const auto& symbol : production) {
-            result += symbol->getName() + " ";
-        }
-        result.pop_back(); // Remove the extra space
-        result += " | ";
-    }
-    result.erase(result.length()-2);
-
-    return result;
-}
-
 std::ostream &operator<<(std::ostream &os, const NonTerminal &nt) {
     os << nt.getName() << " --> ";
     for (int i=0;i<nt.getProductions().size();i++){
@@ -44,10 +29,11 @@ std::ostream &operator<<(std::ostream &os, const NonTerminal &nt) {
     return os;
 }
 
-const std::unordered_set<Terminal*> &NonTerminal::getFollowSet() const {
-    return this->followSet;
+std::unordered_set<Terminal> &NonTerminal::getFirstSet() {
+
 }
 
-const std::unordered_set<Terminal *> &NonTerminal::getFirstSet() const {
-    return this->firstSet;
+void NonTerminal::computeFirst() {
+
 }
+

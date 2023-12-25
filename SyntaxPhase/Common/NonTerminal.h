@@ -8,6 +8,8 @@
 
 #include "Symbol.h"
 #include "Terminal.h"
+#include "../FirstAndFollowGenerator/FirstSet.h"
+#include "../FirstAndFollowGenerator/FollowSet.h"
 #include <vector>
 #include <memory>
 #include <unordered_set>
@@ -19,15 +21,19 @@ public:
 public:
     friend std::ostream& operator<<(std::ostream& os, const NonTerminal& nt);
     [[nodiscard]] const std::vector<std::vector<std::shared_ptr<Symbol>>> &getProductions() const;
-    [[nodiscard]] const std::unordered_set<Terminal*> &getFollowSet() const;
-    [[nodiscard]] const std::unordered_set<Terminal*> &getFirstSet() const;
-    [[nodiscard]] std::string toString() const;
+    std::unordered_set<Terminal> &getFollowSet();
+    std::unordered_set<Terminal> &getFirstSet();
     void setProductions(const std::vector<std::vector<std::shared_ptr<Symbol>>> &productionsVector);
+
 
 private:
     std::vector<std::vector<std::shared_ptr<Symbol>>> productions;
-    std::unordered_set<Terminal*> followSet;
-    std::unordered_set<Terminal*> firstSet;
+    FirstSet firstSet;
+    FollowSet followSet;
+    [[nodiscard]] bool isFollowComputed();
+    [[nodiscard]] bool epsilonNotInFirst();
+    void computeFollow();
+    void computeFirst();
 };
 
 

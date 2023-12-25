@@ -27,6 +27,9 @@ void Grammar::standardizeNonTerminals() {
                     if (!terminalMap.contains(symbolName)){
                         symbolPtr = std::make_shared<Terminal>(symbolName);
                         terminalMap.insert({symbolName, std::static_pointer_cast<Terminal>(symbolPtr)});
+                        if (symbolName=="\\L"){
+                            epsilon = dynamic_cast<Terminal *>(symbolPtr.get());
+                        }
                     }
                     // defined before
                     else {
@@ -82,5 +85,9 @@ std::ostream &operator<<(std::ostream &os, const Grammar &g) {
         os << r;
     os << "\n\n\n";
     return os;
+}
+
+Terminal *Grammar::getEpsilon() const {
+    return epsilon;
 }
 
