@@ -44,7 +44,6 @@ int main(int argc, char *argv[]) {
     std::cout << grammar;
 
     FirstSetsGenerator fsg(grammar.getStandardizedNonTerminals());
-    fsg.exec();
 
 //    std::vector<NonTerminal> standardizedGrammar = grammar.getStandardizedNonTerminals();
 //    NonTerminal declaration = standardizedGrammar[3];
