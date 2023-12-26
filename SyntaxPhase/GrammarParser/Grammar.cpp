@@ -90,16 +90,5 @@ std::ostream &operator<<(std::ostream &os, const Grammar &g) {
     return os;
 }
 
-void Grammar::computeFirst() {
-    unsigned long long size = standardizedNonTerminals.size();
-    size--;
-    for (int i=size; i>=0; i--) {
-        standardizedNonTerminals[i].computeFirst();
-        showFirst(standardizedNonTerminals[i]);
-    }
-}
 
-void Grammar::showFirst(NonTerminal nt) {
-        std::cout << "FIRST( " << nt.getName() << " ) = " << nt.getFirstSet().get() << "\n";
-}
 

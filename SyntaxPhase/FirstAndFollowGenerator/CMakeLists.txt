@@ -2,10 +2,12 @@ project(FirstAndFollowGenerator)
 
 set(HEADER_FILES
         FirstSet.h
+        FirstSetsGenerator.h
         ParserSet.h)
 
 set(SOURCE_FILES
         FirstSet.cpp
+        FirstSetsGenerator.cpp
         ParserSet.cpp)
 
 

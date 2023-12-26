@@ -7,7 +7,7 @@
 #include "LexicalPhase/SymbolTableGenerator/STGenerator.h"
 #include "SyntaxPhase/GrammarParser/GrammarConverter.h"
 #include "SyntaxPhase/GrammarParser/Grammar.h"
-
+#include "SyntaxPhase/FirstAndFollowGenerator/FirstSetsGenerator.h"
 
 
 int main(int argc, char *argv[]) {
@@ -43,7 +43,9 @@ int main(int argc, char *argv[]) {
 
     std::cout << grammar;
 
-    grammar.computeFirst();
+    FirstSetsGenerator fsg(grammar.getStandardizedNonTerminals());
+    fsg.exec();
+
 //    std::vector<NonTerminal> standardizedGrammar = grammar.getStandardizedNonTerminals();
 //    NonTerminal declaration = standardizedGrammar[3];
 //    std::shared_ptr<Symbol> statementList = declaration.getProductions()[0][0];
