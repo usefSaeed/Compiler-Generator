@@ -6,6 +6,8 @@
 #include "LexicalPhase/DFAConverter/DFA.h"
 #include "LexicalPhase/SymbolTableGenerator/STGenerator.h"
 #include "SyntaxPhase/GrammarParser/GrammarConverter.h"
+#include "SyntaxPhase/GrammarParser/Grammar.h"
+
 
 
 int main(int argc, char *argv[]) {
@@ -30,9 +32,26 @@ int main(int argc, char *argv[]) {
         std::cerr<< "Grammar had left recursion but was eliminated successfully." << "\n";
     }
 
-    for (const NonTerminal& nonTerminal : grammarConverter.getNonTerminals()) {
+    for (const NonTerminalSymbol& nonTerminal : grammarConverter.getNonTerminals()) {
         std::cout << nonTerminal.toString() << "\n";
     }
+
+    Grammar grammar(grammarConverter);
+    grammar.standardizeNonTerminals();
+
+    std::cout << "\n\n\n";
+
+    std::cout << grammar;
+//    std::vector<NonTerminal> standardizedGrammar = grammar.getStandardizedNonTerminals();
+//    NonTerminal declaration = standardizedGrammar[3];
+//    std::shared_ptr<Symbol> statementList = declaration.getProductions()[0][0];
+//    auto statementListCast = dynamic_pointer_cast<NonTerminal>(statementList);
+//    if (statementListCast){
+//        auto productions = statementListCast->getProductions();
+//    }
+//    else{
+//        std::cout << "Terminal";
+//    }
 
 
 //    RulesConverter rulesConverter(argv[1]);
