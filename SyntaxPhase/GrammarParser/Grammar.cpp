@@ -90,18 +90,14 @@ std::ostream &operator<<(std::ostream &os, const Grammar &g) {
     return os;
 }
 
-Terminal *Grammar::getEpsilon() const {
-    return epsilon;
-}
-
 void Grammar::computeFirst() {
-    for (int i=standardizedNonTerminals.size()-1; i>=0; i++)
-        standardizedNonTerminals[i].getFirstSet();
+    for (unsigned long long i=standardizedNonTerminals.size()-1; i>=0; i++) {
+        standardizedNonTerminals[i].computeFirst();
+        showFirst(standardizedNonTerminals[i]);
+    }
 }
 
-void Grammar::showFirst() {
-    for (NonTerminal nt : standardizedNonTerminals){
-        std::cout << "FIRST( " << nt.getName() << ") = " << nt.getFirstSet() << "\n";
-    }
+void Grammar::showFirst(NonTerminal nt) {
+        std::cout << "FIRST( " << nt.getName() << " ) = " << nt.getFirstSet().get() << "\n";
 }
 

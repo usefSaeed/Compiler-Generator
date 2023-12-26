@@ -5,7 +5,7 @@
 #include "NonTerminal.h"
 
 NonTerminal::NonTerminal(const std::string &name) : Symbol(name, false) {
-    firstSet = nullptr;
+    firstSet = std::make_shared<FirstSet>();
 }
 
 const std::vector<std::vector<std::shared_ptr<Symbol>>> &NonTerminal::getProductions() const {
@@ -30,15 +30,16 @@ std::ostream &operator<<(std::ostream &os, const NonTerminal &nt) {
     return os;
 }
 
-FirstSet* NonTerminal::getFirstSet() {
-    if (isFirstComputed())
+std::shared_ptr<FirstSet> NonTerminal::getFirstSet() {
+    if (firstSet->isComputed())
         return firstSet;
     computeFirst();
     return firstSet;
 }
 
 void NonTerminal::computeFirst() {
-    firstSet = new FirstSet();
+    if (firstSet->isComputed())
+        return;
     for (const auto& p : productions){
         int symbolIdx=0;
         while(symbolIdx < p.size()){
@@ -52,8 +53,3 @@ void NonTerminal::computeFirst() {
             firstSet->addEpsilon();
     }
 }
-
-bool NonTerminal::isFirstComputed() {
-    return firstSet!= nullptr;
-}
-

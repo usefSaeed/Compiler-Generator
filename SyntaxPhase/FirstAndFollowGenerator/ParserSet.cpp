@@ -9,7 +9,7 @@ void ParserSet::add(Terminal* t) {
     set.insert(t);
 }
 
-void ParserSet::addAll(const ParserSet* s) {
+void ParserSet::addAll(const std::shared_ptr<ParserSet>& s){
     set.insert(s->set.begin(),s->set.end());
 }
 
@@ -24,5 +24,6 @@ void ParserSet::clear() {
 bool ParserSet::isComputed() {
     return !set.empty();
 }
+
 
 

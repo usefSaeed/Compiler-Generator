@@ -20,15 +20,13 @@ public:
 public:
     friend std::ostream& operator<<(std::ostream& os, const NonTerminal& nt);
     [[nodiscard]] const std::vector<std::vector<std::shared_ptr<Symbol>>> &getProductions() const;
-    FirstSet* getFirstSet();
+    std::shared_ptr<FirstSet> getFirstSet();
+    void computeFirst();
     void setProductions(const std::vector<std::vector<std::shared_ptr<Symbol>>> &productionsVector);
-
 
 private:
     std::vector<std::vector<std::shared_ptr<Symbol>>> productions;
-    FirstSet* firstSet;
-    void computeFirst();
-    bool isFirstComputed();
+    std::shared_ptr<FirstSet> firstSet;
 };
 
 

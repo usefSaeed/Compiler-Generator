@@ -26,11 +26,14 @@ bool FirstSet::handleSymbol(Symbol* s) {
     return false;
 }
 
-std::ostream &operator<<(std::ostream &os, const FirstSet &fs) {
-    os << "{ ";
-    for (Terminal* t : fs.set)
-        os << t << ", ";
-    os.seekp(-2, std::ios_base::end);
+std::ostream &operator<<(std::ostream &os, const FirstSet* fs) {
+    os << "{ ";int i = 0;int limit = fs->set.size()-1;
+    for (Terminal* t : fs->set) {
+        os << t;
+        if (i!=limit)
+            os << ", ";
+        i++;
+    }
     os << " }";
     return os;
 }

@@ -16,13 +16,14 @@ private :
     GrammarConverter modifiedGrammar;
     std::vector<NonTerminal> standardizedNonTerminals;
     NonTerminal* startSymbol = nullptr;
+    static void showFirst(NonTerminal nt);
+
 public:
     NonTerminal *getStartSymbol() const;
     friend std::ostream& operator<<(std::ostream& os, const Grammar& g);
     const std::vector<NonTerminal> &getStandardizedNonTerminals() const;
     void standardizeNonTerminals();
     void computeFirst();
-    void showFirst();
     explicit Grammar(GrammarConverter modifiedGrammar);
 
     static Terminal* epsilon;
