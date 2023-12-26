@@ -25,3 +25,12 @@ bool FirstSet::handleSymbol(Symbol* s) {
     this->removeEpsilon();
     return false;
 }
+
+std::ostream &operator<<(std::ostream &os, const FirstSet &fs) {
+    os << "{ ";
+    for (Terminal* t : fs.set)
+        os << t << ", ";
+    os.seekp(-2, std::ios_base::end);
+    os << " }";
+    return os;
+}

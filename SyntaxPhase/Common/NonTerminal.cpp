@@ -2,10 +2,12 @@
 // Created by Meniem on 24-Dec-23.
 //
 
-#include <unordered_set>
 #include "NonTerminal.h"
 
-NonTerminal::NonTerminal(const std::string &name) : Symbol(name, false) {}
+NonTerminal::NonTerminal(const std::string &name) : Symbol(name, false) {
+    firstComputed = false;
+    followComputed = false;
+}
 
 const std::vector<std::vector<std::shared_ptr<Symbol>>> &NonTerminal::getProductions() const {
     return productions;
@@ -30,13 +32,14 @@ std::ostream &operator<<(std::ostream &os, const NonTerminal &nt) {
 }
 
 FirstSet NonTerminal::getFirstSet() {
-    if (this->firstSet.isComputed())
-        return firstSet;
+    if (isFirstComputed())
+        return this->firstSet;
     computeFirst();
-    return firstSet;
+    return this->firstSet;
 }
 
 void NonTerminal::computeFirst() {
+    firstSet.clear();
     for (const auto& p : productions){
         int symbolIdx=0;
         while(symbolIdx < p.size()){
@@ -49,5 +52,10 @@ void NonTerminal::computeFirst() {
         if (allProductionsHaveEpsilon)
             firstSet.addEpsilon();
     }
+    firstComputed = true;
+}
+
+bool NonTerminal::isFirstComputed() const {
+    return firstComputed;
 }
 

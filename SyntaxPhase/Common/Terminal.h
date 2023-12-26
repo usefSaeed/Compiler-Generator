@@ -11,8 +11,6 @@
 class Terminal : public Symbol {
 public:
     explicit Terminal(const std::string &name);
-    bool operator==(const Terminal& other) const;
-    friend std::size_t hash(const Terminal& t);
     friend std::ostream& operator<<(std::ostream& os, const Terminal& t);
     [[nodiscard]] bool isEpsilon();
 };

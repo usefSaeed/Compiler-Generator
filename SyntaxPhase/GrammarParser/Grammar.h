@@ -23,6 +23,7 @@ public:
     const std::vector<NonTerminal> &getStandardizedNonTerminals() const;
     void standardizeNonTerminals();
     void computeFirst();
+    void showFirst();
     void computeFollow();
     explicit Grammar(GrammarConverter modifiedGrammar);
 

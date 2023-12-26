@@ -30,6 +30,10 @@ private:
     std::vector<std::vector<std::shared_ptr<Symbol>>> productions;
     FirstSet firstSet;
     FollowSet followSet;
+    [[nodiscard]] bool isFirstComputed() const;
+    [[nodiscard]] bool isFollowComputed() const;
+    bool firstComputed = false;
+    bool followComputed = false;
     void computeFirst();
     void computeFollow();
 };

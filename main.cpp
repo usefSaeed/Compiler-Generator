@@ -42,6 +42,9 @@ int main(int argc, char *argv[]) {
     std::cout << "\n\n\n";
 
     std::cout << grammar;
+
+    grammar.computeFirst();
+    grammar.showFirst();
 //    std::vector<NonTerminal> standardizedGrammar = grammar.getStandardizedNonTerminals();
 //    NonTerminal declaration = standardizedGrammar[3];
 //    std::shared_ptr<Symbol> statementList = declaration.getProductions()[0][0];

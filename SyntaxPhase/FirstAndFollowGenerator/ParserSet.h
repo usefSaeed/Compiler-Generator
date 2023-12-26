@@ -16,7 +16,7 @@ class ParserSet{
         void removeEpsilon();
 
 public:
-    [[nodiscard]] bool isComputed();
+    void clear();
 };
 
 #endif //COMPILER_PARSERSET_H

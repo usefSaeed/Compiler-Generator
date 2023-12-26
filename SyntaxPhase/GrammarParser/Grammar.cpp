@@ -7,6 +7,7 @@
 #include <utility>
 #include <unordered_map>
 #include <memory>
+#include <iostream>
 
 Terminal* Grammar::epsilon = nullptr;
 
@@ -96,5 +97,11 @@ Terminal *Grammar::getEpsilon() const {
 void Grammar::computeFirst() {
     for (int i=standardizedNonTerminals.size()-1; i>=0; i++)
         standardizedNonTerminals[i].getFirstSet();
+}
+
+void Grammar::showFirst() {
+    for (NonTerminal nt : standardizedNonTerminals){
+        std::cout << "FIRST( " << nt.getName() << ") = " << nt.getFirstSet() << "\n";
+    }
 }
 

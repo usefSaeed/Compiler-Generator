@@ -5,11 +5,6 @@
 #include "ParserSet.h"
 #include "../GrammarParser//Grammar.h"
 
-
-bool ParserSet::isComputed() {
-    return !set.empty();
-}
-
 void ParserSet::add(Terminal* t) {
     set.insert(t);
 }
@@ -21,3 +16,8 @@ void ParserSet::addAll(const ParserSet &s) {
 void ParserSet::removeEpsilon() {
     set.erase(Grammar::epsilon);
 }
+
+void ParserSet::clear() {
+    set.clear();
+}
+
