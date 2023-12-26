@@ -7,6 +7,8 @@
 
 #include "../Common/NonTerminal.h"
 
+#include <utility>
+#include "iostream"
 
 class FollowSetsGenerator{
 private:

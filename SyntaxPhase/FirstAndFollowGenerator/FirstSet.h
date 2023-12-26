@@ -5,9 +5,10 @@
 #ifndef COMPILER_FIRSTSET_H
 #define COMPILER_FIRSTSET_H
 
-#include <unordered_set>
-#include "../Common/Terminal.h"
+
 #include "ParserSet.h"
+
+#include <unordered_set>
 
 class FirstSet : public ParserSet {
 private:

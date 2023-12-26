@@ -7,8 +7,9 @@
 
 
 #include "Symbol.h"
-#include "Terminal.h"
 #include "../FirstAndFollowGenerator/FirstSet.h"
+#include "../FirstAndFollowGenerator/FollowSet.h"
+
 #include <vector>
 #include <memory>
 #include <unordered_set>
@@ -27,6 +28,7 @@ public:
 private:
     std::vector<std::vector<std::shared_ptr<Symbol>>> productions;
     std::shared_ptr<FirstSet> firstSet;
+//    std::shared_ptr<FollowSet> followSet;
 };
 
 

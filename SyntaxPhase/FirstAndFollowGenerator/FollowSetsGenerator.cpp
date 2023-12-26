@@ -4,8 +4,6 @@
 
 #include "FollowSetsGenerator.h"
 
-#include <utility>
-#include "iostream"
 
 
 void FollowSetsGenerator::exec() {

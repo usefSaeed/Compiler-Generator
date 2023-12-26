@@ -3,6 +3,7 @@
 //
 
 #include "FirstSet.h"
+
 #include "../GrammarParser//Grammar.h"
 
 bool FirstSet::hasNoEpsilon() {
@@ -28,7 +29,7 @@ bool FirstSet::handleSymbol(Symbol* s) {
 
 std::ostream &operator<<(std::ostream &os, const FirstSet* fs) {
     os << "{ ";int i = 0;int limit = fs->set.size()-1;
-    for (Terminal* t : fs->set) {
+    for (const auto& t : fs->set) {
         os << t;
         if (i!=limit)
             os << ", ";

@@ -3,6 +3,7 @@
 //
 
 #include "Terminal.h"
+
 #include "../GrammarParser/Grammar.h"
 
 Terminal::Terminal(const std::string &name) : Symbol(name, true) {}

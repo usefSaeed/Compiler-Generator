@@ -5,7 +5,6 @@
 #ifndef COMPILER_SYMBOL_H
 #define COMPILER_SYMBOL_H
 
-
 #include <string>
 
 class Symbol {

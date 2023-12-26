@@ -6,9 +6,15 @@
 #define COMPILER_GRAMMAR_H
 
 
-#include <vector>
 #include "../Common/NonTerminal.h"
+#include "../Common/Terminal.h"
 #include "GrammarConverter.h"
+
+#include <vector>
+#include <utility>
+#include <unordered_map>
+#include <memory>
+#include <iostream>
 
 class Grammar {
 private :
