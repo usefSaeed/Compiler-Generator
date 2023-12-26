@@ -13,3 +13,5 @@ set(SOURCE_FILES
 )
 
 add_library(Common_lib STATIC ${SOURCE_FILES} ${HEADER_FILES})
+
+target_link_libraries(Common_lib PUBLIC FirstAndFollowGenerator_lib)

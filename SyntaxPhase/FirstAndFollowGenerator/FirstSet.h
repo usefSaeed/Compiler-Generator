@@ -10,12 +10,12 @@
 #include "ParserSet.h"
 
 class FirstSet : public ParserSet {
-    private:
-        [[nodiscard]] bool hasNoEpsilon();
+private:
+    [[nodiscard]] bool hasNoEpsilon();
 
-    public:
-        void addEpsilon();
-        bool handleSymbol(Symbol* s);
+public:
+    void addEpsilon();
+    bool handleSymbol(Symbol* s);
 };
 
 #endif //COMPILER_FIRSTSET_H

@@ -5,7 +5,12 @@
 #ifndef COMPILER_FOLLOWSET_H
 #define COMPILER_FOLLOWSET_H
 
-class FollowSet : ParserSet {
+#include <unordered_set>
+#include "../Common/Terminal.h"
+#include "ParserSet.h"
+
+class FollowSet : public ParserSet {
+    
 };
 
 #endif //COMPILER_FOLLOWSET_H

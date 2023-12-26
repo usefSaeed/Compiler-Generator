@@ -19,7 +19,7 @@ bool FirstSet::handleSymbol(Symbol* s) {
         return true;
     }
     NonTerminal* nt = dynamic_cast<NonTerminal *> (s);
-    this->addAll(nt.getFirstSet());
+    this->addAll(nt->getFirstSet());
     if (nt->getFirstSet().hasNoEpsilon())
         return true;
     this->removeEpsilon();

@@ -1,4 +1,4 @@
-project(FirstFollowGenerator)
+project(FirstAndFollowGenerator)
 
 set(HEADER_FILES
         FirstSet.h
@@ -11,7 +11,7 @@ set(SOURCE_FILES
         ParserSet.cpp)
 
 
-add_library(FirstFollowGenerator_lib STATIC ${SOURCE_FILES} ${HEADER_FILES})
+add_library(FirstAndFollowGenerator_lib STATIC ${SOURCE_FILES} ${HEADER_FILES})
 
-target_link_libraries(FirstFollowGenerator_lib PUBLIC Common_lib)
-target_link_libraries(FirstFollowGenerator_lib PUBLIC GrammarParser_lib)
+target_link_libraries(FirstAndFollowGenerator_lib PUBLIC Common_lib)
+target_link_libraries(FirstAndFollowGenerator_lib PUBLIC GrammarParser_lib)
