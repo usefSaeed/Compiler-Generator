@@ -17,7 +17,6 @@ private :
     std::vector<NonTerminal> standardizedNonTerminals;
     NonTerminal* startSymbol = nullptr;
 public:
-    Terminal *getEpsilon() const;
     NonTerminal *getStartSymbol() const;
     friend std::ostream& operator<<(std::ostream& os, const Grammar& g);
     const std::vector<NonTerminal> &getStandardizedNonTerminals() const;
