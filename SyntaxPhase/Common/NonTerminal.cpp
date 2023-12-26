@@ -6,7 +6,6 @@
 
 NonTerminal::NonTerminal(const std::string &name) : Symbol(name, false) {
     firstSet = nullptr;
-    followSet = nullptr;
 }
 
 const std::vector<std::vector<std::shared_ptr<Symbol>>> &NonTerminal::getProductions() const {

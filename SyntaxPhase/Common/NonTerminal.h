@@ -9,7 +9,6 @@
 #include "Symbol.h"
 #include "Terminal.h"
 #include "../FirstAndFollowGenerator/FirstSet.h"
-#include "../FirstAndFollowGenerator/FollowSet.h"
 #include <vector>
 #include <memory>
 #include <unordered_set>
