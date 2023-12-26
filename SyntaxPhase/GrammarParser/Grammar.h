@@ -24,7 +24,6 @@ public:
     void standardizeNonTerminals();
     void computeFirst();
     void showFirst();
-    void computeFollow();
     explicit Grammar(GrammarConverter modifiedGrammar);
 
     static Terminal* epsilon;
