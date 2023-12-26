@@ -12,10 +12,12 @@ class FirstSetsGenerator{
 private:
     std::vector<NonTerminal> nts;
     static void showSet(NonTerminal nt);
+    void exec();
+
 
 public:
     explicit FirstSetsGenerator(std::vector<NonTerminal> nts);
-    void exec();
+    [[nodiscard]] std::vector<NonTerminal> getNTsWithFirstSets();
 
 };
 

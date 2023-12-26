@@ -23,4 +23,9 @@ void FirstSetsGenerator::showSet(NonTerminal nt) {
 
 FirstSetsGenerator::FirstSetsGenerator(std::vector<NonTerminal> nts) {
     this->nts = std::move(nts);
+    exec();
+}
+
+std::vector<NonTerminal> FirstSetsGenerator::getNTsWithFirstSets() {
+    return nts;
 }
