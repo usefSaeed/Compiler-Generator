@@ -12,11 +12,13 @@ class ParserSet{
     protected:
         std::unordered_set<Terminal*> set;
         void add(Terminal* t);
-        void addAll(const ParserSet& s);
+        void addAll(const ParserSet* s);
         void removeEpsilon();
 
 public:
+    [[nodiscard]] bool isComputed();
     void clear();
+
 };
 
 #endif //COMPILER_PARSERSET_H

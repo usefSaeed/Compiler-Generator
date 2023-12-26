@@ -9,8 +9,8 @@ void ParserSet::add(Terminal* t) {
     set.insert(t);
 }
 
-void ParserSet::addAll(const ParserSet &s) {
-    set.insert(s.set.begin(),s.set.end());
+void ParserSet::addAll(const ParserSet* s) {
+    set.insert(s->set.begin(),s->set.end());
 }
 
 void ParserSet::removeEpsilon() {
@@ -20,4 +20,9 @@ void ParserSet::removeEpsilon() {
 void ParserSet::clear() {
     set.clear();
 }
+
+bool ParserSet::isComputed() {
+    return !set.empty();
+}
+
 

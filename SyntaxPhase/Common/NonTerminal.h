@@ -21,21 +21,19 @@ public:
 public:
     friend std::ostream& operator<<(std::ostream& os, const NonTerminal& nt);
     [[nodiscard]] const std::vector<std::vector<std::shared_ptr<Symbol>>> &getProductions() const;
-    FirstSet getFirstSet();
-    FollowSet getFollowSet();
+    FirstSet* getFirstSet();
+    FollowSet* getFollowSet();
     void setProductions(const std::vector<std::vector<std::shared_ptr<Symbol>>> &productionsVector);
 
 
 private:
     std::vector<std::vector<std::shared_ptr<Symbol>>> productions;
-    FirstSet firstSet;
-    FollowSet followSet;
-    [[nodiscard]] bool isFirstComputed() const;
-    [[nodiscard]] bool isFollowComputed() const;
-    bool firstComputed = false;
-    bool followComputed = false;
+    FirstSet* firstSet;
+    FollowSet* followSet;
     void computeFirst();
     void computeFollow();
+
+    bool isFirstComputed();
 };
 
 

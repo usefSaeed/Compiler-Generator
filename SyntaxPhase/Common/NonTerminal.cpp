@@ -5,8 +5,8 @@
 #include "NonTerminal.h"
 
 NonTerminal::NonTerminal(const std::string &name) : Symbol(name, false) {
-    firstComputed = false;
-    followComputed = false;
+    firstSet = nullptr;
+    followSet = nullptr;
 }
 
 const std::vector<std::vector<std::shared_ptr<Symbol>>> &NonTerminal::getProductions() const {
@@ -31,31 +31,30 @@ std::ostream &operator<<(std::ostream &os, const NonTerminal &nt) {
     return os;
 }
 
-FirstSet NonTerminal::getFirstSet() {
+FirstSet* NonTerminal::getFirstSet() {
     if (isFirstComputed())
-        return this->firstSet;
+        return firstSet;
     computeFirst();
-    return this->firstSet;
+    return firstSet;
 }
 
 void NonTerminal::computeFirst() {
-    firstSet.clear();
+    firstSet = new FirstSet();
     for (const auto& p : productions){
         int symbolIdx=0;
         while(symbolIdx < p.size()){
-            bool isComplete = firstSet.handleSymbol(p[symbolIdx].get());
+            bool isComplete = firstSet->handleSymbol(p[symbolIdx].get());
             if (isComplete)
                 break;
             symbolIdx++;
         }
         bool allProductionsHaveEpsilon = symbolIdx == p.size();
         if (allProductionsHaveEpsilon)
-            firstSet.addEpsilon();
+            firstSet->addEpsilon();
     }
-    firstComputed = true;
 }
 
-bool NonTerminal::isFirstComputed() const {
-    return firstComputed;
+bool NonTerminal::isFirstComputed() {
+    return firstSet!= nullptr;
 }
 
