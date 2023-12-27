@@ -16,7 +16,7 @@ Token& nextToken(std::vector<Token>& input, int& index) {
     return input[index++];
 };
 
-ParsingTree Parser::parse(std::vector<Token>& input) {
+// ParsingTree Parser::parse(std::vector<Token>& input) {
 //    // TODO: protect against empty input vector
 //    // TODO: create syntax tree (create from left to right - leaf to root)
 //
@@ -43,7 +43,7 @@ ParsingTree Parser::parse(std::vector<Token>& input) {
 //                stack.push(symbol);
 //        }
 //    }
-}
+//}
 
 void Parser::computeNTsWithFirstSet() {
     FirstSetsGenerator firstSG(NTs);
