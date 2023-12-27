@@ -2,8 +2,8 @@
 // Created by usef on 12/25/2023.
 //
 
-#ifndef COMPILER_FIRSTSET_H
-#define COMPILER_FIRSTSET_H
+#ifndef COMPILER_FOLLOWSET_H
+#define COMPILER_FOLLOWSET_H
 
 #include "ParserSet.h"
 
@@ -14,8 +14,11 @@ class FollowSet : public ParserSet {
 private:
 
 public:
+    FollowSet();
+    void addEOI();
+    static Terminal* EOI;
     friend std::ostream& operator<<(std::ostream& os, const FollowSet* fs);
 
 };
 
-#endif //COMPILER_FIRSTSET_H
+#endif //COMPILER_FOLLOWSET_H

@@ -6,6 +6,7 @@
 
 NonTerminal::NonTerminal(const std::string &name) : Symbol(name, false) {
     firstSet = std::make_shared<FirstSet>();
+    followSet = std::make_shared<FollowSet>();
 }
 
 const std::vector<std::vector<std::shared_ptr<Symbol>>> &NonTerminal::getProductions() const {
@@ -52,4 +53,16 @@ void NonTerminal::computeFirst() {
         if (allProductionsHaveEpsilon)
             firstSet->addEpsilon();
     }
+}
+
+std::shared_ptr<FollowSet> NonTerminal::getFollowSet() {
+    return followSet;
+}
+
+void NonTerminal::setFollowComputed() {
+    followComputed = true;
+}
+
+bool NonTerminal::isFollowComputed() const {
+    return followComputed;
 }

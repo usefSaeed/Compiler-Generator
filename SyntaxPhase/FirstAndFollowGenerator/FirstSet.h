@@ -17,6 +17,7 @@ private:
 public:
     void addEpsilon();
     bool handleSymbol(Symbol* s);
+    [[nodiscard]] bool isComputed();
     friend std::ostream& operator<<(std::ostream& os, const FirstSet* fs);
 
 };

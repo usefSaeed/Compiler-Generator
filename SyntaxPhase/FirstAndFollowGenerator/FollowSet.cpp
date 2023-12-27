@@ -4,6 +4,7 @@
 
 #include "FollowSet.h"
 
+Terminal* FollowSet::EOI = new Terminal("$");
 
 std::ostream &operator<<(std::ostream &os, const FollowSet* fs) {
     os << "{ ";int i = 0;int limit = fs->set.size()-1;
@@ -16,3 +17,9 @@ std::ostream &operator<<(std::ostream &os, const FollowSet* fs) {
     os << " }";
     return os;
 }
+
+void FollowSet::addEOI() {
+    this->add(EOI);
+}
+
+FollowSet::FollowSet() = default;

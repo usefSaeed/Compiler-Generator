@@ -15,10 +15,6 @@ class ParserSet{
         void add(Terminal* t);
         void addAll(const std::shared_ptr<ParserSet>& s);
         void removeEpsilon();
-
-public:
-    [[nodiscard]] bool isComputed();
-    void clear();
 };
 
 #endif //COMPILER_PARSERSET_H

@@ -38,3 +38,7 @@ std::ostream &operator<<(std::ostream &os, const FirstSet* fs) {
     os << " }";
     return os;
 }
+
+bool FirstSet::isComputed() {
+    return !set.empty();
+}

@@ -19,13 +19,8 @@ void ParserSet::removeEpsilon() {
     set.erase(Grammar::epsilon);
 }
 
-void ParserSet::clear() {
-    set.clear();
-}
 
-bool ParserSet::isComputed() {
-    return !set.empty();
-}
+
 
 
 

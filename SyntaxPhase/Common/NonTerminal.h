@@ -15,20 +15,25 @@
 #include <unordered_set>
 
 class NonTerminal : public Symbol {
-public:
-    explicit NonTerminal(const std::string &name);
-
-public:
-    friend std::ostream& operator<<(std::ostream& os, const NonTerminal& nt);
-    [[nodiscard]] const std::vector<std::vector<std::shared_ptr<Symbol>>> &getProductions() const;
-    std::shared_ptr<FirstSet> getFirstSet();
-    void computeFirst();
-    void setProductions(const std::vector<std::vector<std::shared_ptr<Symbol>>> &productionsVector);
-
 private:
     std::vector<std::vector<std::shared_ptr<Symbol>>> productions;
     std::shared_ptr<FirstSet> firstSet;
-//    std::shared_ptr<FollowSet> followSet;
+    std::shared_ptr<FollowSet> followSet;
+    bool followComputed;
+
+public:
+    explicit NonTerminal(const std::string &name);
+
+    void computeFirst();
+    void setFollowComputed();
+    void setProductions(const std::vector<std::vector<std::shared_ptr<Symbol>>> &productionsVector);
+
+    [[nodiscard]] bool isFollowComputed() const;
+    [[nodiscard]] std::shared_ptr<FirstSet> getFirstSet();
+    [[nodiscard]] std::shared_ptr<FollowSet> getFollowSet();
+    [[nodiscard]] const std::vector<std::vector<std::shared_ptr<Symbol>>> &getProductions() const;
+
+    friend std::ostream& operator<<(std::ostream& os, const NonTerminal& nt);
 };
 
 
