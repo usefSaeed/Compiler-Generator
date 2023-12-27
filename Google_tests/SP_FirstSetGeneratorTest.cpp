@@ -27,6 +27,8 @@ TEST(FirstSetGeneration,TerminalScenario){
     v_s.push_back(b); v_s.push_back(a); v_s.push_back(B); vv_s.push_back(v_s);
     v_s.clear();
     v_s.push_back(a); v_s.push_back(A); vv_s.push_back(v_s);
+    v_s.clear();
+    v_s.push_back(eps); vv_s.push_back(v_s);
     B->setProductions(vv_s);
 
     v_s.clear(); vv_s.clear();
@@ -38,10 +40,9 @@ TEST(FirstSetGeneration,TerminalScenario){
     FirstSet fs_expected;
     fs_expected.add(a.get()); fs_expected.add(b.get());
 
-    for (int i=0; i<2; i++){
-        ASSERT_EQ(nts[i]->getFirstSet().get()->getSet(), fs_expected.getSet());
-    }
-
+    ASSERT_EQ(nts[0]->getFirstSet().get()->getSet(), fs_expected.getSet());
+    fs_expected.addEpsilon();
+    ASSERT_EQ(nts[1]->getFirstSet().get()->getSet(), fs_expected.getSet());
 }
 
 TEST(FirstSetGeneration,NonTerminalScenario){
