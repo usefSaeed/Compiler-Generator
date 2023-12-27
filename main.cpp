@@ -45,6 +45,7 @@ int main(int argc, char *argv[]) {
     std::cout << grammar;
 
     FirstSetsGenerator firstSG(grammar.getStandardizedNonTerminals());
+    std::cout << "\n\n\n";
     FollowSetsGenerator followSG(firstSG.getNTsWithFirstSets(),grammar.getStartSymbol());
 
 //    std::vector<NonTerminal> standardizedGrammar = grammar.getStandardizedNonTerminals();
