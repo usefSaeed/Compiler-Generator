@@ -40,9 +40,9 @@ TEST(FirstSetGeneration,TerminalScenario){
     FirstSet fs_expected;
     fs_expected.add(a.get()); fs_expected.add(b.get());
 
-    ASSERT_EQ(nts[0]->getFirstSet().get()->getSet(), fs_expected.getSet());
+    ASSERT_EQ(A->getFirstSet().get()->getSet(), fs_expected.getSet());
     fs_expected.addEpsilon();
-    ASSERT_EQ(nts[1]->getFirstSet().get()->getSet(), fs_expected.getSet());
+    ASSERT_EQ(B->getFirstSet().get()->getSet(), fs_expected.getSet());
 }
 
 TEST(FirstSetGeneration,NonTerminalScenario){
@@ -83,12 +83,12 @@ TEST(FirstSetGeneration,NonTerminalScenario){
 
     FirstSet fs_expected;
     fs_expected.add(c.get());
-    ASSERT_EQ(nts[2]->getFirstSet().get()->getSet(), fs_expected.getSet());
+    ASSERT_EQ(C->getFirstSet().get()->getSet(), fs_expected.getSet());
     fs_expected.add(eps.get());
-    ASSERT_EQ(nts[1]->getFirstSet().get()->getSet(), fs_expected.getSet());
+    ASSERT_EQ(B->getFirstSet().get()->getSet(), fs_expected.getSet());
     fs_expected.removeEpsilon();
     fs_expected.add(a.get());
-    ASSERT_EQ(nts[0]->getFirstSet().get()->getSet(), fs_expected.getSet());
+    ASSERT_EQ(A->getFirstSet().get()->getSet(), fs_expected.getSet());
 }
 
 
@@ -141,15 +141,15 @@ TEST(FirstSetGeneration,LateFirstCase){
 
     FirstSet fs_expected;
     fs_expected.add(c.get()); fs_expected.add(eps.get());
-    ASSERT_EQ(nts[2]->getFirstSet().get()->getSet(), fs_expected.getSet());
+    ASSERT_EQ(C->getFirstSet().get()->getSet(), fs_expected.getSet());
     fs_expected.add(a.get());
-    ASSERT_EQ(nts[1]->getFirstSet().get()->getSet(), fs_expected.getSet());
+    ASSERT_EQ(B->getFirstSet().get()->getSet(), fs_expected.getSet());
     fs_expected.removeEpsilon();
     fs_expected.add(b.get());fs_expected.add(d.get());
-    ASSERT_EQ(nts[0]->getFirstSet().get()->getSet(), fs_expected.getSet());
+    ASSERT_EQ(A->getFirstSet().get()->getSet(), fs_expected.getSet());
     fs_expected.clear();
     fs_expected.add(b.get());fs_expected.add(d.get());
-    ASSERT_EQ(nts[3]->getFirstSet().get()->getSet(), fs_expected.getSet());
+    ASSERT_EQ(D->getFirstSet().get()->getSet(), fs_expected.getSet());
 }
 
 TEST(FirstSetGeneration,LateEpsilonCase){
@@ -204,14 +204,14 @@ TEST(FirstSetGeneration,LateEpsilonCase){
 
     FirstSet fs_expected;
     fs_expected.add(c.get()); fs_expected.add(eps.get());
-    ASSERT_EQ(nts[2]->getFirstSet().get()->getSet(), fs_expected.getSet());
+    ASSERT_EQ(C->getFirstSet().get()->getSet(), fs_expected.getSet());
     fs_expected.add(a.get());
-    ASSERT_EQ(nts[1]->getFirstSet().get()->getSet(), fs_expected.getSet());
+    ASSERT_EQ(B->getFirstSet().get()->getSet(), fs_expected.getSet());
     fs_expected.add(b.get());fs_expected.add(d.get());
-    ASSERT_EQ(nts[0]->getFirstSet().get()->getSet(), fs_expected.getSet());
+    ASSERT_EQ(A->getFirstSet().get()->getSet(), fs_expected.getSet());
     fs_expected.clear();
     fs_expected.add(b.get());fs_expected.add(d.get());fs_expected.add(eps.get());
-    ASSERT_EQ(nts[3]->getFirstSet().get()->getSet(), fs_expected.getSet());
+    ASSERT_EQ(D->getFirstSet().get()->getSet(), fs_expected.getSet());
 }
 
 TEST(FirstSetGeneration,Complex){
@@ -287,16 +287,16 @@ TEST(FirstSetGeneration,Complex){
 
     FirstSet fs_expected;
     fs_expected.add(a.get()); fs_expected.add(b.get()); fs_expected.add(lb.get()); fs_expected.add(Em.get());
-    ASSERT_EQ(nts[0]->getFirstSet().get()->getSet(), fs_expected.getSet());
-    ASSERT_EQ(nts[2]->getFirstSet().get()->getSet(), fs_expected.getSet());
-    ASSERT_EQ(nts[4]->getFirstSet().get()->getSet(), fs_expected.getSet());
-    ASSERT_EQ(nts[6]->getFirstSet().get()->getSet(), fs_expected.getSet());
+    ASSERT_EQ(E->getFirstSet().get()->getSet(), fs_expected.getSet());
+    ASSERT_EQ(T->getFirstSet().get()->getSet(), fs_expected.getSet());
+    ASSERT_EQ(F->getFirstSet().get()->getSet(), fs_expected.getSet());
+    ASSERT_EQ(P->getFirstSet().get()->getSet(), fs_expected.getSet());
     fs_expected.add(eps.get());
-    ASSERT_EQ(nts[3]->getFirstSet().get()->getSet(), fs_expected.getSet());
+    ASSERT_EQ(T_d->getFirstSet().get()->getSet(), fs_expected.getSet());
     fs_expected.clear();
     fs_expected.add(eps.get());fs_expected.add(plus.get());
-    ASSERT_EQ(nts[1]->getFirstSet().get()->getSet(), fs_expected.getSet());
+    ASSERT_EQ(E_d->getFirstSet().get()->getSet(), fs_expected.getSet());
     fs_expected.clear();
     fs_expected.add(eps.get());fs_expected.add(ast.get());
-    ASSERT_EQ(nts[5]->getFirstSet().get()->getSet(), fs_expected.getSet());
+    ASSERT_EQ(F_d->getFirstSet().get()->getSet(), fs_expected.getSet());
 }
