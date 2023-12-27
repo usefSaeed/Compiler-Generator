@@ -21,6 +21,7 @@ class Parser {
         std::unordered_map<std::pair<NonTerminal*,std::string>, ParsingTableEntry, PairHash, PairEqual> parsingTable;
         void computeNTsWithFirstSet();
         void computeNTsWithFollowSet();
+        static Production getInputMatchedProduction(const std::vector<std::vector<std::shared_ptr<Symbol>>>& productions, const std::string& input);
         void constructParseTable();
     public:
         Parser(Grammar& grammar);

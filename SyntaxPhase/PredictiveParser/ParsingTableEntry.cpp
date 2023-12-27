@@ -16,8 +16,8 @@ ParsingTableEntry::ParsingTableEntry(std::string type) {
     }
 }
 
-ParsingTableEntry::ParsingTableEntry(std::vector<std::vector<std::shared_ptr<Symbol>>> productions) {
-    this->productions = std::move(productions);
+ParsingTableEntry::ParsingTableEntry(Production production) {
+    this->production = std::move(production);
 }
 
 bool ParsingTableEntry::isSync() const {
@@ -28,7 +28,7 @@ bool ParsingTableEntry::isEpsilon() const {
     return this->epsilon;
 }
 
-std::vector<std::vector<std::shared_ptr<Symbol>>> ParsingTableEntry::getProductions() {
-    return this->productions;
+Production ParsingTableEntry::getProduction() {
+    return this->production;
 }
 

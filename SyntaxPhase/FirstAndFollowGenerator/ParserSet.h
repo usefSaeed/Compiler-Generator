@@ -19,9 +19,6 @@ protected:
 public:
     bool handleSymbol(Symbol* s);
     std::unordered_set<Terminal*> getSet();
-
-    void setSet(const std::unordered_set<Terminal *> &set);
-
 };
 
 #endif //COMPILER_PARSERSET_H

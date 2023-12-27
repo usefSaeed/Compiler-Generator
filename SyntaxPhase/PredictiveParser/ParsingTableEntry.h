@@ -10,15 +10,15 @@ class ParsingTableEntry {
     private:
         bool epsilon = false;
         bool sync = false;
-        std::vector<std::vector<std::shared_ptr<Symbol>>> productions;
+        Production production;
 
     public:
         ParsingTableEntry();
         explicit ParsingTableEntry(std::string type);
-        explicit ParsingTableEntry(std::vector<std::vector<std::shared_ptr<Symbol>>> productions);
+        explicit ParsingTableEntry(Production production);
         [[nodiscard]] bool isSync() const;
         [[nodiscard]] bool isEpsilon() const;
-        std::vector<std::vector<std::shared_ptr<Symbol>>> getProductions();
+        Production getProduction();
 
 };
 
