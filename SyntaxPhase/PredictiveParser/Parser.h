@@ -17,7 +17,7 @@
 class Parser {
     private:
         Grammar grammar;
-        std::vector<NonTerminal*> NTs;
+        std::vector<std::shared_ptr<NonTerminal>> NTs;
         std::unordered_map<std::pair<NonTerminal*,std::string>, ParsingTableEntry, PairHash, PairEqual> parsingTable;
         void computeNTsWithFirstSet();
         void computeNTsWithFollowSet();

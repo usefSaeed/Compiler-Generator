@@ -39,8 +39,6 @@ int main(int argc, char *argv[]) {
 
     std::cout << "\n\n\n";
 
-    std::cout << grammar;
-
     Parser parser(grammar);
     std::cout << "success";
 

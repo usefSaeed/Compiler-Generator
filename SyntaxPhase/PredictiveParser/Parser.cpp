@@ -72,22 +72,22 @@ Production Parser::getInputMatchedProduction(const std::vector<std::vector<std::
 }
 
 void Parser::constructParseTable() {
-    for (NonTerminal* nonTerminal: NTs){
+    for (const std::shared_ptr<NonTerminal>& nonTerminal: NTs){
         std::shared_ptr<FirstSet> firstSet = nonTerminal->getFirstSet();
         std::shared_ptr<FollowSet> followSet = nonTerminal->getFollowSet();
         std::vector<std::vector<std::shared_ptr<Symbol>>> productions = nonTerminal->getProductions();
         for (Terminal* first: firstSet->getSet()){
            if (!first->isEpsilon()){
-               parsingTable[std::pair(nonTerminal,first->getName())] = ParsingTableEntry(getInputMatchedProduction(productions, first->getName()));
+               parsingTable[std::pair(nonTerminal.get(),first->getName())] = ParsingTableEntry(getInputMatchedProduction(productions, first->getName()));
            }
 
         }
 
         for (Terminal* follow: followSet->getSet()){
             if (firstSet->hasNoEpsilon()) {
-                parsingTable[std::pair(nonTerminal,follow->getName())] = ParsingTableEntry("sync");
+                parsingTable[std::pair(nonTerminal.get(),follow->getName())] = ParsingTableEntry("sync");
             } else {
-                parsingTable[std::pair(nonTerminal,follow->getName())] = ParsingTableEntry("epsilon");
+                parsingTable[std::pair(nonTerminal.get(),follow->getName())] = ParsingTableEntry("epsilon");
 
             }
         }
