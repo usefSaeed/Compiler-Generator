@@ -14,7 +14,7 @@ ParsingTableEntry::ParsingTableEntry(std::string type) {
     }
 }
 
-ParsingTableEntry::ParsingTableEntry(productionsVector productions) {
+ParsingTableEntry::ParsingTableEntry(ProductionsVector productions) {
     this->productions = std::move(productions);
 }
 
@@ -26,7 +26,7 @@ bool ParsingTableEntry::isEpsilon() const {
     return this->epsilon;
 }
 
-productionsVector ParsingTableEntry::getProductions() {
+ProductionsVector ParsingTableEntry::getProductions() {
     return this->productions;
 }
 

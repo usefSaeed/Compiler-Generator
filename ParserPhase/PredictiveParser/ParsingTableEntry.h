@@ -6,19 +6,20 @@
 #define COMPILER_PARSINGTABLEENTRY_H
 
 #include "Common.h"
+
 class ParsingTableEntry {
     private:
         bool epsilon = false;
         bool sync = false;
-        productionsVector productions;
+        ProductionsVector productions;
 
     public:
         ParsingTableEntry();
         explicit ParsingTableEntry(std::string type);
-        explicit ParsingTableEntry(productionsVector productions);
+        explicit ParsingTableEntry(ProductionsVector productions);
         [[nodiscard]] bool isSync() const;
         [[nodiscard]] bool isEpsilon() const;
-        productionsVector getProductions();
+        ProductionsVector getProductions();
 
 };
 

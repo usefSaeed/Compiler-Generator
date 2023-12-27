@@ -15,7 +15,7 @@
 #include "Token.h"
 #include "../Common/Symbol.h"
 
-typedef std::vector<std::vector<std::shared_ptr<Symbol>>> productionsVector;
+typedef std::vector<std::vector<std::shared_ptr<Symbol>>> ProductionsVector;
 
 #define EPSILON '\0'
 #define END "$"
