@@ -2,7 +2,7 @@
 // Created by Meniem on 19-Dec-23.
 //
 #include "gtest/gtest.h"
-#include "../SyntaxPhase/GrammarParser/GrammarConverter.h"
+#include "../ParserPhase/GrammarParser/GrammarConverter.h"
 
 TEST(ValidateGrammar, HandlesNoSeperator){
     std::string str = "METHOD_BODY  STATEMENT_LIST";

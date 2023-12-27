@@ -33,6 +33,10 @@ bool ParserSet::handleSymbol(Symbol *s) {
     return false;
 }
 
+std::unordered_set<Terminal *> ParserSet::getSet() {
+    return set;
+}
+
 
 
 
