@@ -64,14 +64,14 @@ void Grammar::standardizeNonTerminals() {
             outerNonTerminal = nonTerminalMap.find(nonTerminal.getName())->second;
             outerNonTerminal->setProductions(newProductions);
         }
-        standardizedNonTerminals.push_back(*outerNonTerminal);
+        standardizedNonTerminals.push_back(outerNonTerminal.get());
     }
-    startSymbol =  &standardizedNonTerminals[0];
+    startSymbol =  standardizedNonTerminals[0];
 }
 
 Grammar::Grammar(GrammarConverter modifiedGrammar) : modifiedGrammar(std::move(modifiedGrammar)) {}
 
-const std::vector<NonTerminal> &Grammar::getStandardizedNonTerminals() const {
+const std::vector<NonTerminal*> &Grammar::getStandardizedNonTerminals() const {
     return standardizedNonTerminals;
 }
 

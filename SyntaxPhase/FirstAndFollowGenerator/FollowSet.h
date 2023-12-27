@@ -17,6 +17,7 @@ public:
     FollowSet();
     void addEOI();
     static Terminal* EOI;
+    void addFollowSubset(const std::shared_ptr<FollowSet>& fss);
     friend std::ostream& operator<<(std::ostream& os, const FollowSet* fs);
 
 };

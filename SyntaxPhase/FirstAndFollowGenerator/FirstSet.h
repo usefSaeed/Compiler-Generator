@@ -11,15 +11,14 @@
 #include <unordered_set>
 
 class FirstSet : public ParserSet {
-private:
-    [[nodiscard]] bool hasNoEpsilon();
 
 public:
     void addEpsilon();
-    bool handleSymbol(Symbol* s);
-    [[nodiscard]] bool isComputed();
-    friend std::ostream& operator<<(std::ostream& os, const FirstSet* fs);
 
+    [[nodiscard]] bool isComputed();
+    [[nodiscard]] bool hasNoEpsilon();
+
+    friend std::ostream& operator<<(std::ostream& os, const FirstSet* fs);
 };
 
 #endif //COMPILER_FIRSTSET_H

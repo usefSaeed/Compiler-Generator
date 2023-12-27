@@ -7,6 +7,7 @@
 NonTerminal::NonTerminal(const std::string &name) : Symbol(name, false) {
     firstSet = std::make_shared<FirstSet>();
     followSet = std::make_shared<FollowSet>();
+    followComputed = false;
 }
 
 const std::vector<std::vector<std::shared_ptr<Symbol>>> &NonTerminal::getProductions() const {

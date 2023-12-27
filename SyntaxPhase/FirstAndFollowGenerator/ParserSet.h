@@ -10,11 +10,15 @@
 #include "memory"
 
 class ParserSet{
-    protected:
-        std::unordered_set<Terminal*> set;
-        void add(Terminal* t);
-        void addAll(const std::shared_ptr<ParserSet>& s);
-        void removeEpsilon();
+
+protected:
+    std::unordered_set<Terminal*> set;
+    void add(Terminal* t);
+    void addAll(const std::shared_ptr<ParserSet>& s);
+    void removeEpsilon();
+public:
+    bool handleSymbol(Symbol* s);
+
 };
 
 #endif //COMPILER_PARSERSET_H

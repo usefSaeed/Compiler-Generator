@@ -22,4 +22,8 @@ void FollowSet::addEOI() {
     this->add(EOI);
 }
 
+void FollowSet::addFollowSubset(const std::shared_ptr<FollowSet>& fss) {
+    this->addAll(fss);
+}
+
 FollowSet::FollowSet() = default;

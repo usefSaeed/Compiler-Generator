@@ -2,8 +2,8 @@
 // Created by usef on 12/26/2023.
 //
 
-#ifndef COMPILER_FIRSTSETSGENERATOR_H
-#define COMPILER_FIRSTSETSGENERATOR_H
+#ifndef COMPILER_FOLLOWSETSGENERATOR_H
+#define COMPILER_FOLLOWSETSGENERATOR_H
 
 #include "../Common/NonTerminal.h"
 
@@ -13,17 +13,19 @@
 
 class FollowSetsGenerator{
 private:
-    std::vector<NonTerminal> nts;
+    std::vector<NonTerminal*> nts;
     const NonTerminal* startSymbol;
-    static void showFollowSet(NonTerminal nt);
+    static void showFollowSet(NonTerminal* nt);
     std::unordered_set<NonTerminal*> lockedNTs;
     void exec();
-
+    std::shared_ptr<FollowSet> getFollow(NonTerminal *nt);
 
 public:
-    explicit FollowSetsGenerator(std::vector<NonTerminal> nts, const NonTerminal* startSymbol);
-    [[nodiscard]] std::vector<NonTerminal> getNTsWithFollowSets();
+    explicit FollowSetsGenerator(std::vector<NonTerminal*> nts, const NonTerminal* startSymbol);
+    [[nodiscard]] std::vector<NonTerminal*> getNTsWithFollowSets();
+
+    bool isNotLocked(NonTerminal* nt);
 
 };
 
-#endif //COMPILER_FIRSTSETSGENERATOR_H
+#endif //COMPILER_FOLLOWSETSGENERATOR_H
