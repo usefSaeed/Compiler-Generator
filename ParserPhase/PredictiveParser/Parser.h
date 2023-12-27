@@ -39,8 +39,7 @@ class Parser {
         void constructParseTable();
     public:
         Parser(Grammar& grammar);
- //       ParsingTree parse(std::vector<Token>& input);
-
+       ParsingTree parse(std::vector<Token>& input);
 };
 
 #endif //COMPILER_PARSER_H

@@ -6,6 +6,8 @@
 #define COMPILER_SYMBOL_H
 
 #include <string>
+#include <iostream>
+
 
 class Symbol {
 

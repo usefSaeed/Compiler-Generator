@@ -8,24 +8,25 @@
 #include "Common.h"
 #include "../Common/NonTerminal.h"
 
-class ParsingTreeNode{
-    private:
-        NonTerminal *symbol;
-        std::vector<ParsingTreeNode *> children;
+class ParsingTreeNode {
+private:
+    Symbol* symbol;
+    std::vector<ParsingTreeNode*> children;
+public:
+    ParsingTreeNode(Symbol* symbol);
+    void addChild(ParsingTreeNode* child);
+    std::vector<ParsingTreeNode*> getChildren();
+    bool isLeaf();
 };
 
-class ParsingTreeLeafNode : ParsingTreeNode{
-    private:
-        std::string lexeme;
-};
-
-class ParsingTree{
-    private:
-        ParsingTreeNode *root;
-
-    public:
-        ParsingTree(ParsingTreeNode *r) : root(r){};
-        void print();
+class ParsingTree {
+private:
+    ParsingTreeNode* root;
+    void printNode(const std::string& prefix, ParsingTreeNode* node, bool isLast);
+public:
+    ParsingTree();
+    ParsingTree(ParsingTreeNode *r);
+    void print();
 };
 
 #endif //COMPILER_PARSINGTREE_H

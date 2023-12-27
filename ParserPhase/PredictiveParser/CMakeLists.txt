@@ -6,11 +6,12 @@ set(HEADER_FILES
         ParsingTree.h
         Token.h
         ParsingTableEntry.h)
-
-
-
+        
+        
+        
 set(SOURCE_FILES
         Parser.cpp
+        ParsingTree.cpp
         ParsingTableEntry.cpp)
 
 

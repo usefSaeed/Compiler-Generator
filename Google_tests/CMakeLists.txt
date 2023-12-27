@@ -10,6 +10,7 @@ add_executable(Google_Tests_run UtilsTest.cpp
         DFATest.cpp
         STGeneratorTest.cpp
         GrammarConverterTest.cpp
+        ParserTest.cpp
 )
 
 target_link_libraries(Google_Tests_run gtest gtest_main)
