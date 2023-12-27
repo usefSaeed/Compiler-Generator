@@ -14,7 +14,6 @@ class ParserSet{
 protected:
     std::unordered_set<Terminal*> set;
     void addAll(const std::shared_ptr<ParserSet>& s);
-    void removeEpsilon();
 
 public:
     virtual bool handleSymbol(Symbol* s) = 0;
@@ -22,6 +21,8 @@ public:
     void add(Terminal* t);
     const std::unordered_set<Terminal *> &getSet() const;
     void clear();
+
+    void removeEpsilon();
 };
 
 #endif //COMPILER_PARSERSET_H
