@@ -9,6 +9,8 @@
 #include "SyntaxPhase/GrammarParser/Grammar.h"
 #include "SyntaxPhase/FirstAndFollowGenerator/FirstSetsGenerator.h"
 #include "SyntaxPhase/FirstAndFollowGenerator/FollowSetsGenerator.h"
+#include "unordered_set"
+#include "string"
 
 
 int main(int argc, char *argv[]) {
@@ -43,6 +45,7 @@ int main(int argc, char *argv[]) {
     FirstSetsGenerator firstSG(grammar.getStandardizedNonTerminals());
     std::cout << "\n\n\n";
     FollowSetsGenerator followSG(firstSG.getNTsWithFirstSets(),grammar.getStartSymbol());
+
 
 //    std::vector<NonTerminal> standardizedGrammar = grammar.getStandardizedNonTerminals();
 //    NonTerminal declaration = standardizedGrammar[3];

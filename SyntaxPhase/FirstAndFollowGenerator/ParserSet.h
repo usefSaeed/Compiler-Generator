@@ -21,6 +21,7 @@ public:
     int getSize();
     void add(Terminal* t);
     const std::unordered_set<Terminal *> &getSet() const;
+    void clear();
 };
 
 #endif //COMPILER_PARSERSET_H

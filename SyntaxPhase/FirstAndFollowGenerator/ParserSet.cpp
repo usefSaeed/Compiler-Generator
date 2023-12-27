@@ -27,6 +27,10 @@ const std::unordered_set<Terminal *> &ParserSet::getSet() const {
     return set;
 }
 
+void ParserSet::clear() {
+    set.clear();
+}
+
 
 
 
