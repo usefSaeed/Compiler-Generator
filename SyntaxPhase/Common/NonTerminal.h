@@ -33,7 +33,7 @@ public:
     [[nodiscard]] std::shared_ptr<FollowSet> getFollowSet();
     [[nodiscard]] std::vector<std::vector<std::shared_ptr<Symbol>>> getProductions() const;
 
-    friend std::ostream& operator<<(std::ostream& os, const NonTerminal& nt);
+    friend std::ostream& operator<<(std::ostream& os, const NonTerminal* nt);
 };
 
 

@@ -12,14 +12,15 @@
 
 class FirstSetsGenerator{
 private:
-    std::vector<NonTerminal*> nts;
-    static void showFirstSet(NonTerminal* nt);
+    std::vector<std::shared_ptr<NonTerminal>> nts;
+    static void showFirstSet(const std::shared_ptr<NonTerminal>& nt);
     void exec();
 
+public:
+    [[nodiscard]] const std::vector<std::shared_ptr<NonTerminal>> &getNTsWithFirstSets() const;
 
 public:
-    explicit FirstSetsGenerator(std::vector<NonTerminal*> nts);
-    [[nodiscard]] std::vector<NonTerminal*> getNTsWithFirstSets();
+    explicit FirstSetsGenerator(std::vector<std::shared_ptr<NonTerminal>> nts);
 
 };
 

@@ -13,18 +13,18 @@
 
 class FollowSetsGenerator{
 private:
-    std::vector<NonTerminal*> nts;
+    std::vector<std::shared_ptr<NonTerminal>> nts;
     const NonTerminal* startSymbol;
-    static void showFollowSet(NonTerminal* nt);
-    std::unordered_set<NonTerminal*> lockedNTs;
+    std::unordered_set<std::shared_ptr<NonTerminal>> lockedNTs;
     void exec();
-    std::shared_ptr<FollowSet> getFollow(NonTerminal *nt);
+    static void showFollowSet(const std::shared_ptr<NonTerminal>& nt);
+    std::shared_ptr<FollowSet> getFollow(const std::shared_ptr<NonTerminal>& nt);
 
 public:
-    explicit FollowSetsGenerator(std::vector<NonTerminal*> nts, const NonTerminal* startSymbol);
-    [[nodiscard]] std::vector<NonTerminal*> getNTsWithFollowSets();
+    explicit FollowSetsGenerator(std::vector<std::shared_ptr<NonTerminal>> nts,const NonTerminal* startSymbol);
 
-    bool isNotLocked(NonTerminal* nt);
+    [[nodiscard]] bool isNotLocked(const std::shared_ptr<NonTerminal>& nt);
+    [[nodiscard]] const std::vector<std::shared_ptr<NonTerminal>> &getNTsWithFollowSets() const;
 
 };
 

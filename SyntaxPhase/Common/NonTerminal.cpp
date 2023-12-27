@@ -18,13 +18,13 @@ void NonTerminal::setProductions(const std::vector<std::vector<std::shared_ptr<S
     NonTerminal::productions = productionsVector;
 }
 
-std::ostream &operator<<(std::ostream &os, const NonTerminal &nt) {
-    os << nt.getName() << " --> ";
-    for (int i=0;i<nt.getProductions().size();i++){
-        for (const auto& symbol : nt.getProductions()[i]){
+std::ostream &operator<<(std::ostream &os, const NonTerminal* nt) {
+    os << nt->getName() << " --> ";
+    for (int i=0;i<nt->getProductions().size();i++){
+        for (const auto& symbol : nt->getProductions()[i]){
             os << symbol->getName() << " ";
         }
-        if (i<nt.getProductions().size()-1){
+        if (i<nt->getProductions().size()-1){
             os << "| ";
         }
     }

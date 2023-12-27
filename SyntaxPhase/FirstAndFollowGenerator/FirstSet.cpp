@@ -17,7 +17,7 @@ void FirstSet::addEpsilon() {
 std::ostream &operator<<(std::ostream &os, const FirstSet* fs) {
     os << "{ ";int i = 0;int limit = fs->set.size()-1;
     for (const auto& t : fs->set) {
-        os << t;
+        os << "'" << t << "'";
         if (i!=limit)
             os << ", ";
         i++;
@@ -28,4 +28,18 @@ std::ostream &operator<<(std::ostream &os, const FirstSet* fs) {
 
 bool FirstSet::isComputed() {
     return !set.empty();
+}
+
+bool FirstSet::handleSymbol(Symbol *s) {
+    if (s->isTerminal()) {
+        this->add(dynamic_cast<Terminal *> (s));
+        return true;
+    }
+    NonTerminal* nt = dynamic_cast<NonTerminal *> (s);
+    bool hasEpsilonAlready = !nt->getFirstSet()->hasNoEpsilon();
+    this->addAll(nt->getFirstSet());
+    if (nt->getFirstSet()->hasNoEpsilon() || hasEpsilonAlready)
+        return true;
+    this->removeEpsilon();
+    return false;
 }

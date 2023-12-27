@@ -64,20 +64,13 @@ void Grammar::standardizeNonTerminals() {
             outerNonTerminal = nonTerminalMap.find(nonTerminal.getName())->second;
             outerNonTerminal->setProductions(newProductions);
         }
-        standardizedNonTerminals.push_back(outerNonTerminal.get());
+        standardizedNonTerminals.push_back(outerNonTerminal);
     }
-    startSymbol =  standardizedNonTerminals[0];
+    startSymbol =  standardizedNonTerminals[0].get();
 }
 
 Grammar::Grammar(GrammarConverter modifiedGrammar) : modifiedGrammar(std::move(modifiedGrammar)) {}
 
-const std::vector<NonTerminal*> &Grammar::getStandardizedNonTerminals() const {
-    return standardizedNonTerminals;
-}
-
-NonTerminal *Grammar::getStartSymbol() const {
-    return startSymbol;
-}
 
 std::ostream &operator<<(std::ostream &os, const Grammar &g) {
     for (const auto& r : g.standardizedNonTerminals)
@@ -85,6 +78,15 @@ std::ostream &operator<<(std::ostream &os, const Grammar &g) {
     os << "\n\n\n";
     return os;
 }
+
+const std::vector<std::shared_ptr<NonTerminal>> &Grammar::getStandardizedNonTerminals() const {
+    return standardizedNonTerminals;
+}
+
+NonTerminal *Grammar::getStartSymbol() const {
+    return startSymbol;
+}
+
 
 
 

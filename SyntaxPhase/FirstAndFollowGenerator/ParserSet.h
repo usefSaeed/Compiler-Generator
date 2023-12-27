@@ -17,8 +17,9 @@ protected:
     void addAll(const std::shared_ptr<ParserSet>& s);
     void removeEpsilon();
 public:
-    bool handleSymbol(Symbol* s);
+    virtual bool handleSymbol(Symbol* s) = 0;
     std::unordered_set<Terminal*> getSet();
+
 };
 
 #endif //COMPILER_PARSERSET_H

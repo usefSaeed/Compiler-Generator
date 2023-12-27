@@ -18,6 +18,8 @@ public:
     [[nodiscard]] bool isComputed();
     [[nodiscard]] bool hasNoEpsilon();
 
+    bool handleSymbol(Symbol* s) override;
+
     friend std::ostream& operator<<(std::ostream& os, const FirstSet* fs);
 };
 
