@@ -16,7 +16,6 @@ void FollowSetsGenerator::exec() {
         lockedNTs.insert(&nt);
         //LOOP
         nt.setFollowComputed();
-        }
     }
 }
 
