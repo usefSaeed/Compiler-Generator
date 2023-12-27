@@ -16,15 +16,16 @@ void FirstSetsGenerator::exec() {
     }
 }
 
-void FirstSetsGenerator::showFirstSet(NonTerminal* nt) {
+void FirstSetsGenerator::showFirstSet(const std::shared_ptr<NonTerminal>& nt) {
     std::cout << "FIRST( " << nt->getName() << " ) = " << nt->getFirstSet().get() << "\n";
 }
 
-FirstSetsGenerator::FirstSetsGenerator(std::vector<NonTerminal*> nts) {
+FirstSetsGenerator::FirstSetsGenerator(std::vector<std::shared_ptr<NonTerminal>> nts) {
     this->nts = std::move(nts);
     exec();
 }
 
-std::vector<NonTerminal*> FirstSetsGenerator::getNTsWithFirstSets() {
+const std::vector<std::shared_ptr<NonTerminal>> &FirstSetsGenerator::getNTsWithFirstSets() const {
     return nts;
 }
+

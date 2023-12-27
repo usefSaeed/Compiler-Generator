@@ -20,13 +20,14 @@ class Grammar {
 private :
 
     GrammarConverter modifiedGrammar;
-    std::vector<NonTerminal*> standardizedNonTerminals;
+    std::vector<std::shared_ptr<NonTerminal>> standardizedNonTerminals;
     NonTerminal* startSymbol = nullptr;
-
 public:
     NonTerminal *getStartSymbol() const;
+
+public:
+    const std::vector<std::shared_ptr<NonTerminal>> &getStandardizedNonTerminals() const;
     friend std::ostream& operator<<(std::ostream& os, const Grammar& g);
-    const std::vector<NonTerminal*> &getStandardizedNonTerminals() const;
     void standardizeNonTerminals();
     explicit Grammar(GrammarConverter modifiedGrammar);
 

@@ -17,8 +17,8 @@ void FollowSetsGenerator::exec() {
     }
 }
 
-std::shared_ptr<FollowSet> FollowSetsGenerator::getFollow(NonTerminal* nt){
-    if (nt==startSymbol)
+std::shared_ptr<FollowSet> FollowSetsGenerator::getFollow(const std::shared_ptr<NonTerminal>& nt){
+    if (nt.get()==startSymbol)
         nt->getFollowSet()->addEOI();
     lockedNTs.insert(nt);
     for (auto& nt_checked : nts){
@@ -27,7 +27,7 @@ std::shared_ptr<FollowSet> FollowSetsGenerator::getFollow(NonTerminal* nt){
             for (auto& s : p){
                 if (!keepLooking)
                     keepLooking = nt->getFollowSet()->handleSymbol(s.get());
-                if (s.get()==nt)
+                if (s==nt)
                     keepLooking = false;
             }
             if (!keepLooking && isNotLocked(nt_checked)) {
@@ -39,20 +39,21 @@ std::shared_ptr<FollowSet> FollowSetsGenerator::getFollow(NonTerminal* nt){
     return nt->getFollowSet();
 }
 
-void FollowSetsGenerator::showFollowSet(NonTerminal* nt) {
+void FollowSetsGenerator::showFollowSet(const std::shared_ptr<NonTerminal>& nt) {
     std::cout << "FOLLOW( " << nt->getName() << " ) = " << nt->getFollowSet().get() << "\n";
 }
 
-FollowSetsGenerator::FollowSetsGenerator(std::vector<NonTerminal*> nts, const NonTerminal* startSymbol) {
+FollowSetsGenerator::FollowSetsGenerator(std::vector<std::shared_ptr<NonTerminal>> nts,const NonTerminal* startSymbol){
     this->nts = std::move(nts);
     this->startSymbol = startSymbol;
     exec();
 }
 
-std::vector<NonTerminal*> FollowSetsGenerator::getNTsWithFollowSets() {
-    return nts;
+
+bool FollowSetsGenerator::isNotLocked(const std::shared_ptr<NonTerminal>& nt) {
+    return !lockedNTs.contains(nt);
 }
 
-bool FollowSetsGenerator::isNotLocked(NonTerminal* nt) {
-    return !lockedNTs.contains(nt);
+const std::vector<std::shared_ptr<NonTerminal>> &FollowSetsGenerator::getNTsWithFollowSets() const {
+    return nts;
 }
