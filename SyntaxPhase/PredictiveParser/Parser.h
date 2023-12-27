@@ -12,22 +12,7 @@
 #include "ParsingTableEntry.h"
 #include "../Common/NonTerminal.h"
 #include "../GrammarParser/Grammar.h"
-
-struct PairHash {
-    template <typename T1, typename T2>
-    std::size_t operator()(const std::pair<T1, T2>& p) const {
-        auto h1 = std::hash<T1>{}(p.first);
-        auto h2 = std::hash<T2>{}(p.second);
-        return h1 ^ h2;
-    }
-};
-
-struct PairEqual {
-    template <typename T1, typename T2>
-    bool operator()(const std::pair<T1, T2>& lhs, const std::pair<T1, T2>& rhs) const {
-        return lhs.first == rhs.first && lhs.second == rhs.second;
-    }
-};
+#include "../../LexicalPhase/NFAConverter/NFACombiner.h"
 
 class Parser {
     private:
@@ -39,7 +24,7 @@ class Parser {
         void constructParseTable();
     public:
         Parser(Grammar& grammar);
-        ParsingTree parse(std::vector<Token>& input);
+        //ParsingTree parse(std::vector<Token>& input);
 
 };
 

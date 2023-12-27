@@ -5,10 +5,11 @@
 #include "LexicalPhase/NFAConverter/NFACombiner.h"
 #include "LexicalPhase/DFAConverter/DFA.h"
 #include "LexicalPhase/SymbolTableGenerator/STGenerator.h"
-#include "ParserPhase/GrammarParser/GrammarConverter.h"
-#include "ParserPhase/GrammarParser/Grammar.h"
-#include "ParserPhase/FirstAndFollowGenerator/FirstSetsGenerator.h"
-#include "ParserPhase/FirstAndFollowGenerator/FollowSetsGenerator.h"
+#include "SyntaxPhase/GrammarParser/GrammarConverter.h"
+#include "SyntaxPhase/GrammarParser/Grammar.h"
+#include "SyntaxPhase/FirstAndFollowGenerator/FirstSetsGenerator.h"
+#include "SyntaxPhase/FirstAndFollowGenerator/FollowSetsGenerator.h"
+#include "SyntaxPhase/PredictiveParser/Parser.h"
 
 
 int main(int argc, char *argv[]) {
@@ -44,8 +45,8 @@ int main(int argc, char *argv[]) {
 
     std::cout << grammar;
 
-    FirstSetsGenerator firstSG(grammar.getStandardizedNonTerminals());
-    FollowSetsGenerator followSG(firstSG.getNTsWithFirstSets(),grammar.getStartSymbol());
+    Parser parser(grammar);
+    std::cout << "success";
 
 //    std::vector<NonTerminal> standardizedGrammar = grammar.getStandardizedNonTerminals();
 //    NonTerminal declaration = standardizedGrammar[3];

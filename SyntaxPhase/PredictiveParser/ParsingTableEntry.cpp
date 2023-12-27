@@ -4,6 +4,8 @@
 
 #include "ParsingTableEntry.h"
 
+#include <utility>
+
 ParsingTableEntry::ParsingTableEntry() = default;
 
 ParsingTableEntry::ParsingTableEntry(std::string type) {
@@ -14,7 +16,7 @@ ParsingTableEntry::ParsingTableEntry(std::string type) {
     }
 }
 
-ParsingTableEntry::ParsingTableEntry(productionsVector productions) {
+ParsingTableEntry::ParsingTableEntry(std::vector<std::vector<std::shared_ptr<Symbol>>> productions) {
     this->productions = std::move(productions);
 }
 
@@ -26,7 +28,7 @@ bool ParsingTableEntry::isEpsilon() const {
     return this->epsilon;
 }
 
-productionsVector ParsingTableEntry::getProductions() {
+std::vector<std::vector<std::shared_ptr<Symbol>>> ParsingTableEntry::getProductions() {
     return this->productions;
 }
 
