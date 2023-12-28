@@ -49,12 +49,10 @@ Token& nextToken(std::vector<Token>& input, int& index) {
 
 void Parser::computeNTsWithFirstSet() {
     FirstSetsGenerator firstSG(NTs);
-    NTs = firstSG.getNTsWithFirstSets();
 }
 
 void Parser::computeNTsWithFollowSet() {
     FollowSetsGenerator followSG(NTs, grammar.getStartSymbol());
-    NTs = followSG.getNTsWithFollowSets();
 }
 
 Production Parser::getInputMatchedProduction(const std::vector<std::vector<std::shared_ptr<Symbol>>>& productions, const std::string& input){
@@ -133,6 +131,8 @@ void Parser::writeParsingTableToCSV() {
     // Convert sets to vectors for ordered iteration
     std::vector<NonTerminal*> nonTerminals(nonTerminalsSet.begin(), nonTerminalsSet.end());
     std::vector<std::string> terminals(terminalsSet.begin(), terminalsSet.end());
+    std::sort(nonTerminals.begin(), nonTerminals.end());
+    std::sort(terminals.begin(), terminals.end());
 
     // Open the file for writing
     std::ofstream csvFile(filename);
@@ -145,15 +145,15 @@ void Parser::writeParsingTableToCSV() {
 
     // Write CSV header
     csvFile << ",";
-    for (const auto& terminal : terminals) {
+    for (const std::string& terminal : terminals) {
         csvFile << terminal << ",";
     }
     csvFile << std::endl;
 
     // Write table content to the CSV file
-    for (const auto& nonTerminal : nonTerminals) {
+    for (NonTerminal* nonTerminal : nonTerminals) {
         csvFile << nonTerminal->getName() << ",";
-        for (const auto& terminal : terminals) {
+        for (const std::string& terminal : terminals) {
             auto entry = parsingTable.find({nonTerminal, terminal});
             if (entry != parsingTable.end()) {
                 auto& value = entry->second;
