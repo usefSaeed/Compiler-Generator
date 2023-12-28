@@ -49,12 +49,10 @@ Token& nextToken(std::vector<Token>& input, int& index) {
 
 void Parser::computeNTsWithFirstSet() {
     FirstSetsGenerator firstSG(NTs);
-    NTs = firstSG.getNTsWithFirstSets();
 }
 
 void Parser::computeNTsWithFollowSet() {
     FollowSetsGenerator followSG(NTs, grammar.getStartSymbol());
-    NTs = followSG.getNTsWithFollowSets();
 }
 
 Production Parser::getInputMatchedProduction(const std::vector<std::vector<std::shared_ptr<Symbol>>>& productions, const std::string& input){
