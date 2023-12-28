@@ -23,6 +23,7 @@ Token &nextToken(std::vector<Token> &input, int &index)
 {
     if (index >= input.size()) {
         auto endToken = new Token("$","");
+        index++;
         return *endToken;
     }
     return input[index++];
@@ -30,7 +31,7 @@ Token &nextToken(std::vector<Token> &input, int &index)
 
 std::string productionString(Production &production, NonTerminal* nonTerminal);
 
-// TODO: handle case $S | $ | S => eps
+
 ParsingResult Parser::parse(std::vector<Token> &input)
 {
     if (input.size() == 0)
@@ -79,14 +80,21 @@ ParsingResult Parser::parse(std::vector<Token> &input)
             NonTerminal *currentNonTerminal = dynamic_cast<NonTerminal *>(currentSymbol);
 
             bool entryExists = parsingTable.contains({currentNonTerminal, lookahead.terminal});
-            if (!entryExists)
+            if (!entryExists && lookahead.terminal == END) {
+                auto err = "Error: missing " + currentSymbol->getName();
+                trace.setError(err);
+                traces.push_back(trace);
+                continue;
+            }
+            else if (!entryExists)
             {
-                auto err = "Error: (illegal " + currentSymbol->getName() + ") - discarded " + lookahead.lexeme;
+                auto err = "Error: (illegal " + currentSymbol->getName() + ") - discarded " + (!lookahead.lexeme.empty() ? lookahead.lexeme : lookahead.terminal);
                 trace.setError(err);
                 traces.push_back(trace);
 
                 lookahead = nextToken(input, lookaheadIndex);
                 stack.push(currentNonTerminal);
+                nodes.push(currentNode);
                 continue;
             }
 
@@ -116,13 +124,6 @@ ParsingResult Parser::parse(std::vector<Token> &input)
                 nodes.push(n);
             }
         }
-    }
-    
-    if (lookaheadIndex < input.size()) {
-        auto trace = ParsingTrace(stack, input, lookaheadIndex);
-        auto err = "Finished parsing but found unexpected tokens after " + input[lookaheadIndex-1].lexeme;
-        trace.setError(err);
-        traces.push_back(trace);
     }
 
     auto tree = ParsingTree(rootNode);
