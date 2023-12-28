@@ -117,9 +117,7 @@ void Parser::printParsingTable() {
 
 
 void Parser::writeParsingTableToCSV() {
-    const int columnWidth = 25;
     std::string filename = "./parsingTable.csv";
-    // Collect unique non-terminals and terminals
     std::unordered_set<NonTerminal*> nonTerminalsSet;
     std::unordered_set<std::string> terminalsSet;
 
@@ -134,23 +132,19 @@ void Parser::writeParsingTableToCSV() {
     std::sort(nonTerminals.begin(), nonTerminals.end());
     std::sort(terminals.begin(), terminals.end());
 
-    // Open the file for writing
     std::ofstream csvFile(filename);
 
-    // Check if the file is opened successfully
     if (!csvFile.is_open()) {
         std::cerr << "Error: Unable to open file " << filename << " for writing." << std::endl;
         return;
     }
 
-    // Write CSV header
     csvFile << ",";
     for (const std::string& terminal : terminals) {
         csvFile << terminal << ",";
     }
     csvFile << std::endl;
 
-    // Write table content to the CSV file
     for (NonTerminal* nonTerminal : nonTerminals) {
         csvFile << nonTerminal->getName() << ",";
         for (const std::string& terminal : terminals) {
@@ -170,6 +164,5 @@ void Parser::writeParsingTableToCSV() {
         csvFile << std::endl;
     }
 
-    // Close the file
     csvFile.close();
 }
