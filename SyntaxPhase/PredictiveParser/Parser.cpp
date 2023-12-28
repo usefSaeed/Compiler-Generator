@@ -37,11 +37,11 @@ std::string productionString(Production &production, NonTerminal* nonTerminal);
 
 ParsingResult Parser::parse(std::vector<Token> &input)
 {
-    if (input.size() == 0)
+    if (input.empty())
         return ParsingResult();
 
     Symbol *startSymbol = this->startingSymbol;
-    ParsingTreeNode *rootNode = new ParsingTreeNode(startSymbol);
+    auto *rootNode = new ParsingTreeNode(startSymbol);
 
     if (startSymbol->isTerminal())
         throw std::invalid_argument("startSymbol cannot be a terminal");
@@ -80,7 +80,7 @@ ParsingResult Parser::parse(std::vector<Token> &input)
         }
         else
         {
-            NonTerminal *currentNonTerminal = dynamic_cast<NonTerminal *>(currentSymbol);
+            auto *currentNonTerminal = dynamic_cast<NonTerminal *>(currentSymbol);
 
             bool entryExists = parsingTable.contains({currentNonTerminal, lookahead.terminal});
             if (!entryExists && lookahead.terminal == END) {
@@ -122,7 +122,7 @@ ParsingResult Parser::parse(std::vector<Token> &input)
                 Symbol* symbol = (*it).get();
                 stack.push(symbol);
 
-                ParsingTreeNode *n = new ParsingTreeNode(symbol);
+                auto n = new ParsingTreeNode(symbol);
                 currentNode->addChild(n);
                 nodes.push(n);
             }
@@ -139,12 +139,12 @@ std::string productionString(Production &production, NonTerminal* nonTerminal)
     ss << nonTerminal->getName();
     ss << " -> ";
     
-    bool isEpsilonProduction = production.size() == 0;
+    bool isEpsilonProduction = production.empty();
     
     if (isEpsilonProduction) {
         ss << "\u03B5";
     } else {
-        for (auto symbol : production)
+        for (const auto& symbol : production)
         {
             ss << symbol->getName();
         }

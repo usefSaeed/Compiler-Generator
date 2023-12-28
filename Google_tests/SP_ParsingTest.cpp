@@ -1,14 +1,9 @@
 #include <gtest/gtest.h>
-// #include "../SyntaxPhase/PredictiveParser/ParsingTree.h"
 #include "../SyntaxPhase/Common/NonTerminal.h"
-#include "../SyntaxPhase/Common/Terminal.h"
-#include "../SyntaxPhase/Common/Symbol.h"
 #include "../SyntaxPhase/GrammarParser/GrammarConverter.h"
 #include "../SyntaxPhase/GrammarParser/Grammar.h"
 #include "../SyntaxPhase/PredictiveParser/Token.h"
 #include "../SyntaxPhase/PredictiveParser/Parser.h"
-#include "../SyntaxPhase/PredictiveParser/ParsingTree.h"
-#include "../SyntaxPhase/PredictiveParser/ParsingResult.h"
 
 std::string g1Path = "../../GrammarTest.txt";
 
@@ -52,33 +47,32 @@ std::pair<Symbol*, std::unordered_map<std::pair<NonTerminal*,std::string>, Parsi
 
 TEST(ParserManualTest, ValidInput) {
     std::vector<Token> input = {
-        Token("a","a"),
-        Token("b","b"),
-        Token("b","b"),
-        Token("a","a"),
+        Token("a", "a"),
+        Token("b", "b"),
+        Token("b", "b"),
+        Token("a", "a"),
     };
-    
+
     // S -> aBa 
     // B -> bB | eps
-    NonTerminal* S = new NonTerminal("S");
-    NonTerminal* B = new NonTerminal("B");
-    Terminal* a = new Terminal("a");
-    Terminal* b = new Terminal("b");
-    
-    std::vector<Symbol*> S_production_1 = {a,B,a};
-    std::vector<Symbol*> B_production_1 = {b,B};
-    
-    std::unordered_map<std::pair<NonTerminal*,std::string>, ParsingTableEntry, PairHash, PairEqual> parsingTable;
-    parsingTable[{S,a->getName()}] = ParsingTableEntry({a,B,a});
-    parsingTable[{B,a->getName()}] = ParsingTableEntry("epsilon");
-    parsingTable[{B,b->getName()}] = ParsingTableEntry({b,B});
-    
+    NonTerminal *S = new NonTerminal("S");
+    NonTerminal *B = new NonTerminal("B");
+    Terminal *a = new Terminal("a");
+    Terminal *b = new Terminal("b");
+
+    std::vector<Symbol *> S_production_1 = {a, B, a};
+    std::vector<Symbol *> B_production_1 = {b, B};
+
+    std::unordered_map<std::pair<NonTerminal *, std::string>, ParsingTableEntry, PairHash, PairEqual> parsingTable;
+    parsingTable[{S, a->getName()}] = ParsingTableEntry({a, B, a});
+    parsingTable[{B, a->getName()}] = ParsingTableEntry("epsilon");
+    parsingTable[{B, b->getName()}] = ParsingTableEntry({b, B});
+
     Parser parser(S, parsingTable);
     ParsingResult result = parser.parse(input);
     result.tree.print();
     result.printTrace();
-    
-    
+    result.printStackTrace();
 }
 
 TEST(ParserManualTest, ValidInput2) {    
@@ -96,8 +90,6 @@ TEST(ParserManualTest, ValidInput2) {
     ParsingResult result = parser.parse(input);
     result.tree.print();
     result.printTrace();
-    
-    
 }
 
 TEST(ParserManualTest, InvalidInputExcessToken) {    

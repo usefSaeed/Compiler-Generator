@@ -17,6 +17,7 @@ class ParsingTableEntry {
         ParsingTableEntry();
         explicit ParsingTableEntry(std::string type);
         explicit ParsingTableEntry(Production production);
+        explicit ParsingTableEntry(std::vector<Symbol*> production);
         [[nodiscard]] bool isSync() const;
         [[nodiscard]] bool isEpsilon() const;
         Production getProduction();
