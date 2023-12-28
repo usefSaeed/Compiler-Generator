@@ -3,10 +3,9 @@
 //
 
 #include "Grammar.h"
-#include "../Common/Terminal.h"
-#include <utility>
-#include <unordered_map>
-#include <memory>
+
+
+Terminal* Grammar::epsilon = nullptr;
 
 void Grammar::standardizeNonTerminals() {
     auto terminalsSet = modifiedGrammar.getTerminals();
@@ -27,6 +26,9 @@ void Grammar::standardizeNonTerminals() {
                     if (!terminalMap.contains(symbolName)){
                         symbolPtr = std::make_shared<Terminal>(symbolName);
                         terminalMap.insert({symbolName, std::static_pointer_cast<Terminal>(symbolPtr)});
+                        if (symbolName=="\\L"){
+                            epsilon = dynamic_cast<Terminal *>(symbolPtr.get());
+                        }
                     }
                     // defined before
                     else {
@@ -62,20 +64,13 @@ void Grammar::standardizeNonTerminals() {
             outerNonTerminal = nonTerminalMap.find(nonTerminal.getName())->second;
             outerNonTerminal->setProductions(newProductions);
         }
-        standardizedNonTerminals.push_back(*outerNonTerminal);
+        standardizedNonTerminals.push_back(outerNonTerminal);
     }
-    startSymbol =  &standardizedNonTerminals[0];
+    startSymbol =  standardizedNonTerminals[0].get();
 }
 
 Grammar::Grammar(GrammarConverter modifiedGrammar) : modifiedGrammar(std::move(modifiedGrammar)) {}
 
-const std::vector<NonTerminal> &Grammar::getStandardizedNonTerminals() const {
-    return standardizedNonTerminals;
-}
-
-NonTerminal *Grammar::getStartSymbol() const {
-    return startSymbol;
-}
 
 std::ostream &operator<<(std::ostream &os, const Grammar &g) {
     for (const auto& r : g.standardizedNonTerminals)
@@ -83,4 +78,15 @@ std::ostream &operator<<(std::ostream &os, const Grammar &g) {
     os << "\n\n\n";
     return os;
 }
+
+const std::vector<std::shared_ptr<NonTerminal>> &Grammar::getStandardizedNonTerminals() const {
+    return standardizedNonTerminals;
+}
+
+NonTerminal *Grammar::getStartSymbol() const {
+    return startSymbol;
+}
+
+
+
 

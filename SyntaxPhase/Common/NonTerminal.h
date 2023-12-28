@@ -7,27 +7,33 @@
 
 
 #include "Symbol.h"
-#include "Terminal.h"
+#include "../FirstAndFollowGenerator/FirstSet.h"
+#include "../FirstAndFollowGenerator/FollowSet.h"
+
 #include <vector>
 #include <memory>
 #include <unordered_set>
 
 class NonTerminal : public Symbol {
+private:
+    std::vector<std::vector<std::shared_ptr<Symbol>>> productions;
+    std::shared_ptr<FirstSet> firstSet;
+    std::shared_ptr<FollowSet> followSet;
+    bool followComputed;
+
 public:
     explicit NonTerminal(const std::string &name);
 
-public:
-    friend std::ostream& operator<<(std::ostream& os, const NonTerminal& nt);
-    [[nodiscard]] const std::vector<std::vector<std::shared_ptr<Symbol>>> &getProductions() const;
-    [[nodiscard]] const std::unordered_set<Terminal*> &getFollowSet() const;
-    [[nodiscard]] const std::unordered_set<Terminal*> &getFirstSet() const;
-    [[nodiscard]] std::string toString() const;
+    void computeFirst();
+    void setFollowComputed();
     void setProductions(const std::vector<std::vector<std::shared_ptr<Symbol>>> &productionsVector);
 
-private:
-    std::vector<std::vector<std::shared_ptr<Symbol>>> productions;
-    std::unordered_set<Terminal*> followSet;
-    std::unordered_set<Terminal*> firstSet;
+    [[nodiscard]] bool isFollowComputed() const;
+    [[nodiscard]] std::shared_ptr<FirstSet> getFirstSet();
+    [[nodiscard]] std::shared_ptr<FollowSet> getFollowSet();
+    [[nodiscard]] const std::vector<std::vector<std::shared_ptr<Symbol>>> &getProductions() const;
+
+    friend std::ostream& operator<<(std::ostream& os, const NonTerminal* nt);
 };
 
 

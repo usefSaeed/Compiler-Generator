@@ -6,24 +6,32 @@
 #define COMPILER_GRAMMAR_H
 
 
-#include <vector>
 #include "../Common/NonTerminal.h"
+#include "../Common/Terminal.h"
 #include "GrammarConverter.h"
+
+#include <vector>
+#include <utility>
+#include <unordered_map>
+#include <memory>
+#include <iostream>
 
 class Grammar {
 private :
-    GrammarConverter modifiedGrammar;
-    std::vector<NonTerminal> standardizedNonTerminals;
-    NonTerminal* startSymbol = nullptr;
 
+    GrammarConverter modifiedGrammar;
+    std::vector<std::shared_ptr<NonTerminal>> standardizedNonTerminals;
+    NonTerminal* startSymbol = nullptr;
 public:
     NonTerminal *getStartSymbol() const;
-    friend std::ostream& operator<<(std::ostream& os, const Grammar& g);
-    const std::vector<NonTerminal> &getStandardizedNonTerminals() const;
-    void standardizeNonTerminals();
 
 public:
+    const std::vector<std::shared_ptr<NonTerminal>> &getStandardizedNonTerminals() const;
+    friend std::ostream& operator<<(std::ostream& os, const Grammar& g);
+    void standardizeNonTerminals();
     explicit Grammar(GrammarConverter modifiedGrammar);
+
+    static Terminal* epsilon;
 };
 
 

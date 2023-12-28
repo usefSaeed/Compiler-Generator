@@ -7,7 +7,10 @@
 #include "LexicalPhase/SymbolTableGenerator/STGenerator.h"
 #include "SyntaxPhase/GrammarParser/GrammarConverter.h"
 #include "SyntaxPhase/GrammarParser/Grammar.h"
-
+#include "SyntaxPhase/FirstAndFollowGenerator/FirstSetsGenerator.h"
+#include "SyntaxPhase/FirstAndFollowGenerator/FollowSetsGenerator.h"
+#include "unordered_set"
+#include "string"
 
 
 int main(int argc, char *argv[]) {
@@ -24,16 +27,12 @@ int main(int argc, char *argv[]) {
 
     bool leftFactored = grammarConverter.leftFactor();
     if (leftFactored){
-        std::cerr<< "Grammar was not left factored but left factoring was eliminated successfully." << "\n";
+        std::cout<< "Grammar was not left factored but left factoring was eliminated successfully." << "\n";
     }
 
     bool leftRecursion = grammarConverter.eliminateLeftRecursion();
     if (leftRecursion){
-        std::cerr<< "Grammar had left recursion but was eliminated successfully." << "\n";
-    }
-
-    for (const NonTerminalSymbol& nonTerminal : grammarConverter.getNonTerminals()) {
-        std::cout << nonTerminal.toString() << "\n";
+        std::cout<< "Grammar had left recursion but was eliminated successfully." << "\n";
     }
 
     Grammar grammar(grammarConverter);
@@ -42,6 +41,12 @@ int main(int argc, char *argv[]) {
     std::cout << "\n\n\n";
 
     std::cout << grammar;
+
+    FirstSetsGenerator firstSG(grammar.getStandardizedNonTerminals());
+    std::cout << "\n\n\n";
+    FollowSetsGenerator followSG(firstSG.getNTsWithFirstSets(),grammar.getStartSymbol());
+
+
 //    std::vector<NonTerminal> standardizedGrammar = grammar.getStandardizedNonTerminals();
 //    NonTerminal declaration = standardizedGrammar[3];
 //    std::shared_ptr<Symbol> statementList = declaration.getProductions()[0][0];

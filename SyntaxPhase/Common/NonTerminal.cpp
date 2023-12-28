@@ -2,10 +2,13 @@
 // Created by Meniem on 24-Dec-23.
 //
 
-#include <unordered_set>
 #include "NonTerminal.h"
 
-NonTerminal::NonTerminal(const std::string &name) : Symbol(name, false) {}
+NonTerminal::NonTerminal(const std::string &name) : Symbol(name, false) {
+    firstSet = std::make_shared<FirstSet>();
+    followSet = std::make_shared<FollowSet>();
+    followComputed = false;
+}
 
 const std::vector<std::vector<std::shared_ptr<Symbol>>> &NonTerminal::getProductions() const {
     return productions;
@@ -15,28 +18,13 @@ void NonTerminal::setProductions(const std::vector<std::vector<std::shared_ptr<S
     NonTerminal::productions = productionsVector;
 }
 
-std::string NonTerminal::toString() const {
-    std::string result = "Name: " + this->getName() + " Productions: ";
-
-    for (const auto& production : productions) {
-        for (const auto& symbol : production) {
-            result += symbol->getName() + " ";
-        }
-        result.pop_back(); // Remove the extra space
-        result += " | ";
-    }
-    result.erase(result.length()-2);
-
-    return result;
-}
-
-std::ostream &operator<<(std::ostream &os, const NonTerminal &nt) {
-    os << nt.getName() << " --> ";
-    for (int i=0;i<nt.getProductions().size();i++){
-        for (const auto& symbol : nt.getProductions()[i]){
+std::ostream &operator<<(std::ostream &os, const NonTerminal* nt) {
+    os << nt->getName() << " --> ";
+    for (int i=0;i<nt->getProductions().size();i++){
+        for (const auto& symbol : nt->getProductions()[i]){
             os << symbol->getName() << " ";
         }
-        if (i<nt.getProductions().size()-1){
+        if (i<nt->getProductions().size()-1){
             os << "| ";
         }
     }
@@ -44,10 +32,38 @@ std::ostream &operator<<(std::ostream &os, const NonTerminal &nt) {
     return os;
 }
 
-const std::unordered_set<Terminal*> &NonTerminal::getFollowSet() const {
-    return this->followSet;
+std::shared_ptr<FirstSet> NonTerminal::getFirstSet() {
+    if (firstSet->isComputed())
+        return firstSet;
+    computeFirst();
+    return firstSet;
 }
 
-const std::unordered_set<Terminal *> &NonTerminal::getFirstSet() const {
-    return this->firstSet;
+void NonTerminal::computeFirst() {
+    if (firstSet->isComputed())
+        return;
+    for (const auto& p : productions){
+        int symbolIdx=0;
+        while(symbolIdx < p.size()){
+            bool isComplete = firstSet->handleSymbol(p[symbolIdx].get());
+            if (isComplete)
+                break;
+            symbolIdx++;
+        }
+        bool allProductionsHaveEpsilon = symbolIdx == p.size();
+        if (allProductionsHaveEpsilon)
+            firstSet->addEpsilon();
+    }
+}
+
+std::shared_ptr<FollowSet> NonTerminal::getFollowSet() {
+    return followSet;
+}
+
+void NonTerminal::setFollowComputed() {
+    followComputed = true;
+}
+
+bool NonTerminal::isFollowComputed() const {
+    return followComputed;
 }
