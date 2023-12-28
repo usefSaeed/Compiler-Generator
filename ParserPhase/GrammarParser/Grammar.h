@@ -29,8 +29,10 @@ public:
     const std::vector<NonTerminal*> &getStandardizedNonTerminals() const;
     void standardizeNonTerminals();
     explicit Grammar(GrammarConverter modifiedGrammar);
-
     static Terminal* epsilon;
+
+    // for debugging purposes
+    explicit Grammar(){};
 };
 
 

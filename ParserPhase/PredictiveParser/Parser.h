@@ -9,9 +9,12 @@
 
 #include "Common.h"
 #include "ParsingTree.h"
+#include "ParsingResult.h"
 #include "ParsingTableEntry.h"
 #include "../Common/NonTerminal.h"
 #include "../GrammarParser/Grammar.h"
+
+#include <sstream>
 
 struct PairHash {
     template <typename T1, typename T2>
@@ -31,6 +34,7 @@ struct PairEqual {
 
 class Parser {
     private:
+        Symbol* startingSymbol;
         Grammar grammar;
         std::vector<NonTerminal*> NTs;
         std::unordered_map<std::pair<NonTerminal*,std::string>, ParsingTableEntry, PairHash, PairEqual> parsingTable;
@@ -39,7 +43,9 @@ class Parser {
         void constructParseTable();
     public:
         Parser(Grammar& grammar);
-       ParsingTree parse(std::vector<Token>& input);
+        ParsingResult parse(std::vector<Token>& input);
+        // for debugging purposes
+        Parser(Symbol* symbol, std::unordered_map<std::pair<NonTerminal*,std::string>, ParsingTableEntry, PairHash, PairEqual>& parsingTable);
 };
 
 #endif //COMPILER_PARSER_H

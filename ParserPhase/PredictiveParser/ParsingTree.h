@@ -17,6 +17,7 @@ public:
     void addChild(ParsingTreeNode* child);
     std::vector<ParsingTreeNode*> getChildren();
     bool isLeaf();
+    Symbol* getSymbol();
 };
 
 class ParsingTree {

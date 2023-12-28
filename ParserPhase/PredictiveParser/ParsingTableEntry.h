@@ -7,19 +7,21 @@
 
 #include "Common.h"
 
+typedef std::vector<Symbol*> Production;
+
 class ParsingTableEntry {
     private:
         bool epsilon = false;
         bool sync = false;
-        ProductionsVector productions;
+        Production production;
 
     public:
         ParsingTableEntry();
         explicit ParsingTableEntry(std::string type);
-        explicit ParsingTableEntry(ProductionsVector productions);
+        explicit ParsingTableEntry(Production production);
         [[nodiscard]] bool isSync() const;
         [[nodiscard]] bool isEpsilon() const;
-        ProductionsVector getProductions();
+        Production getProduction();
 
 };
 

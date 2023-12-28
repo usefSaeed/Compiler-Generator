@@ -1,0 +1,4 @@
+# Expr ::= Term ExprPrime
+# ExprPrime ::= '+' Term ExprPrime | '-' Term ExprPrime | \L
+# Term ::= Factor '*' Term | Factor '/' Term | Factor
+# Factor ::= '(' Expr ')' | 'num' | 'iden'

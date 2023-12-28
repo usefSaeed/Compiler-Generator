@@ -1,51 +1,44 @@
 #include <gtest/gtest.h>
+// #include "../ParserPhase/PredictiveParser/ParsingTree.h"
+#include "../ParserPhase/Common/NonTerminal.h"
+#include "../ParserPhase/Common/Terminal.h"
+#include "../ParserPhase/Common/Symbol.h"
+#include "../ParserPhase/GrammarParser/GrammarConverter.h"
+#include "../ParserPhase/GrammarParser/Grammar.h"
+#include "../ParserPhase/PredictiveParser/Token.h"
 #include "../ParserPhase/PredictiveParser/Parser.h"
+#include "../ParserPhase/PredictiveParser/ParsingTree.h"
+#include "../ParserPhase/PredictiveParser/ParsingResult.h"
 
-#define MULTILINE(...) #__VA_ARGS__ 
+std::string g1Path = "../../GrammarTest.txt";
 
-// Define a fixture for the parser tests
-// class ParserTest : public ::testing::Test {
-// protected:
-//     // Declare variables needed for the tests
-//     Parser parser;
-// };
-
-// Test case for parsing valid input
 TEST(ParserTest, ValidInputParsing) {
-    // Define your tokens and grammar for valid input
-    std::vector<Token*> tokens = {
-        new Token("ident","x"),
-        new Token("+","+"),
-        new Token("num","5"),
-        new Token("*","*"),
-        new Token("ident","y"),
+    std::vector<Token> input = {
+        Token("a","a"),
+        Token("b","b"),
+        Token("b","b"),
+        Token("a","a"),
     };
     
-    std::string grammarString = 
-        "Expr -> Term + Expr | Term - Expr | Term \
-        Term -> Factor * Term | Factor / Term | Factor \
-        Factor -> (Expr) | Number \
-        Number -> [0-9]+";
+    // S -> aBa 
+    // B -> bB | eps
+    NonTerminal* S = new NonTerminal("S");
+    NonTerminal* B = new NonTerminal("B");
+    Terminal* a = new Terminal("a");
+    Terminal* b = new Terminal("b");
     
+    std::vector<Symbol*> S_production_1 = {a,B,a};
+    std::vector<Symbol*> B_production_1 = {b,B};
     
-    // Grammar grammar = /* define your grammar */;
-
-    // Parse the input
-    // ParsingTree tree = parser.parse(tokens, grammar);
-
-    // Assert that the parsing tree is constructed correctly
-    // ASSERT_TRUE(/* perform assertions on the parsing tree */);
+    std::unordered_map<std::pair<NonTerminal*,std::string>, ParsingTableEntry, PairHash, PairEqual> parsingTable;
+    parsingTable[{S,a->getName()}] = ParsingTableEntry({a,B,a});
+    parsingTable[{B,a->getName()}] = ParsingTableEntry("epsilon");
+    parsingTable[{B,b->getName()}] = ParsingTableEntry({b,B});
+    
+    Parser parser(S, parsingTable);
+    ParsingResult result = parser.parse(input);
+    result.tree.print();
+    result.printTrace();
+    
+    ASSERT_EQ(1,1);
 }
-
-// // Test case for parsing invalid input
-// TEST_F(ParserTest, InvalidInputParsing) {
-//     // Define your tokens and grammar for invalid input
-//     std::vector<Token> tokens = /* define invalid tokens */;
-//     Grammar grammar = /* define your grammar */;
-
-//     // Parse the invalid input
-//     ParsingTree tree = parser.parse(tokens, grammar);
-
-//     // Assert that the parsing tree is not constructed or is invalid
-//     ASSERT_FALSE(/* perform assertions on the parsing tree */);
-// }

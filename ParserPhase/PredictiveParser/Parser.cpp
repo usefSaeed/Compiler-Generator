@@ -3,99 +3,176 @@
 //
 
 #include "Parser.h"
+#include "ParsingTrace.h"
+#include "ParsingResult.h"
 #include "../FirstAndFollowGenerator/FollowSetsGenerator.h"
 #include "../FirstAndFollowGenerator/FirstSetsGenerator.h"
 
-Parser::Parser(Grammar& cfg): grammar(cfg), NTs(cfg.getStandardizedNonTerminals()){
+Parser::Parser(Grammar &cfg) : grammar(cfg), NTs(cfg.getStandardizedNonTerminals())
+{
     computeNTsWithFirstSet();
     computeNTsWithFollowSet();
     constructParseTable();
+    startingSymbol = cfg.getStartSymbol();
 }
 
-Token& nextToken(std::vector<Token>& input, int& index) {
+Parser::Parser(Symbol *symbol, std::unordered_map<std::pair<NonTerminal *, std::string>, ParsingTableEntry, PairHash, PairEqual> &pt)
+    : parsingTable(pt), startingSymbol(symbol) {}
+
+Token &nextToken(std::vector<Token> &input, int &index)
+{
+    // TODO: return epsilon if out of bound
     return input[index++];
-};
+}
 
-ParsingTree Parser::parse(std::vector<Token>& input) {
-    if (input.size() == 0) 
-        return ParsingTree();
-    
-    Symbol* startSymbol = grammar.getStartSymbol();
-    ParsingTreeNode* rootNode = new ParsingTreeNode(startSymbol);
-    
-    if (startSymbol->isTerminal()) 
+std::string productionString(Production &production, NonTerminal* nonTerminal);
+
+// TODO: handle case $S | $ | S => eps
+ParsingResult Parser::parse(std::vector<Token> &input)
+{
+    if (input.size() == 0)
+        return ParsingResult();
+
+    Symbol *startSymbol = this->startingSymbol;
+    ParsingTreeNode *rootNode = new ParsingTreeNode(startSymbol);
+
+    if (startSymbol->isTerminal())
         throw std::invalid_argument("startSymbol cannot be a terminal");
-    
-    int lookaheadIndex = 0;
-    Token& lookahead = nextToken(input, lookaheadIndex);
 
-    std::stack<Symbol*> stack;
-    std::stack<ParsingTreeNode*> nodes;
+    int lookaheadIndex = 0;
+    Token &lookahead = nextToken(input, lookaheadIndex);
+
+    std::stack<Symbol *> stack;
+    std::stack<ParsingTreeNode *> nodes;
+    std::vector<ParsingTrace> traces;
     stack.push(startSymbol);
     nodes.push(rootNode);
-    
-    while (!stack.empty()) {
-        Symbol* currentSymbol = stack.top(); stack.pop();
-        ParsingTreeNode* currentNode = nodes.top(); nodes.pop();
 
-        if (currentSymbol->isTerminal()) {
+    while (!stack.empty())
+    {
+        auto trace = ParsingTrace(stack, input, lookaheadIndex - 1);
+        
+        Symbol *currentSymbol = stack.top();
+        stack.pop();
+        ParsingTreeNode *currentNode = nodes.top();
+        nodes.pop();
+
+        if (currentSymbol->isTerminal())
+        {
             bool match = currentSymbol->getName() == lookahead.terminal;
-            if (!match) {
-                // TODO: handle error
+            if (!match)
+            {
+                auto err = "Error: missing " + currentSymbol->getName() + ", inserted";
+                trace.setError(err);
+                traces.push_back(trace);
+                continue;
             }
 
+            traces.push_back(trace);
             lookahead = nextToken(input, lookaheadIndex);
-        } else {
-            NonTerminal* current = dynamic_cast<NonTerminal*>(currentSymbol);
-            ParsingTableEntry entry = parsingTable[{current, lookahead.terminal}];
+        }
+        else
+        {
+            NonTerminal *currentNonTerminal = dynamic_cast<NonTerminal *>(currentSymbol);
 
-            for (auto& production: entry.getProductions()) {
-                for (auto& symbol: production) {
-                    stack.push(symbol);
-                    
-                    ParsingTreeNode* n = new ParsingTreeNode(symbol);
-                    currentNode->addChild(n);
-                    nodes.push(n);
-                }
+            bool entryExists = parsingTable.contains({currentNonTerminal, lookahead.terminal});
+            if (!entryExists)
+            {
+                auto err = "Error: (illegal " + currentSymbol->getName() + ") - discarded " + lookahead.terminal;
+                trace.setError(err);
+                traces.push_back(trace);
+
+                lookahead = nextToken(input, lookaheadIndex);
+                stack.push(currentNonTerminal);
+                continue;
+            }
+
+            ParsingTableEntry entry = parsingTable[{currentNonTerminal, lookahead.terminal}];
+            if (entry.isSync())
+            {
+                auto err = "Error: expected " + currentSymbol->getName();
+                trace.setError(err);
+                traces.push_back(trace);
+                continue;
+            }
+
+            Production production = entry.getProduction();
+            trace.setResult(productionString(production, currentNonTerminal));
+            traces.push_back(trace);
+            
+            if (entry.isEpsilon())
+                continue;
+            
+            for (auto it = production.rbegin(); it != production.rend(); ++it)
+            {
+                Symbol *symbol = *it;
+                stack.push(symbol);
+
+                ParsingTreeNode *n = new ParsingTreeNode(symbol);
+                currentNode->addChild(n);
+                nodes.push(n);
             }
         }
     }
-    
-    return ParsingTree(rootNode);
+
+    auto tree = ParsingTree(rootNode);
+    return ParsingResult(tree, traces);
 }
 
-void Parser::computeNTsWithFirstSet() {
+void Parser::computeNTsWithFirstSet()
+{
     FirstSetsGenerator firstSG(NTs);
     NTs = firstSG.getNTsWithFirstSets();
 }
 
-void Parser::computeNTsWithFollowSet() {
+void Parser::computeNTsWithFollowSet()
+{
     FollowSetsGenerator followSG(NTs, grammar.getStartSymbol());
     NTs = followSG.getNTsWithFollowSets();
 }
 
-void Parser::constructParseTable() {
-    for (NonTerminal* nonTerminal: NTs){
-        std::shared_ptr<FirstSet> firstSet = nonTerminal->getFirstSet();
-        std::shared_ptr<FollowSet> followSet = nonTerminal->getFollowSet();
+void Parser::constructParseTable()
+{
+    // for (NonTerminal* nonTerminal: NTs){
+    //     std::shared_ptr<FirstSet> firstSet = nonTerminal->getFirstSet();
+    //     std::shared_ptr<FollowSet> followSet = nonTerminal->getFollowSet();
 
-        for (Terminal* first: firstSet->getSet()){
-           if (!first->isEpsilon()){
-               ParsingTableEntry entry = ParsingTableEntry(nonTerminal->getProductions());
-               parsingTable[std::pair(nonTerminal,first->getName())] = ParsingTableEntry(nonTerminal->getProductions());
-           }
+    //     for (Terminal* first: firstSet->getSet()){
+    //        if (!first->isEpsilon()){
+    //            ParsingTableEntry entry = ParsingTableEntry(nonTerminal->getProductions());
+    //            parsingTable[std::pair(nonTerminal,first->getName())] = entry;
+    //        }
 
-        }
+    //     }
 
-        for (Terminal* follow: followSet->getSet()){
-            if (firstSet->hasNoEpsilon()) {
-                parsingTable[std::pair(nonTerminal,follow->getName())] = ParsingTableEntry("sync");
-            } else {
-                parsingTable[std::pair(nonTerminal,follow->getName())] = ParsingTableEntry("epsilon");
+    //     for (Terminal* follow: followSet->getSet()){
+    //         if (firstSet->hasNoEpsilon()) {
+    //             parsingTable[std::pair(nonTerminal,follow->getName())] = ParsingTableEntry("sync");
+    //         } else {
+    //             parsingTable[std::pair(nonTerminal,follow->getName())] = ParsingTableEntry("epsilon");
 
-            }
-        }
+    //         }
+    //     }
 
-    }
+    // }
 }
 
+
+std::string productionString(Production &production, NonTerminal* nonTerminal)
+{
+    std::stringstream ss;
+    ss << nonTerminal->getName();
+    ss << " -> ";
+    
+    bool isEpsilonProduction = production.size() == 0;
+    
+    if (isEpsilonProduction) {
+        ss << "\u03B5";
+    } else {
+        for (auto symbol : production)
+        {
+            ss << symbol->getName();
+        }
+    }
+    return ss.str();
+}

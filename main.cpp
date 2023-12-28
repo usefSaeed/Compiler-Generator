@@ -10,6 +10,8 @@
 #include "ParserPhase/FirstAndFollowGenerator/FirstSetsGenerator.h"
 #include "ParserPhase/FirstAndFollowGenerator/FollowSetsGenerator.h"
 
+
+int main(int argc, char *argv[]) {
     if (argc != 2)
     {
         std::cerr << "Wrong number of parameter (One argument required: Rules File Path)"
@@ -47,9 +49,9 @@
     std::cout << "\n\n\n";
 
     std::cout << grammar;
-
+//
     FirstSetsGenerator firstSG(grammar.getStandardizedNonTerminals());
-    FollowSetsGenerator followSG(firstSG.getNTsWithFirstSets(),grammar.getStartSymbol());
+//    FollowSetsGenerator followSG(firstSG.getNTsWithFirstSets(),grammar.getStartSymbol());
 
 //    std::vector<NonTerminal> standardizedGrammar = grammar.getStandardizedNonTerminals();
 //    NonTerminal declaration = standardizedGrammar[3];
