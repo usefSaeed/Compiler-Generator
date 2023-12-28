@@ -83,10 +83,12 @@ void Parser::constructParseTable() {
         }
 
         for (Terminal* follow: followSet->getSet()){
-            if (firstSet->hasNoEpsilon()) {
-                parsingTable[std::pair(nonTerminal.get(),follow->getName())] = ParsingTableEntry("sync");
-            } else {
-                parsingTable[std::pair(nonTerminal.get(),follow->getName())] = ParsingTableEntry("epsilon");
+            if (!parsingTable.contains({nonTerminal.get(), follow->getName()})){
+                if (firstSet->hasNoEpsilon()) {
+                    parsingTable[std::pair(nonTerminal.get(),follow->getName())] = ParsingTableEntry("sync");
+                } else {
+                    parsingTable[std::pair(nonTerminal.get(),follow->getName())] = ParsingTableEntry("epsilon");
+                }
             }
         }
     }
