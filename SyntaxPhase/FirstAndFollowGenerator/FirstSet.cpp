@@ -36,7 +36,7 @@ bool FirstSet::handleSymbol(Symbol *s) {
         return true;
     }
     NonTerminal* nt = dynamic_cast<NonTerminal *> (s);
-    bool hasEpsilonAlready = !nt->getFirstSet()->hasNoEpsilon();
+    bool hasEpsilonAlready = !this->hasNoEpsilon();
     this->addAll(nt->getFirstSet());
     if (nt->getFirstSet()->hasNoEpsilon() || hasEpsilonAlready)
         return true;

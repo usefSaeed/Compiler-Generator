@@ -19,10 +19,18 @@ void ParserSet::removeEpsilon() {
     set.erase(Grammar::epsilon);
 }
 
+int ParserSet::getSize() {
+    return set.size();
+}
 
-std::unordered_set<Terminal *> ParserSet::getSet() {
+const std::unordered_set<Terminal *> &ParserSet::getSet() const {
     return set;
 }
+
+void ParserSet::clear() {
+    set.clear();
+}
+
 
 
 

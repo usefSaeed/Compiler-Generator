@@ -2,6 +2,8 @@
 // Created by deffo on 24/12/23.
 //
 
+#include <iomanip>
+#include <fstream>
 #include "Parser.h"
 #include "../FirstAndFollowGenerator/FollowSetsGenerator.h"
 #include "../FirstAndFollowGenerator/FirstSetsGenerator.h"
@@ -80,7 +82,6 @@ void Parser::constructParseTable() {
            if (!first->isEpsilon()){
                parsingTable[std::pair(nonTerminal.get(),first->getName())] = ParsingTableEntry(getInputMatchedProduction(productions, first->getName()));
            }
-
         }
 
         for (Terminal* follow: followSet->getSet()){
@@ -88,9 +89,59 @@ void Parser::constructParseTable() {
                 parsingTable[std::pair(nonTerminal.get(),follow->getName())] = ParsingTableEntry("sync");
             } else {
                 parsingTable[std::pair(nonTerminal.get(),follow->getName())] = ParsingTableEntry("epsilon");
-
             }
         }
-
     }
+}
+
+void Parser::printParsingTable() {
+    const int columnWidth = 25;
+    std::cout << std::endl;
+    std::cout << std::setw( 2 * columnWidth - 15) << "Parsing Table" << std::endl;
+    std::cout << std::left << std::setw(columnWidth) << "NonTerminal"
+              << std::setw(columnWidth) << "Terminal"
+              << "Entry" << std::endl;
+
+    for (const auto& entry : parsingTable) {
+        auto key = entry.first;
+        auto value = entry.second;
+
+        if (key.first && !key.second.empty()) {
+            std::cout << std::left << std::setw(columnWidth) << key.first->getName() /* NonTerminal */
+                      << std::setw(columnWidth) << key.second /* Terminal */
+                      << (value.isEpsilon() ? "epsilon" : (value.isSync() ? "sync" : "production")) /* Entry */
+                      << std::endl;
+        } else {
+            std::cerr << "Error: Invalid key in parsingTable." << std::endl;
+        }
+    }
+}
+
+
+void Parser::writeParsingTableToCSV() {
+    std::string filename = "./parsingTable.csv";
+    std::ofstream csvFile(filename);
+
+    if (!csvFile.is_open()) {
+        std::cerr << "Error: Unable to open file " << filename << " for writing." << std::endl;
+        return;
+    }
+
+    csvFile << "NonTerminal,Terminal,Entry" << std::endl;
+
+    for (const auto& entry : parsingTable) {
+        auto key = entry.first;
+        auto value = entry.second;
+
+        if (key.first && !key.second.empty()) {
+            csvFile << key.first->getName()
+                    << "," << key.second
+                    << "," << (value.isEpsilon() ? "epsilon" : (value.isSync() ? "sync" : "production")) /* Entry */
+                    << std::endl;
+        } else {
+            std::cerr << "Error: Invalid key in parsingTable." << std::endl;
+        }
+    }
+
+    csvFile.close();
 }

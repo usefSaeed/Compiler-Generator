@@ -25,6 +25,8 @@ class Parser {
         void constructParseTable();
     public:
         Parser(Grammar& grammar);
+        void printParsingTable();
+        void writeParsingTableToCSV();
         //ParsingTree parse(std::vector<Token>& input);
 
 };
