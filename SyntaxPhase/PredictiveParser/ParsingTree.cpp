@@ -18,14 +18,20 @@ void ParsingTree::printNode(const std::string& prefix, ParsingTreeNode* node, bo
         throw std::invalid_argument("null node is found in the tree");
         
     std::cout << prefix;
-    std::cout << (isLast ? "└──" : "├──");
+    std::cout << (isLast ? "└── " : "├── ");
     std::cout << node->getSymbol()->getName() << std::endl;
 
-    auto children = node->getChildren();        
-    for (int i=0; i < children.size(); i++) {
-        bool isLastChild = (i == children.size() - 1);
-        printNode(prefix + (isLast ? "    " : "│   "), children[i], isLastChild);
-    }
+    auto children = node->getChildren(); 
+    if (node->isLeaf()) {
+        if (!node->getSymbol()->isTerminal()){
+            std::cout << prefix << (isLast ? "    " : "│   ") << "└──" << " \u03B5\n";
+        }
+    } else {
+        for (int i=0; i < children.size(); i++) {
+            bool isLastChild = (i == children.size() - 1);
+            printNode(prefix + (isLast ? "    " : "│   "), children[i], isLastChild);
+        }
+    }    
 }
 
 
