@@ -10,6 +10,7 @@
 #include "SyntaxPhase/FirstAndFollowGenerator/FirstSetsGenerator.h"
 #include "SyntaxPhase/FirstAndFollowGenerator/FollowSetsGenerator.h"
 #include "SyntaxPhase/PredictiveParser/Parser.h"
+
 #include "unordered_set"
 #include "string"
 
@@ -45,7 +46,6 @@ int main(int argc, char *argv[]) {
     parser.printParsingTable();
     parser.writeParsingTableToCSV();
     std::cout << "success";
-
 
 
 //    std::vector<NonTerminal> standardizedGrammar = grammar.getStandardizedNonTerminals();
