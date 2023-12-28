@@ -12,6 +12,8 @@ target_link_libraries(Compiler DFAConverter_lib)
 target_link_libraries(Compiler SymbolTableGenerator_lib)
 target_link_libraries(Compiler GrammarParser_lib)
 target_link_libraries(Compiler FirstAndFollowGenerator_lib)
+target_link_libraries(Compiler PredictiveParser_lib)
+
 
 
 add_subdirectory(Util)
