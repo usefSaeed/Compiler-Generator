@@ -10,6 +10,7 @@ add_executable(Google_Tests_run UtilsTest.cpp
         LP_DFATest.cpp
         LP_STGeneratorTest.cpp
         SP_GrammarConverterTest.cpp
+        SP_FollowSetGeneratorTest.cpp
         SP_FirstSetGeneratorTest.cpp
 )
 
