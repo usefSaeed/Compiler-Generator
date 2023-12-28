@@ -11,7 +11,7 @@ add_executable(Google_Tests_run UtilsTest.cpp
         LP_STGeneratorTest.cpp
         SP_GrammarConverterTest.cpp
         SP_FirstSetGeneratorTest.cpp
-)
+        SP_FollowSetGeneratorTest.cpp)
 
 target_link_libraries(Google_Tests_run gtest gtest_main)
 target_link_libraries(Google_Tests_run Util_lib)
