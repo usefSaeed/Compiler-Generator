@@ -81,7 +81,7 @@ ParsingResult Parser::parse(std::vector<Token> &input)
             bool entryExists = parsingTable.contains({currentNonTerminal, lookahead.terminal});
             if (!entryExists)
             {
-                auto err = "Error: (illegal " + currentSymbol->getName() + ") - discarded " + lookahead.terminal;
+                auto err = "Error: (illegal " + currentSymbol->getName() + ") - discarded " + lookahead.lexeme;
                 trace.setError(err);
                 traces.push_back(trace);
 
@@ -116,6 +116,13 @@ ParsingResult Parser::parse(std::vector<Token> &input)
                 nodes.push(n);
             }
         }
+    }
+    
+    if (lookaheadIndex < input.size()) {
+        auto trace = ParsingTrace(stack, input, lookaheadIndex);
+        auto err = "Finished parsing but found unexpected tokens after " + input[lookaheadIndex-1].lexeme;
+        trace.setError(err);
+        traces.push_back(trace);
     }
 
     auto tree = ParsingTree(rootNode);
