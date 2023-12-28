@@ -133,6 +133,9 @@ TEST(FollowSetGeneration,EpsilonScenario){
     /// FIRST(A) = { a, c }
     /// FIRST(B) = { b, c }
     /// FIRST(C) = { c, \\L }
+    /// FOLLOW(A) = { $, a, b, c }
+    /// FOLLOW(B) = { $, a, b, c }
+    /// FOLLOW(C) = { $, a, b, c }
     std::shared_ptr<NonTerminal> A = std::make_shared<NonTerminal>("A");
     std::shared_ptr<NonTerminal> B = std::make_shared<NonTerminal>("B");
     std::shared_ptr<NonTerminal> C = std::make_shared<NonTerminal>("C");
