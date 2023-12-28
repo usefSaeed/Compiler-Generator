@@ -21,7 +21,10 @@ Parser::Parser(Symbol *symbol, std::unordered_map<std::pair<NonTerminal *, std::
 
 Token &nextToken(std::vector<Token> &input, int &index)
 {
-    // TODO: return epsilon if out of bound
+    if (index >= input.size()) {
+        auto endToken = new Token("$","");
+        return *endToken;
+    }
     return input[index++];
 }
 
