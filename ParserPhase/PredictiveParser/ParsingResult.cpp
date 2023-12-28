@@ -11,3 +11,10 @@ void ParsingResult::printTrace() {
     }
     std::cout << std::endl;
 }
+
+void ParsingResult::printStackTrace() {
+    for (auto& trace: traces) {
+        trace.printStack();
+        std::cout << std::endl;
+    }
+}

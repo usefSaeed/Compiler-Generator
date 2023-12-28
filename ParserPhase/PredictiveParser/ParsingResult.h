@@ -11,6 +11,7 @@ public:
     ParsingTree tree;
     std::vector<ParsingTrace> traces;
     void printTrace();
+    void printStackTrace();
 };
 
 #endif

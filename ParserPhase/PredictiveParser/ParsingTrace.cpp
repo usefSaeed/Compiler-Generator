@@ -23,20 +23,23 @@ void printStackTrace(std::ostream &os, std::stack<Symbol*> stack) {
     for (int i=0; i < n; i++) {
         os << symbols[i]->getName();
     }
-
-    os << "\t\t";
 }
 
 void printInputTrace(std::ostream &os, std::vector<Token> input, int l) {
     for (int i=l; i < input.size(); i++) {
         os << input[i].lexeme;
     }
-    os << "\t\t";
+}
+
+void ParsingTrace::printStack() {
+    printStackTrace(std::cout, this->stack);
 }
 
 std::ostream &operator<<(std::ostream &os, const ParsingTrace& trace) {
     printStackTrace(os, trace.stack);
+    os << "\t\t";
     printInputTrace(os, trace.input, trace.lookahead);
+    os << "\t\t";
     os << trace.err;
     os << trace.result;
     os << std::endl;
