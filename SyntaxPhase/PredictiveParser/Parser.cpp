@@ -69,7 +69,7 @@ ParsingResult Parser::parse(std::vector<Token> &input)
             bool match = currentSymbol->getName() == lookahead.terminal;
             if (!match)
             {
-                auto err = "Error: missing " + currentSymbol->getName() + ", inserted";
+                auto err = "Error: missing '" + currentSymbol->getName() + "', inserted";
                 trace.setError(err);
                 traces.push_back(trace);
                 continue;
@@ -84,14 +84,15 @@ ParsingResult Parser::parse(std::vector<Token> &input)
 
             bool entryExists = parsingTable.contains({currentNonTerminal, lookahead.terminal});
             if (!entryExists && lookahead.terminal == END) {
-                auto err = "Error: missing " + currentSymbol->getName();
+                auto err = "Error: missing '" + currentSymbol->getName() + "'";
                 trace.setError(err);
                 traces.push_back(trace);
                 continue;
             }
             else if (!entryExists)
             {
-                auto err = "Error: (illegal " + currentSymbol->getName() + ") - discarded " + (!lookahead.lexeme.empty() ? lookahead.lexeme : lookahead.terminal);
+                auto err = "Error: illegal {" + currentSymbol->getName() + "} - discarded " 
+                            + (!lookahead.lexeme.empty() ? "'" + lookahead.lexeme + "'" : lookahead.terminal);
                 trace.setError(err);
                 traces.push_back(trace);
 
@@ -104,7 +105,7 @@ ParsingResult Parser::parse(std::vector<Token> &input)
             ParsingTableEntry entry = parsingTable[{currentNonTerminal, lookahead.terminal}];
             if (entry.isSync())
             {
-                auto err = "Error: expected " + currentSymbol->getName();
+                auto err = "Error: expected '" + currentSymbol->getName() + "'";
                 trace.setError(err);
                 traces.push_back(trace);
                 continue;

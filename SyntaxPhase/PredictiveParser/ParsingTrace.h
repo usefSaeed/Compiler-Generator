@@ -5,6 +5,8 @@
 #include "Token.h"
 #include "../Common/Symbol.h"
 
+#include <sstream>
+
 class ParsingTrace
 {
 private:
@@ -18,8 +20,9 @@ public:
     ParsingTrace(std::stack<Symbol *> stack, std::vector<Token> &input, int lookahead);
     void setError(std::string err);
     void setResult(std::string result);
-    void printStack();
-    friend std::ostream &operator<<(std::ostream &os, const ParsingTrace &trace);
+    std::string stackString(bool topFirst = true);
+    std::string inputString();
+    std::string extrasString();
 };
 
 #endif

@@ -95,8 +95,8 @@ int main(int argc, char *argv[]) {
         auto result = parser.parse(tokens);
         std::cout << "<<Parsing Tree>>\n";
         result.tree.print();
-        std::cout << "\ni<<Parsing Stack Trace>>\n";
-        result.printStackTrace();
+        std::cout << "\n<<Parsing Stack Trace>>\n";
+        result.printTrace();
     }    
 
     return 0;

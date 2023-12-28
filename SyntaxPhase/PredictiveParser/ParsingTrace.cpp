@@ -11,7 +11,7 @@ void ParsingTrace::setResult(std::string result) {
     this->result = result;
 }
 
-void printStackTrace(std::ostream &os, std::stack<Symbol*> stack, bool topFirst = false) {
+std::string ParsingTrace::stackString(bool topFirst) {
     int n = stack.size();
     std::vector<Symbol*> symbols(n);
 
@@ -24,29 +24,35 @@ void printStackTrace(std::ostream &os, std::stack<Symbol*> stack, bool topFirst 
             symbols[n - i - 1] = top;
         }
     }
-
+    
     for (int i=0; i < n; i++) {
-        os << symbols[i]->getName() << " ";
+        if (topFirst) {
+            stack.push(symbols[i]);
+        } else {
+            stack.push(symbols[n-i-1]);
+        }
     }
-}
-
-void printInputTrace(std::ostream &os, std::vector<Token> input, int l) {
-    for (int i=l; i < input.size(); i++) {
-        os << input[i].lexeme;
+    
+    std::stringstream ss;
+    for (int i=0; i < n; i++) {
+        ss << symbols[i]->getName() << " ";
     }
+    return ss.str();
 }
 
-void ParsingTrace::printStack() {
-    printStackTrace(std::cout, this->stack, true);
+std::string ParsingTrace::inputString() {
+    std::stringstream ss;
+    for (int i=lookahead; i < input.size(); i++) {
+        ss << input[i].lexeme << " ";
+    }
+    return ss.str();
 }
 
-std::ostream &operator<<(std::ostream &os, const ParsingTrace& trace) {
-    printStackTrace(os, trace.stack);
-    os << "\t\t";
-    printInputTrace(os, trace.input, trace.lookahead);
-    os << "\t\t";
-    os << trace.err;
-    os << trace.result;
-    os << std::endl;
-    return os;
+std::string ParsingTrace::extrasString() {
+    std::stringstream ss;
+    ss << "\033[31m"; // change color to red
+    ss << err;
+    ss << "\033[0m"; // reset color
+    ss << result;
+    return ss.str();
 }
