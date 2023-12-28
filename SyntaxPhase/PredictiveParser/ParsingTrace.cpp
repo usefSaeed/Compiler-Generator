@@ -11,17 +11,22 @@ void ParsingTrace::setResult(std::string result) {
     this->result = result;
 }
 
-void printStackTrace(std::ostream &os, std::stack<Symbol*> stack) {
+void printStackTrace(std::ostream &os, std::stack<Symbol*> stack, bool topFirst = false) {
     int n = stack.size();
     std::vector<Symbol*> symbols(n);
-    
-    for (int i=n-1; i >= 0; i--) {
-        auto top = stack.top(); stack.pop();
-        symbols[i] = top;
-    }
-    
+
     for (int i=0; i < n; i++) {
-        os << symbols[i]->getName();
+        auto top = stack.top();
+        stack.pop();
+        if (topFirst) {
+            symbols[i] = top;
+        } else {
+            symbols[n - i - 1] = top;
+        }
+    }
+
+    for (int i=0; i < n; i++) {
+        os << symbols[i]->getName() << " ";
     }
 }
 
@@ -32,7 +37,7 @@ void printInputTrace(std::ostream &os, std::vector<Token> input, int l) {
 }
 
 void ParsingTrace::printStack() {
-    printStackTrace(std::cout, this->stack);
+    printStackTrace(std::cout, this->stack, true);
 }
 
 std::ostream &operator<<(std::ostream &os, const ParsingTrace& trace) {
