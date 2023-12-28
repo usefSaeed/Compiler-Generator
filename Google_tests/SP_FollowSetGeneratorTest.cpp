@@ -69,11 +69,14 @@ TEST(FollowSetGeneration,TerminalScenario){
 
 TEST(FollowSetGeneration,NonTerminalScenario){
     /// A --> a B C | C A
-    /// B --> b C B | A a
+    /// B --> b C B | A B
     /// C --> c A C
     /// FIRST(A) = { a, c }
     /// FIRST(B) = { a, b, c }
     /// FIRST(C) = { c }
+    /// FOLLOW(A) = { $, a, b, c }
+    /// FOLLOW(B) = { c }
+    /// FOLLOW(C) = { $, a, b, c }
     std::shared_ptr<NonTerminal> A = std::make_shared<NonTerminal>("A");
     std::shared_ptr<NonTerminal> B = std::make_shared<NonTerminal>("B");
     std::shared_ptr<NonTerminal> C = std::make_shared<NonTerminal>("C");
@@ -93,7 +96,7 @@ TEST(FollowSetGeneration,NonTerminalScenario){
     v_s.clear(); vv_s.clear();
     v_s.push_back(b); v_s.push_back(C); v_s.push_back(B); vv_s.push_back(v_s);
     v_s.clear();
-    v_s.push_back(A); v_s.push_back(a); vv_s.push_back(v_s);
+    v_s.push_back(A); v_s.push_back(B); vv_s.push_back(v_s);
     B->setProductions(vv_s);
 
     v_s.clear(); vv_s.clear();
@@ -115,14 +118,14 @@ TEST(FollowSetGeneration,NonTerminalScenario){
     FollowSetsGenerator followSG(nts,A.get());
 
     FollowSet fs_expected;
-    fs_expected.add(a.get());
-    ASSERT_EQ(C->getFollowSet().get()->getSet(), fs_expected.getSet());
-    fs_expected.addEOI();  fs_expected.add(b.get());
-    ASSERT_EQ(A->getFollowSet().get()->getSet(), fs_expected.getSet());
-    fs_expected.clear();
-    fs_expected.add(b.get()); fs_expected.add(c.get());
+
+    fs_expected.add(c.get());
     ASSERT_EQ(B->getFollowSet().get()->getSet(), fs_expected.getSet());
+    fs_expected.addEOI();  fs_expected.add(b.get()); fs_expected.add(a.get());
+    ASSERT_EQ(A->getFollowSet().get()->getSet(), fs_expected.getSet());
+    ASSERT_EQ(C->getFollowSet().get()->getSet(), fs_expected.getSet());
 }
+
 TEST(FollowSetGeneration,EpsilonScenario){
     /// A --> a B C | C A
     /// B --> b C B | C B
@@ -175,9 +178,8 @@ TEST(FollowSetGeneration,EpsilonScenario){
     FollowSetsGenerator followSG(nts,A.get());
 
     FollowSet fs_expected;
-    fs_expected.add(a.get()); fs_expected.addEOI();  fs_expected.add(b.get()); fs_expected.add(c.get());
-    ASSERT_EQ(A->getFollowSet().get()->getSet(), fs_expected.getSet());
+    fs_expected.add(a.get()); fs_expected.add(b.get()); fs_expected.add(c.get());fs_expected.addEOI();
     ASSERT_EQ(B->getFollowSet().get()->getSet(), fs_expected.getSet());
+    ASSERT_EQ(A->getFollowSet().get()->getSet(), fs_expected.getSet());
     ASSERT_EQ(C->getFollowSet().get()->getSet(), fs_expected.getSet());
 }
-
