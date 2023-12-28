@@ -7,8 +7,6 @@
 
 #include "Common.h"
 
-typedef std::vector<Symbol*> Production;
-
 class ParsingTableEntry {
     private:
         bool epsilon = false;

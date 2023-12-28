@@ -4,6 +4,8 @@
 
 #include "ParsingTableEntry.h"
 
+#include <utility>
+
 ParsingTableEntry::ParsingTableEntry() = default;
 
 ParsingTableEntry::ParsingTableEntry(std::string type) {

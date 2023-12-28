@@ -31,9 +31,9 @@ public:
     [[nodiscard]] bool isFollowComputed() const;
     [[nodiscard]] std::shared_ptr<FirstSet> getFirstSet();
     [[nodiscard]] std::shared_ptr<FollowSet> getFollowSet();
-    [[nodiscard]] const std::vector<std::vector<std::shared_ptr<Symbol>>> &getProductions() const;
+    [[nodiscard]] std::vector<std::vector<std::shared_ptr<Symbol>>> getProductions() const;
 
-    friend std::ostream& operator<<(std::ostream& os, const NonTerminal& nt);
+    friend std::ostream& operator<<(std::ostream& os, const NonTerminal* nt);
 };
 
 

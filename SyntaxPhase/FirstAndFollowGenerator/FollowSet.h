@@ -18,6 +18,7 @@ public:
     void addEOI();
     static Terminal* EOI;
     void addFollowSubset(const std::shared_ptr<FollowSet>& fss);
+    bool handleSymbol(Symbol* s) override;
     friend std::ostream& operator<<(std::ostream& os, const FollowSet* fs);
 
 };

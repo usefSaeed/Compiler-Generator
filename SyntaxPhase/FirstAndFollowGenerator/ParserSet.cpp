@@ -19,23 +19,18 @@ void ParserSet::removeEpsilon() {
     set.erase(Grammar::epsilon);
 }
 
-bool ParserSet::handleSymbol(Symbol *s) {
-    if (s->isTerminal()) {
-        this->add(dynamic_cast<Terminal *> (s));
-        return true;
-    }
-    NonTerminal* nt = dynamic_cast<NonTerminal *> (s);
-    bool hasEpsilonAlready = !nt->getFirstSet()->hasNoEpsilon();
-    this->addAll(nt->getFirstSet());
-    if (nt->getFirstSet()->hasNoEpsilon() || hasEpsilonAlready)
-        return true;
-    this->removeEpsilon();
-    return false;
+int ParserSet::getSize() {
+    return set.size();
 }
 
-std::unordered_set<Terminal *> ParserSet::getSet() {
+const std::unordered_set<Terminal *> &ParserSet::getSet() const {
     return set;
 }
+
+void ParserSet::clear() {
+    set.clear();
+}
+
 
 
 

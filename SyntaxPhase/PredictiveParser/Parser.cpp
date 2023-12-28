@@ -8,7 +8,10 @@
 #include "../FirstAndFollowGenerator/FollowSetsGenerator.h"
 #include "../FirstAndFollowGenerator/FirstSetsGenerator.h"
 
-Parser::Parser(Grammar &cfg) : grammar(cfg), NTs(cfg.getStandardizedNonTerminals())
+#include <iomanip>
+#include <fstream>
+
+Parser::Parser(Grammar& cfg): grammar(cfg), NTs(cfg.getStandardizedNonTerminals())
 {
     computeNTsWithFirstSet();
     computeNTsWithFollowSet();
@@ -116,7 +119,7 @@ ParsingResult Parser::parse(std::vector<Token> &input)
             
             for (auto it = production.rbegin(); it != production.rend(); ++it)
             {
-                Symbol *symbol = *it;
+                Symbol* symbol = (*it).get();
                 stack.push(symbol);
 
                 ParsingTreeNode *n = new ParsingTreeNode(symbol);
@@ -129,45 +132,6 @@ ParsingResult Parser::parse(std::vector<Token> &input)
     auto tree = ParsingTree(rootNode);
     return ParsingResult(tree, traces);
 }
-
-void Parser::computeNTsWithFirstSet()
-{
-    FirstSetsGenerator firstSG(NTs);
-    NTs = firstSG.getNTsWithFirstSets();
-}
-
-void Parser::computeNTsWithFollowSet()
-{
-    FollowSetsGenerator followSG(NTs, grammar.getStartSymbol());
-    NTs = followSG.getNTsWithFollowSets();
-}
-
-void Parser::constructParseTable()
-{
-    // for (NonTerminal* nonTerminal: NTs){
-    //     std::shared_ptr<FirstSet> firstSet = nonTerminal->getFirstSet();
-    //     std::shared_ptr<FollowSet> followSet = nonTerminal->getFollowSet();
-
-    //     for (Terminal* first: firstSet->getSet()){
-    //        if (!first->isEpsilon()){
-    //            ParsingTableEntry entry = ParsingTableEntry(nonTerminal->getProductions());
-    //            parsingTable[std::pair(nonTerminal,first->getName())] = entry;
-    //        }
-
-    //     }
-
-    //     for (Terminal* follow: followSet->getSet()){
-    //         if (firstSet->hasNoEpsilon()) {
-    //             parsingTable[std::pair(nonTerminal,follow->getName())] = ParsingTableEntry("sync");
-    //         } else {
-    //             parsingTable[std::pair(nonTerminal,follow->getName())] = ParsingTableEntry("epsilon");
-
-    //         }
-    //     }
-
-    // }
-}
-
 
 std::string productionString(Production &production, NonTerminal* nonTerminal)
 {
@@ -186,4 +150,102 @@ std::string productionString(Production &production, NonTerminal* nonTerminal)
         }
     }
     return ss.str();
+}
+
+
+void Parser::computeNTsWithFirstSet() {
+    FirstSetsGenerator firstSG(NTs);
+}
+
+void Parser::computeNTsWithFollowSet() {
+    FollowSetsGenerator followSG(NTs, grammar.getStartSymbol());
+}
+
+Production Parser::getInputMatchedProduction(const std::vector<std::vector<std::shared_ptr<Symbol>>>& productions, const std::string& input){
+    for (std::vector<std::shared_ptr<Symbol>> production: productions) {
+        NonTerminal nonTerminal("production");
+        std::vector<std::vector<std::shared_ptr<Symbol>>> pTemplate;
+        pTemplate.push_back(production);
+        nonTerminal.setProductions(pTemplate);
+        nonTerminal.computeFirst();
+        for (Terminal* element :nonTerminal.getFirstSet()->getSet()) {
+            if (element->getName() == input){
+                return production;
+            }
+        }
+    }
+
+}
+
+void Parser::constructParseTable() {
+    for (const std::shared_ptr<NonTerminal>& nonTerminal: NTs){
+        std::shared_ptr<FirstSet> firstSet = nonTerminal->getFirstSet();
+        std::shared_ptr<FollowSet> followSet = nonTerminal->getFollowSet();
+        std::vector<std::vector<std::shared_ptr<Symbol>>> productions = nonTerminal->getProductions();
+        for (Terminal* first: firstSet->getSet()){
+           if (!first->isEpsilon()){
+               parsingTable[std::pair(nonTerminal.get(),first->getName())] = ParsingTableEntry(getInputMatchedProduction(productions, first->getName()));
+           }
+        }
+
+        for (Terminal* follow: followSet->getSet()){
+            if (firstSet->hasNoEpsilon()) {
+                parsingTable[std::pair(nonTerminal.get(),follow->getName())] = ParsingTableEntry("sync");
+            } else {
+                parsingTable[std::pair(nonTerminal.get(),follow->getName())] = ParsingTableEntry("epsilon");
+            }
+        }
+    }
+}
+
+void Parser::printParsingTable() {
+    const int columnWidth = 25;
+    std::cout << std::endl;
+    std::cout << std::setw( 2 * columnWidth - 15) << "Parsing Table" << std::endl;
+    std::cout << std::left << std::setw(columnWidth) << "NonTerminal"
+              << std::setw(columnWidth) << "Terminal"
+              << "Entry" << std::endl;
+
+    for (const auto& entry : parsingTable) {
+        auto key = entry.first;
+        auto value = entry.second;
+
+        if (key.first && !key.second.empty()) {
+            std::cout << std::left << std::setw(columnWidth) << key.first->getName() /* NonTerminal */
+                      << std::setw(columnWidth) << key.second /* Terminal */
+                      << (value.isEpsilon() ? "epsilon" : (value.isSync() ? "sync" : "production")) /* Entry */
+                      << std::endl;
+        } else {
+            std::cerr << "Error: Invalid key in parsingTable." << std::endl;
+        }
+    }
+}
+
+
+void Parser::writeParsingTableToCSV() {
+    std::string filename = "./parsingTable.csv";
+    std::ofstream csvFile(filename);
+
+    if (!csvFile.is_open()) {
+        std::cerr << "Error: Unable to open file " << filename << " for writing." << std::endl;
+        return;
+    }
+
+    csvFile << "NonTerminal,Terminal,Entry" << std::endl;
+
+    for (const auto& entry : parsingTable) {
+        auto key = entry.first;
+        auto value = entry.second;
+
+        if (key.first && !key.second.empty()) {
+            csvFile << key.first->getName()
+                    << "," << key.second
+                    << "," << (value.isEpsilon() ? "epsilon" : (value.isSync() ? "sync" : "production")) /* Entry */
+                    << std::endl;
+        } else {
+            std::cerr << "Error: Invalid key in parsingTable." << std::endl;
+        }
+    }
+
+    csvFile.close();
 }
