@@ -1,14 +1,14 @@
 #include <gtest/gtest.h>
-// #include "../ParserPhase/PredictiveParser/ParsingTree.h"
-#include "../ParserPhase/Common/NonTerminal.h"
-#include "../ParserPhase/Common/Terminal.h"
-#include "../ParserPhase/Common/Symbol.h"
-#include "../ParserPhase/GrammarParser/GrammarConverter.h"
-#include "../ParserPhase/GrammarParser/Grammar.h"
-#include "../ParserPhase/PredictiveParser/Token.h"
-#include "../ParserPhase/PredictiveParser/Parser.h"
-#include "../ParserPhase/PredictiveParser/ParsingTree.h"
-#include "../ParserPhase/PredictiveParser/ParsingResult.h"
+// #include "../SyntaxPhase/PredictiveParser/ParsingTree.h"
+#include "../SyntaxPhase/Common/NonTerminal.h"
+#include "../SyntaxPhase/Common/Terminal.h"
+#include "../SyntaxPhase/Common/Symbol.h"
+#include "../SyntaxPhase/GrammarParser/GrammarConverter.h"
+#include "../SyntaxPhase/GrammarParser/Grammar.h"
+#include "../SyntaxPhase/PredictiveParser/Token.h"
+#include "../SyntaxPhase/PredictiveParser/Parser.h"
+#include "../SyntaxPhase/PredictiveParser/ParsingTree.h"
+#include "../SyntaxPhase/PredictiveParser/ParsingResult.h"
 
 std::string g1Path = "../../GrammarTest.txt";
 

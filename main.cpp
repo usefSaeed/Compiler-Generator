@@ -5,10 +5,10 @@
 #include "LexicalPhase/NFAConverter/NFACombiner.h"
 #include "LexicalPhase/DFAConverter/DFA.h"
 #include "LexicalPhase/SymbolTableGenerator/STGenerator.h"
-#include "ParserPhase/GrammarParser/GrammarConverter.h"
-#include "ParserPhase/GrammarParser/Grammar.h"
-#include "ParserPhase/FirstAndFollowGenerator/FirstSetsGenerator.h"
-#include "ParserPhase/FirstAndFollowGenerator/FollowSetsGenerator.h"
+#include "SyntaxPhase/GrammarParser/GrammarConverter.h"
+#include "SyntaxPhase/GrammarParser/Grammar.h"
+#include "SyntaxPhase/FirstAndFollowGenerator/FirstSetsGenerator.h"
+#include "SyntaxPhase/FirstAndFollowGenerator/FollowSetsGenerator.h"
 
 
 int main(int argc, char *argv[]) {

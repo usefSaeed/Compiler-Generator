@@ -17,6 +17,6 @@ target_link_libraries(Compiler PredictiveParser_lib)
 
 add_subdirectory(Util)
 add_subdirectory(LexicalPhase)
-add_subdirectory(ParserPhase)
+add_subdirectory(SyntaxPhase)
 add_subdirectory(Google_tests)
 
