@@ -10,7 +10,7 @@ NonTerminal::NonTerminal(const std::string &name) : Symbol(name, false) {
     followComputed = false;
 }
 
-std::vector<std::vector<std::shared_ptr<Symbol>>>NonTerminal::getProductions() const {
+const std::vector<std::vector<std::shared_ptr<Symbol>>>& NonTerminal::getProductions() const {
     return productions;
 }
 

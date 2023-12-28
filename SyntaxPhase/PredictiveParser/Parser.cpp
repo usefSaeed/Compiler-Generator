@@ -119,29 +119,57 @@ void Parser::printParsingTable() {
 
 
 void Parser::writeParsingTableToCSV() {
+    const int columnWidth = 25;
     std::string filename = "./parsingTable.csv";
+    // Collect unique non-terminals and terminals
+    std::unordered_set<NonTerminal*> nonTerminalsSet;
+    std::unordered_set<std::string> terminalsSet;
+
+    for (const auto& entry : parsingTable) {
+        nonTerminalsSet.insert(entry.first.first);
+        terminalsSet.insert(entry.first.second);
+    }
+
+    // Convert sets to vectors for ordered iteration
+    std::vector<NonTerminal*> nonTerminals(nonTerminalsSet.begin(), nonTerminalsSet.end());
+    std::vector<std::string> terminals(terminalsSet.begin(), terminalsSet.end());
+
+    // Open the file for writing
     std::ofstream csvFile(filename);
 
+    // Check if the file is opened successfully
     if (!csvFile.is_open()) {
         std::cerr << "Error: Unable to open file " << filename << " for writing." << std::endl;
         return;
     }
 
-    csvFile << "NonTerminal,Terminal,Entry" << std::endl;
+    // Write CSV header
+    csvFile << ",";
+    for (const auto& terminal : terminals) {
+        csvFile << terminal << ",";
+    }
+    csvFile << std::endl;
 
-    for (const auto& entry : parsingTable) {
-        auto key = entry.first;
-        auto value = entry.second;
-
-        if (key.first && !key.second.empty()) {
-            csvFile << key.first->getName()
-                    << "," << key.second
-                    << "," << (value.isEpsilon() ? "epsilon" : (value.isSync() ? "sync" : "production")) /* Entry */
-                    << std::endl;
-        } else {
-            std::cerr << "Error: Invalid key in parsingTable." << std::endl;
+    // Write table content to the CSV file
+    for (const auto& nonTerminal : nonTerminals) {
+        csvFile << nonTerminal->getName() << ",";
+        for (const auto& terminal : terminals) {
+            auto entry = parsingTable.find({nonTerminal, terminal});
+            if (entry != parsingTable.end()) {
+                auto& value = entry->second;
+                std::string visibleProduction = "--> ";
+                for (const std::shared_ptr<Symbol>& symbol : entry->second.getProduction()){
+                    visibleProduction += symbol->getName() + " ";
+                }
+                csvFile << (value.isEpsilon() ? "epsilon" : (value.isSync() ? "sync" : visibleProduction)) << ",";
+            } else {
+                // No entry for the combination of non-terminal and terminal
+                csvFile << "N/A,";
+            }
         }
+        csvFile << std::endl;
     }
 
+    // Close the file
     csvFile.close();
 }

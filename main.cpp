@@ -39,13 +39,13 @@ int main(int argc, char *argv[]) {
     Grammar grammar(grammarConverter);
     grammar.standardizeNonTerminals();
 
+    std::cout << grammar;
     std::cout << "\n\n\n";
 
     Parser parser(grammar);
     parser.printParsingTable();
     parser.writeParsingTableToCSV();
     std::cout << "success";
-
 
 
 //    std::vector<NonTerminal> standardizedGrammar = grammar.getStandardizedNonTerminals();

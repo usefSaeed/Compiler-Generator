@@ -15,6 +15,7 @@ target_link_libraries(Compiler FirstAndFollowGenerator_lib)
 target_link_libraries(Compiler PredictiveParser_lib)
 
 
+
 add_subdirectory(Util)
 add_subdirectory(LexicalPhase)
 add_subdirectory(SyntaxPhase)
