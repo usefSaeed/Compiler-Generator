@@ -188,18 +188,18 @@ TEST(FollowSetGeneration,EpsilonScenario){
 }
 
 TEST(FollowSetGeneration,CircularScenario){
-    /// A --> a B C A | D B
-    /// B --> b A | f A C
-    /// C --> c A C | d B D
-    /// D --> e C | \\L
-    /// FIRST(A) = { a, b, f}
+    /// A --> a B  | D B
+    /// B --> b A | f  C
+    /// C --> c C A C e | d B D
+    /// D --> e C
+    /// FIRST(A) = { a, e}
     /// FIRST(B) = { b, f }
     /// FIRST(C) = { c, d }
-    /// FIRST(D) = { e, \\L }
+    /// FIRST(D) = { e }
     /// FOLLOW(A) = { $, c, d, e }
     /// FOLLOW(B) = { $, c, d, e }
     /// FOLLOW(C) = { $, a, b, c, d, e, f }
-    /// FOLLOW(D) = { $, b, c, d, e, f }
+    /// FOLLOW(C) = { $, a, b, c, d, e, f }
     std::shared_ptr<NonTerminal> A = std::make_shared<NonTerminal>("A");
     std::shared_ptr<NonTerminal> B = std::make_shared<NonTerminal>("B");
     std::shared_ptr<NonTerminal> C = std::make_shared<NonTerminal>("C");
@@ -215,7 +215,7 @@ TEST(FollowSetGeneration,CircularScenario){
 
     std::vector<std::vector<std::shared_ptr<Symbol>>> vv_s;
     std::vector<std::shared_ptr<Symbol>> v_s;
-    v_s.push_back(a); v_s.push_back(B); v_s.push_back(C); v_s.push_back(A); vv_s.push_back(v_s);
+    v_s.push_back(a); v_s.push_back(B); vv_s.push_back(v_s);
     v_s.clear();
     v_s.push_back(D); v_s.push_back(B); vv_s.push_back(v_s);
     A->setProductions(vv_s);
@@ -223,35 +223,34 @@ TEST(FollowSetGeneration,CircularScenario){
     v_s.clear(); vv_s.clear();
     v_s.push_back(b); v_s.push_back(A); vv_s.push_back(v_s);
     v_s.clear();
-    v_s.push_back(f); v_s.push_back(A); v_s.push_back(C); vv_s.push_back(v_s);
+    v_s.push_back(f); v_s.push_back(C); vv_s.push_back(v_s);
     B->setProductions(vv_s);
 
     v_s.clear(); vv_s.clear();
-    v_s.push_back(c); v_s.push_back(A); v_s.push_back(C); vv_s.push_back(v_s);
+    v_s.push_back(c);v_s.push_back(C); v_s.push_back(A); v_s.push_back(C); v_s.push_back(e); vv_s.push_back(v_s);
     v_s.clear();
     v_s.push_back(d); v_s.push_back(B); v_s.push_back(D); vv_s.push_back(v_s);
     C->setProductions(vv_s);
 
     v_s.clear(); vv_s.clear();
     v_s.push_back(e); v_s.push_back(C); vv_s.push_back(v_s);
-    v_s.clear();
-    v_s.push_back(eps); vv_s.push_back(v_s);
-    C->setProductions(vv_s);
+    D->setProductions(vv_s);
 
     v_s.clear(); vv_s.clear();
 
     std::vector<std::shared_ptr<NonTerminal>> nts = {A,B,C,D};
 
     std::shared_ptr<FirstSet> tempFS = std::make_shared<FirstSet>();
-    tempFS->add(b.get());tempFS->add(f.get());
-    B->getFirstSet()->addAll(tempFS);
-    tempFS->add(a.get());
+    tempFS->add(e.get());    tempFS->add(a.get());
     A->getFirstSet()->addAll(tempFS);
+    tempFS->clear();
+    tempFS->add(b.get());    tempFS->add(f.get());
+    B->getFirstSet()->addAll(tempFS);
     tempFS->clear();
     tempFS->add(d.get()); tempFS->add(c.get());
     C->getFirstSet()->addAll(tempFS);
     tempFS->clear();
-    tempFS->add(e.get()); tempFS->addEpsilon();
+    tempFS->add(e.get());
     D->getFirstSet()->addAll(tempFS);
 
     FollowSetsGenerator followSG(nts,A.get());
@@ -260,8 +259,7 @@ TEST(FollowSetGeneration,CircularScenario){
     fs_expected.add(e.get()); fs_expected.add(d.get()); fs_expected.add(c.get());fs_expected.addEOI();
     ASSERT_EQ(B->getFollowSet().get()->getSet(), fs_expected.getSet());
     ASSERT_EQ(A->getFollowSet().get()->getSet(), fs_expected.getSet());
-    fs_expected.add(f.get()); fs_expected.add(b.get());
+    fs_expected.add(f.get()); fs_expected.add(b.get());fs_expected.add(a.get());
     ASSERT_EQ(D->getFollowSet().get()->getSet(), fs_expected.getSet());
-    fs_expected.add(a.get());
     ASSERT_EQ(C->getFollowSet().get()->getSet(), fs_expected.getSet());
 }
