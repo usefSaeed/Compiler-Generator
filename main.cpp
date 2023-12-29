@@ -70,9 +70,8 @@ int main(int argc, char *argv[]) {
     
     // Generate grammar
     Grammar grammar(grammarConverter);
-    grammar.standardizeNonTerminals();
-
     std::cout << grammar;
+    grammar.standardizeNonTerminals();
     std::cout << "\n\n\n";
 
     Parser parser(grammar);

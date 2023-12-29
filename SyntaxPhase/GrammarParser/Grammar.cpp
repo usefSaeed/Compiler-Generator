@@ -74,7 +74,7 @@ Grammar::Grammar(GrammarConverter modifiedGrammar) : modifiedGrammar(std::move(m
 
 std::ostream &operator<<(std::ostream &os, const Grammar &g) {
     for (const auto& r : g.standardizedNonTerminals)
-        os << r;
+        os << r.get();
     os << "\n\n\n";
     return os;
 }
