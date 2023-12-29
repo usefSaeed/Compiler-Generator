@@ -14,6 +14,7 @@
 Parser::Parser(Grammar& cfg): grammar(cfg), NTs(cfg.getStandardizedNonTerminals())
 {
     computeNTsWithFirstSet();
+    std::cout << "\n\n\n";
     computeNTsWithFollowSet();
     constructParseTable();
     startingSymbol = cfg.getStartSymbol();
@@ -175,7 +176,6 @@ Production Parser::getInputMatchedProduction(const std::vector<std::vector<std::
             }
         }
     }
-
 }
 
 void Parser::constructParseTable() {
@@ -227,6 +227,20 @@ void Parser::printParsingTable() {
 
 void Parser::writeParsingTableToCSV() {
     std::string filename = "./parsingTable.csv";
+    std::unordered_set<NonTerminal*> nonTerminalsSet;
+    std::unordered_set<std::string> terminalsSet;
+
+    for (const auto& entry : parsingTable) {
+        nonTerminalsSet.insert(entry.first.first);
+        terminalsSet.insert(entry.first.second);
+    }
+
+    // Convert sets to vectors for ordered iteration
+    std::vector<NonTerminal*> nonTerminals(nonTerminalsSet.begin(), nonTerminalsSet.end());
+    std::vector<std::string> terminals(terminalsSet.begin(), terminalsSet.end());
+    std::sort(nonTerminals.begin(), nonTerminals.end());
+    std::sort(terminals.begin(), terminals.end());
+
     std::ofstream csvFile(filename);
 
     if (!csvFile.is_open()) {
@@ -234,20 +248,29 @@ void Parser::writeParsingTableToCSV() {
         return;
     }
 
-    csvFile << "NonTerminal,Terminal,Entry" << std::endl;
+    csvFile << ",";
+    for (const std::string& terminal : terminals) {
+        csvFile << terminal << ",";
+    }
+    csvFile << std::endl;
 
-    for (const auto& entry : parsingTable) {
-        auto key = entry.first;
-        auto value = entry.second;
-
-        if (key.first && !key.second.empty()) {
-            csvFile << key.first->getName()
-                    << "," << key.second
-                    << "," << (value.isEpsilon() ? "epsilon" : (value.isSync() ? "sync" : "production")) /* Entry */
-                    << std::endl;
-        } else {
-            std::cerr << "Error: Invalid key in parsingTable." << std::endl;
+    for (NonTerminal* nonTerminal : nonTerminals) {
+        csvFile << nonTerminal->getName() << ",";
+        for (const std::string& terminal : terminals) {
+            auto entry = parsingTable.find({nonTerminal, terminal});
+            if (entry != parsingTable.end()) {
+                auto& value = entry->second;
+                std::string visibleProduction = "--> ";
+                for (const std::shared_ptr<Symbol>& symbol : entry->second.getProduction()){
+                    visibleProduction += symbol->getName() + " ";
+                }
+                csvFile << (value.isEpsilon() ? "epsilon" : (value.isSync() ? "sync" : visibleProduction)) << ",";
+            } else {
+                // No entry for the combination of non-terminal and terminal
+                csvFile << "N/A,";
+            }
         }
+        csvFile << std::endl;
     }
 
     csvFile.close();

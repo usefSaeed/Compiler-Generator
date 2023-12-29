@@ -71,12 +71,14 @@ int main(int argc, char *argv[]) {
     // Generate grammar
     Grammar grammar(grammarConverter);
     grammar.standardizeNonTerminals();
-    std::cout << "\n\n";
-    
-    // Create first & follow sets and the parsing Table
+
+    std::cout << grammar;
+    std::cout << "\n\n\n";
+
     Parser parser(grammar);
     parser.printParsingTable();
     parser.writeParsingTableToCSV();
+    std::cout << "success";
 
     // Read input file
     while (true) {
