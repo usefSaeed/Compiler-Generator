@@ -8,8 +8,8 @@ ParsingResult::ParsingResult() {};
 void ParsingResult::printTrace() {
     std::vector<std::string> stackStrings;
     std::vector<std::string> inputStrings;
-    int maxStackLength = 0;
-    int maxInputLength = 0;
+    int maxStackLength = 10;
+    int maxInputLength = 10;
     
     for (auto& trace: traces) {
         auto stackString = trace.stackString();

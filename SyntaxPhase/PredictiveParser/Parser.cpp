@@ -147,7 +147,7 @@ std::string productionString(Production &production, NonTerminal* nonTerminal)
     } else {
         for (const auto& symbol : production)
         {
-            ss << symbol->getName();
+            ss << symbol->getName() << " ";
         }
     }
     return ss.str();
