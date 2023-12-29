@@ -17,7 +17,11 @@ const std::string &RegularDefinition::getRegex() const {
     return regex;
 }
 
-RegularDefinition::RegularDefinition(std::string name, std::string regex) : name(std::move(name)), regex(std::move(regex)) {}
+RegularDefinition::RegularDefinition(std::string name, std::string regex) : regex(std::move(regex)) {
+    std::string s = name;
+    replaceAll(s, "\\", "");
+    this->name = s;
+}
 
 int RegularDefinition::standardizeRegex(std::vector<RegularDefinition> regularDefinitions) {
     removeConsecutiveSpaces(regex);

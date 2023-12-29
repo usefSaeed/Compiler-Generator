@@ -12,7 +12,7 @@ add_executable(Google_Tests_run UtilsTest.cpp
         SP_GrammarConverterTest.cpp
         SP_FollowSetGeneratorTest.cpp
         SP_FirstSetGeneratorTest.cpp
-        SP_FollowSetGeneratorTest.cpp)
+        SP_ParsingTest.cpp)
 
 target_link_libraries(Google_Tests_run gtest gtest_main)
 target_link_libraries(Google_Tests_run Util_lib)
@@ -21,5 +21,6 @@ target_link_libraries(Google_Tests_run NFAConverter_lib)
 target_link_libraries(Google_Tests_run DFAConverter_lib)
 target_link_libraries(Google_Tests_run SymbolTableGenerator_lib)
 target_link_libraries(Google_Tests_run GrammarParser_lib)
+target_link_libraries(Google_Tests_run PredictiveParser_lib)
 target_link_libraries(Google_Tests_run FirstAndFollowGenerator_lib)
 

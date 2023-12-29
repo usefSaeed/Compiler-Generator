@@ -30,8 +30,10 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const Grammar& g);
     void standardizeNonTerminals();
     explicit Grammar(GrammarConverter modifiedGrammar);
-
     static Terminal* epsilon;
+
+    // for debugging purposes
+    explicit Grammar(){};
 };
 
 

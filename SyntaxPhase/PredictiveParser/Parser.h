@@ -9,13 +9,17 @@
 
 #include "Common.h"
 #include "ParsingTree.h"
+#include "ParsingResult.h"
 #include "ParsingTableEntry.h"
 #include "../Common/NonTerminal.h"
 #include "../GrammarParser/Grammar.h"
 #include "../../LexicalPhase/NFAConverter/NFACombiner.h"
 
+#include <sstream>
+
 class Parser {
     private:
+        Symbol* startingSymbol;
         Grammar grammar;
         std::vector<std::shared_ptr<NonTerminal>> NTs;
         std::unordered_map<std::pair<NonTerminal*,std::string>, ParsingTableEntry, PairHash, PairEqual> parsingTable;
@@ -25,10 +29,11 @@ class Parser {
         void constructParseTable();
     public:
         Parser(Grammar& grammar);
+        ParsingResult parse(std::vector<Token>& input);
         void printParsingTable();
         void writeParsingTableToCSV();
-        //ParsingTree parse(std::vector<Token>& input);
-
+        // for debugging purposes
+        Parser(Symbol* symbol, std::unordered_map<std::pair<NonTerminal*,std::string>, ParsingTableEntry, PairHash, PairEqual>& parsingTable);
 };
 
 #endif //COMPILER_PARSER_H

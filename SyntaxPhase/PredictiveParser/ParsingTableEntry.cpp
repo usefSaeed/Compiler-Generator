@@ -20,6 +20,14 @@ ParsingTableEntry::ParsingTableEntry(Production production) {
     this->production = std::move(production);
 }
 
+ParsingTableEntry::ParsingTableEntry(std::vector<Symbol*> p) {
+    Production production;
+    for (auto s:p) {
+        production.push_back(std::shared_ptr<Symbol> (s));
+    }
+    this->production = std::move(production);
+}
+
 bool ParsingTableEntry::isSync() const {
     return this->sync;
 }

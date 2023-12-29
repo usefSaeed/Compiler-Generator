@@ -9,9 +9,10 @@
 #include "Common.h"
 
 class Token{
-    public:
-        std::string terminal;
-        std::string lexeme;
+public:
+    Token(std::string t, std::string l): terminal(t), lexeme(l) {};
+    std::string terminal;
+    std::string lexeme;
 };
 
 #endif //COMPILER_TOKEN_H
