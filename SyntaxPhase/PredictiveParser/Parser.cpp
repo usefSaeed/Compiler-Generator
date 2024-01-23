@@ -226,7 +226,7 @@ void Parser::printParsingTable() {
 
 
 void Parser::writeParsingTableToCSV() {
-    std::string filename = "./parsingTable.csv";
+    std::string filename = "../Outputs/parsingTable.csv";
     std::unordered_set<NonTerminal*> nonTerminalsSet;
     std::unordered_set<std::string> terminalsSet;
 
