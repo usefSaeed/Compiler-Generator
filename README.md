@@ -1,4 +1,8 @@
 # Compiler Generator
+<p align="center">
+    <img src="https://raw.githubusercontent.com/Ghost8345/Compiler-Generator/docs/docs/Images/CompilerGenerator.png" alt="Logo" width="35%" height="35%">
+</p>
+
 ## Overview
 > This is a plug and play compiler which can accommodate with any language once you provide it with its lexical rules and grammar.
 
@@ -13,12 +17,19 @@
 ```
 git clone https://github.com/Ghost8345/Compiler-Generator.git
 ```
-2. Load CMakeLists.txt to your project.
-3. Add the `Lexical Rules` and `Grammar` as program arguments for `Driver.cpp`.
-4. Compile `Driver.cpp`.
-5. Run the compiled version.
+1. Change the directory to the cloned repo.
+```
+cd Compiler-Generator
+```
+1. Load CMakeLists.txt to your project.
+1. Add the `Lexical Rules` and `Grammar` paths as program arguments for `Driver.cpp`.
+1. Compile `Driver.cpp`.
+1. Run the compiled version.
 
 ## System Flow Chart
+<p align="center">
+    <img src="https://raw.githubusercontent.com/Ghost8345/Compiler-Generator/docs/docs/Images/GeneralizedCompilerFlowchart.jpg" alt="Logo" width="70%" height="100%">
+</p>
 
 ## Inputs 
 + Lexical Rules
