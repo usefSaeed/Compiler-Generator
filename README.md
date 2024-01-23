@@ -17,14 +17,14 @@
 ```
 git clone https://github.com/Ghost8345/Compiler-Generator.git
 ```
-1. Change the directory to the cloned repo.
+2. Change the directory to the cloned repo.
 ```
 cd Compiler-Generator
 ```
-1. Load CMakeLists.txt to your project.
-1. Add the `Lexical Rules` and `Grammar` paths as program arguments for `Driver.cpp`.
-1. Compile `Driver.cpp`.
-1. Run the compiled version.
+3. Load CMakeLists.txt to your project.
+4. Add the `Lexical Rules` and `Grammar` paths as program arguments for `Driver.cpp`.
+5. Compile `Driver.cpp`.
+6. Run the compiled version.
 
 ## System Flow Chart
 <p align="center">
