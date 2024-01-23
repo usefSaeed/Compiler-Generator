@@ -1,10 +1,10 @@
 
 # Lexical Phase Documentation
 ## Table of Contents
-+ [Rules File to RE](Rules-File-to-RE)
-+ [RE to NFA](RE-to-NFA)
-+ [NFA to DFA](NFA-to-DFA)
-+ [Symbol Table Generator](Symbol-Table-Generator)
++ [Rules File to RE](#Rules-File-to-RE)
++ [RE to NFA](#RE-to-NFA)
++ [NFA to DFA](#NFA-to-DFA)
++ [Symbol Table Generator](#Symbol-Table-Generator)
     
 ## Rules File to RE
 #### Description
@@ -73,4 +73,3 @@ The third part turns the NFA into a DFA with minimized states.
   SimplyTakes the DFA as input and the input code file satisfying the grammar rules to generate the symbol table.
 Takes the DFA as input and the input code file satisfying the grammar rules to generate the symbol table.
  it takes the DFA as input to initiate the constructor, so it has all the main states and all their transitions. Then it takes the input code file that supposedly satisfies the grammar rules that generated the DFA. The output of this part is the symbol table, where it has all the strings that represent a token and their corresponding token names, the syntax errors representing the indices and the characters that didn’t satisfy the DFA, and the trace which tells us how exactly the symbol table was generated and what happened in each state transition.
-  ```
