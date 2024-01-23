@@ -1,6 +1,6 @@
 # Compiler Generator
 <p align="center">
-    <img src="https://raw.githubusercontent.com/Ghost8345/Compiler-Generator/docs/Images/CompilerGenerator.png" alt="Logo" width="35%" height="35%">
+    <img src="https://raw.githubusercontent.com/Ghost8345/Compiler-Generator/main/docs/Images/CompilerGenerator.png" alt="Logo" width="85%" height="35%">
 </p>
 
 
@@ -29,12 +29,12 @@ cd Compiler-Generator
 
 ## System Flow Chart
 <p align="center">
-    <img src="https://raw.githubusercontent.com/Ghost8345/Compiler-Generator/docs/Images/GeneralizedCompilerFlowchart.jpg" alt="Logo" width="70%" height="100%">
+    <img src="https://raw.githubusercontent.com/Ghost8345/Compiler-Generator/main/docs/Images/GeneralizedCompilerFlowchart.jpg" alt="Logo" width="70%" height="100%">
 </p>
 
 ## Documentation
-+ [Lexical Phase Documentation](https://github.com/Ghost8345/Compiler-Generator/blob/docs/Lexical%20Phase%20Documentation.md)
-+ [Syntax Phase Documentation](https://github.com/Ghost8345/Compiler-Generator/blob/docs/Syntax%20Phase%20Documentation.md)
++ [Lexical Phase Documentation](https://github.com/Ghost8345/Compiler-Generator/blob/main/docs/Lexical%20Phase%20Documentation.md)
++ [Syntax Phase Documentation](https://github.com/Ghost8345/Compiler-Generator/blob/main/docs/Syntax%20Phase%20Documentation.md)
 ## Inputs 
 + Lexical Rules
 + Grammar
