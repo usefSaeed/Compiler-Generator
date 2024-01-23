@@ -3,6 +3,7 @@
     <img src="https://raw.githubusercontent.com/Ghost8345/Compiler-Generator/docs/docs/Images/CompilerGenerator.png" alt="Logo" width="35%" height="35%">
 </p>
 
+
 ## Overview
 > This is a plug and play compiler which can accommodate with any language once you provide it with its lexical rules and grammar.
 
