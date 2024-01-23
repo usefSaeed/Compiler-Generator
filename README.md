@@ -31,6 +31,9 @@ cd Compiler-Generator
     <img src="https://raw.githubusercontent.com/Ghost8345/Compiler-Generator/docs/docs/Images/GeneralizedCompilerFlowchart.jpg" alt="Logo" width="70%" height="100%">
 </p>
 
+## Documentation
++ [Lexical Phase Documentation](https://github.com/Ghost8345/Compiler-Generator/blob/docs/docs/Lexical%20Phase%20Documentation.md)
++ [Syntax Phase Documentation](https://github.com/Ghost8345/Compiler-Generator/blob/docs/docs/Syntax%20Phase%20Documentation.md)
 ## Inputs 
 + Lexical Rules
 + Grammar
