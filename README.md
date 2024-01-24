@@ -1,8 +1,4 @@
 # Compiler Generator
-<p align="center">
-    <img src="https://raw.githubusercontent.com/Deffo0/Compiler-Generator/main/Docs/Images/CompilerGenerator.png" alt="Logo" width="55%" height="35%">
-</p>
-
 
 ## Overview
 > This is a plug and play compiler which can accommodate with any language once you provide it with its lexical rules and grammar.
