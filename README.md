@@ -1,6 +1,6 @@
 # Compiler Generator
 <p align="center">
-    <img src="https://raw.githubusercontent.com/Ghost8345/Compiler-Generator/main/docs/Images/CompilerGenerator.png" alt="Logo" width="85%" height="35%">
+    <img src="https://raw.githubusercontent.com/Ghost8345/Compiler-Generator/main/docs/Images/CompilerGenerator.png" alt="Logo" width="55%" height="35%">
 </p>
 
 
