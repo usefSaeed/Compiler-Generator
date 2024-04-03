@@ -12,7 +12,7 @@
 ## Setup
 1. Clone the repo.
 ```
-git clone https://github.com/Deffo0/Compiler-Generator.git
+git clone https://github.com/usefSaeed/Compiler-Generator.git
 ```
 2. Change the directory to the cloned repo.
 ```
@@ -25,12 +25,12 @@ cd Compiler-Generator
 
 ## System Flow Chart
 <p align="center">
-    <img src="https://raw.githubusercontent.com/Deffo0/Compiler-Generator/main/Docs/Images/GeneralizedCompilerFlowchart.jpg" alt="Logo" width="70%" height="100%">
+    <img src="https://raw.githubusercontent.com/usefSaeed/Compiler-Generator/main/Docs/Images/GeneralizedCompilerFlowchart.jpg" alt="Logo" width="70%" height="100%">
 </p>
 
 ## Documentation
-+ [Lexical Phase Documentation](https://github.com/Deffo0/Compiler-Generator/blob/main/Docs/Lexical%20Phase%20Documentation.md)
-+ [Syntax Phase Documentation](https://github.com/Deffo0/Compiler-Generator/blob/main/Docs/Syntax%20Phase%20Documentation.md)
++ [Lexical Phase Documentation](https://github.com/usefSaeed/Compiler-Generator/blob/main/Docs/Lexical%20Phase%20Documentation.md)
++ [Syntax Phase Documentation](https://github.com/usefSaeed/Compiler-Generator/blob/main/Docs/Syntax%20Phase%20Documentation.md)
 ## Inputs 
 + Lexical Rules
 + Grammar
